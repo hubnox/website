@@ -1,0 +1,266 @@
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+
+    <title>HubNox</title>
+    <meta name="description" content="Hubnox">
+    <link href="https://fonts.googleapis.com/css?family=DM+Sans&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Epilogue&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Inter&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="styles.css">
+
+    <style>
+        body {
+            background: #000000;
+        }
+    </style>
+</head>
+
+<body>
+<div class="container-box">
+    <div class="menu-box">
+        <div class="hubnox-logo">
+            <img src="images/hubnox.svg"/>
+        </div>
+        <div class="become-link-box">
+            <div class="div-4" onclick="location.href='mailto:hello@hubnox.com';">Become a hub member</div>
+        </div>
+    </div>
+</div>
+
+<div class="div-5">
+    <img srcset="images/creators.png" class="img-2"/>
+    <div class="div-6">
+        <div class="div-7">
+            Embrace the beauty of collaboration and inspiring events
+        </div>
+        <div class="div-8">
+            Join our community, visit events and shine as a beauty industry creator
+        </div>
+        <div class="div-9">
+            <div class="div-10">
+                <div class="div-4" onclick="location.href='mailto:hello@hubnox.com';">Become a hub member</div>
+            </div>
+            <div class="div-11"></div>
+        </div>
+    </div>
+</div>
+</div>
+<style>
+    .container-box {
+        flex-direction: column;
+        display: flex;
+        box-shadow: 1px 1px 3px 0px rgba(0, 0, 0, 1);
+    }
+
+    @media (max-width: 991px) {
+        .container-box {
+            display: flex;
+        }
+    }
+
+    @media (max-width: 640px) {
+        .container-box {
+            display: flex;
+        }
+    }
+
+    .menu-box {
+        justify-content: center;
+        align-items: center;
+        background-color: var(--Black, #000);
+        display: flex;
+        width: 100%;
+        font-size: 16px;
+        margin-top: 4px;
+        padding: 24px 60px;
+    }
+
+    @media (max-width: 991px) {
+        .menu-box {
+            max-width: 100%;
+            padding: 0 20px;
+        }
+    }
+
+    .hubnox-logo {
+        justify-content: space-between;
+        display: flex;
+        width: 100%;
+        max-width: 1220px;
+        gap: 20px;
+    }
+
+    @media (max-width: 991px) {
+        .hubnox-logo {
+            max-width: 100%;
+            flex-wrap: wrap;
+        }
+    }
+
+    .div-2 {
+        justify-content: space-between;
+        display: flex;
+        gap: 20px;
+        color: var(--Gray-300, #d0d5dd);
+        font-weight: 400;
+    }
+
+    @media (max-width: 991px) {
+        .div-2 {
+            max-width: 100%;
+            flex-wrap: wrap;
+        }
+    }
+
+    .img {
+        aspect-ratio: 7.14;
+        object-fit: auto;
+        object-position: center;
+        width: 160px;
+        max-width: 100%;
+        margin: auto 0;
+    }
+
+    .become-link-box {
+        border-radius: 8px;
+        display: flex;
+        flex-direction: column;
+        color: var(--White, #fff);
+        font-weight: 700;
+        text-align: center;
+        justify-content: center;
+    }
+
+    .div-4 {
+        font-family: DM Sans, sans-serif;
+        justify-content: center;
+        border-radius: 8px;
+        box-shadow: 0px 1px 2px 0px rgba(16, 24, 40, 0.05);
+        border-color: rgba(238, 70, 188, 1);
+        border-style: solid;
+        border-width: 1px;
+        background-color: var(--Pink-500, #ee46bc);
+        padding: 10px 18px;
+    }
+
+    .div-5 {
+        disply: flex;
+        flex-direction: column;
+        overflow: hidden;
+        position: relative;
+        display: flex;
+        width: 100%;
+        color: var(--White, #fff);
+        font-weight: 700;
+        text-align: center;
+        justify-content: center;
+        min-height: 704px;
+    }
+
+    @media (max-width: 991px) {
+        .div-5 {
+            max-width: 100%;
+        }
+    }
+
+    .img-2 {
+        position: absolute;
+        inset: 0;
+        height: 100%;
+        width: 100%;
+        object-fit: cover;
+        object-position: center;
+    }
+
+    .div-6 {
+        position: relative;
+        display: flex;
+        width: 100%;
+        flex-direction: column;
+        align-items: center;
+        padding: 80px;
+    }
+
+    @media (max-width: 991px) {
+        .div-6 {
+            max-width: 100%;
+            padding: 0 20px;
+        }
+    }
+
+    .div-7 {
+        letter-spacing: -0.96px;
+        margin-top: 149px;
+        width: 1011px;
+        font: 48px/60px Epilogue, sans-serif;
+    }
+
+    @media (max-width: 991px) {
+        .div-7 {
+            max-width: 100%;
+            margin-top: 40px;
+            font-size: 40px;
+            line-height: 56px;
+        }
+    }
+
+    .div-8 {
+        color: var(--Gray-300, #d0d5dd);
+        margin-top: 16px;
+        font: 400 20px/150% Inter, sans-serif;
+    }
+
+    @media (max-width: 991px) {
+        .div-8 {
+            max-width: 100%;
+        }
+    }
+
+    .div-9 {
+        justify-content: center;
+        display: flex;
+        gap: 20px;
+        font-size: 16px;
+        margin: 32px 0 103px;
+    }
+
+    @media (max-width: 991px) {
+        .div-9 {
+            flex-wrap: wrap;
+            margin-bottom: 40px;
+        }
+    }
+
+    .div-10 {
+        border-radius: 8px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .a {
+        font-family: DM Sans, sans-serif;
+        justify-content: center;
+        border-radius: 8px;
+        box-shadow: 0px 1px 2px 0px rgba(16, 24, 40, 0.05);
+        border-color: rgba(238, 70, 188, 1);
+        border-style: solid;
+        border-width: 1px;
+        background-color: var(--Pink-500, #ee46bc);
+        cursor: pointer;
+        pointer-events: auto;
+        padding: 10px 18px;
+    }
+
+    .div-11 {
+        border-radius: 8px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+</style>
+
+</body>
+</html>
