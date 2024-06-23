@@ -41,3 +41,37 @@ var swiper2 = new Swiper(".coming-events-creator", {
     },
   },
 });
+
+let popupToggle = document.querySelectorAll('.popup-toggle');
+let popup = document.querySelector('.popup-wrapper');
+let popupClose = document.querySelector('.popup__close');
+
+popupToggle.forEach((item) => {
+  item.addEventListener('click', (e) => {
+    e.preventDefault();
+    popup.classList.toggle('active');
+  });
+})
+
+popup.addEventListener('click', (e) => {
+  if (e.target.classList.contains('popup-wrapper')) {
+    popup.classList.remove('active');
+  }
+})
+
+popupClose.addEventListener('click', () => {
+  popup.classList.remove('active');
+})
+
+let humberger = document.querySelector('.humberger');
+let nav = document.querySelector('header nav');
+
+humberger.addEventListener('click', () => {
+  nav.classList.toggle('active');
+});
+
+document.addEventListener('click', (e) => {
+  if (!nav.contains(e.target) && !humberger.contains(e.target)) {
+    nav.classList.remove('active');
+  }
+});

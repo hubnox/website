@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     <link rel="stylesheet" href="css/style.css">
     <meta name="description" content="Join our community, visit events and shine as a beauty industry creator">
+    <link rel="shortcut icon" href="assets/icons/icon-fav.png" type="image/x-icon">
     <title>Hubnox</title>
   </head>
   <body>
@@ -16,13 +17,20 @@
         </a>
 
         <nav class="flex">
-          <a href="#events">Events</a>
-          <a href="#creators">Creators</a>
-          <a href="#create-event">Create event</a>
-          <a href="#about-us">About us</a>
+          <a href="#events" class="nav__link">Events</a>
+          <a href="#creators" class="nav__link">Creators</a>
+          <a href="#create-event" class="nav__link">Create event</a>
+          <a href="#about-us" class="nav__link">About us</a>
+          <a href="#become-a-member" class="btn only-for-mobile">Become a member</a>
         </nav>
 
-        <a href="#" class="btn">Become a member</a>
+        <button class="humberger">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" fill="white">
+            <path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/>
+          </svg>
+        </button>
+
+        <a href="#become-a-member" class="btn">Become a member</a>
       </div>
     </header>
 
@@ -31,7 +39,7 @@
         <div class="container">
           <h1 class="h1">Embrace the beauty <br> of collaboration and inspiring events</h1>
           <p class="lg-text">Join our community, visit events and shine as a beauty industry creator</p>
-          <a href="#" class="btn">Get the app</a>
+          <button type="button" class="btn popup-toggle">Get the app</button>
         </div>
       </section>
 
@@ -81,7 +89,7 @@
                     <h4 class="h4">Olivia Doe</h4>
                   </div>
 
-                  <a href="#">
+                  <a href="#" class="popup-toggle">
                     <span>
                       See event
                     </span>
@@ -109,7 +117,7 @@
                     <h4 class="h4">Olivia Doe</h4>
                   </div>
 
-                  <a href="#">
+                  <a href="#" class="popup-toggle">
                     <span>
                       See event
                     </span>
@@ -136,7 +144,7 @@
                     <h4 class="h4">Olivia Doe</h4>
                   </div>
 
-                  <a href="#">
+                  <a href="#" class="popup-toggle">
                    <span>
                       See event
                     </span>
@@ -163,7 +171,7 @@
                     <h4 class="h4">Olivia Doe</h4>
                   </div>
 
-                  <a href="#">
+                  <a href="#" class="popup-toggle">
                     <span>
                       See event
                     </span>
@@ -246,7 +254,7 @@
                 </div>
                 <h3 class="h3">Olivia Doe</h3>
                 <p>Professional beauty creator with years of experience in fashion industry.</p>
-                <a href="#">
+                <a href="#" class="popup-toggle">
                   See creators events
                   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M5 12H19" stroke="#EE46BC" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -261,7 +269,7 @@
                 </div>
                 <h3 class="h3">Jane Parker</h3>
                 <p>Professional beauty creator with years of experience in fashion industry.</p>
-                <a href="#">
+                <a href="#" class="popup-toggle">
                   See creators events
                   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M5 12H19" stroke="#EE46BC" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -276,7 +284,7 @@
                 </div>
                 <h3 class="h3">Anna Watson</h3>
                 <p>Professional beauty creator with years of experience in fashion industry.</p>
-                <a href="#">
+                <a href="#" class="popup-toggle">
                   See creators events
                   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M5 12H19" stroke="#EE46BC" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -291,7 +299,7 @@
                 </div>
                 <h3 class="h3">Olivia Doe</h3>
                 <p>Professional beauty creator with years of experience in fashion industry.</p>
-                <a href="#">
+                <a href="#" class="popup-toggle">
                   See creators events
                   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M5 12H19" stroke="#EE46BC" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -311,7 +319,7 @@
           <div class="img-w-text__text">
             <h2 class="h2">Join <span>Hubnox</span> for events that will change your life!</h2>
             <p class="medium-text">By becoming a member, you become a part of an exclusive community of creators and will have an access to events of life-changing power. </p>
-            <a href="#" class="btn">Get the app</a>
+            <button type="button" class="btn popup-toggle">Get the app</button>
           </div>
         </div>
       </section>
@@ -324,7 +332,7 @@
               <p>We are a powerful community of people who love what they do, constantly pushing the boundaries of what is possible and inspiring others to do the same!</p>
             </div>
 
-            <a href="#" class="btn">Become a creator</a>
+            <button type="button" class="btn popup-toggle">Become a creator</button>
           </div>
 
           <div class="creator__wrapper">
@@ -373,7 +381,7 @@
               <p>We are a powerful community of people who love what they do, constantlypushing the boundaries of what is possible and inspiring others to do the same!</p>
             </div>
 
-            <a href="#" class="btn">Become a creator</a>
+            <button type="button" class="btn popup-toggle">Become a creator</button>
           </div>
 
           <div class="profiles__wrapper">
@@ -383,7 +391,7 @@
               </div>
               <h3>Wojtek</h3>
               <p>Technology</p>
-              <a href="#">
+              <a href="#" class="popup-toggle">
                 See profile
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M5 12H19" stroke="#EE46BC" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -398,7 +406,7 @@
               </div>
               <h3>Wojtek</h3>
               <p>Technology</p>
-              <a href="#">
+              <a href="#" class="popup-toggle">
                 See profile
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M5 12H19" stroke="#EE46BC" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -413,7 +421,7 @@
               </div>
               <h3>Wojtek</h3>
               <p>Technology</p>
-              <a href="#">
+              <a href="#" class="popup-toggle">
                 See profile
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M5 12H19" stroke="#EE46BC" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -425,7 +433,7 @@
         </div>
       </section>
 
-      <section class="app">
+      <section class="app" id="become-a-member">
         <div class="container">
           <div class="app__img">
             <img src="/assets/images/mobile.png" alt="img" aria-hidden="true" />
@@ -440,6 +448,24 @@
         </div>
       </section>
     </main>
+
+    <div class="popup-wrapper">
+      <button class="popup__close">
+        <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M30 10L10 30" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M10 10L30 30" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+      <div class="popup">
+        <h2 class="popup__title">Get <span>Hubnox</span> App</h2>
+        <p>Scan the QR code to download the app</p>
+        <img src="/assets/images/qr-code.png" alt="" srcset="">
+        <p>or download on the App Store</p>
+        <a href="#">
+          <img src="/assets/images/download-icon.jpg" alt="" srcset="">
+        </a>
+      </div>
+    </div>
 
     <footer class="section-padding-sm">
       <div class="container">
