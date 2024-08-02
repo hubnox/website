@@ -474,6 +474,15 @@ header nav a:hover {
   background-position: center;
 }
 
+@media (max-width: 768px) {
+  .hero {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
 @media (max-width: 1000px) {
   .hero {
     padding-block: 100px
@@ -635,7 +644,9 @@ header nav a:hover {
 }
 
 .app__cta img {
-  width: 100%
+  width: 100%;
+    height: 55px;
+    object-fit: cover;
 }
 
 .creator {
@@ -833,7 +844,7 @@ footer nav a {
 .social-links {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
+  align-items: center;
   gap: 10px;
   margin-top: 16px
 }
