@@ -416,7 +416,6 @@ header nav a {
   transition: color .3s ease-in-out;
   background-color: var(--color-primary);
   color: #fff;
-  padding-block: 24px
 }
 
 .ea-link {
@@ -426,7 +425,6 @@ header nav a {
   transition: color .3s ease-in-out;
   background-color: var(--color-primary);
   color: #8cb3ed;
-  padding-block: 24px
 }
 
 .ea-link-popup {
