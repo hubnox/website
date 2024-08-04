@@ -409,8 +409,14 @@ header nav a {
   transition: color .3s ease-in-out
 }
 
-header nav a:hover {
-  color: var(--color-secondary)
+.ea-link {
+  font-size: 16px;
+  font-weight: 400;
+  text-decoration: none;
+  transition: color .3s ease-in-out;
+  background-color: var(--color-primary);
+  color: #fff;
+  padding-block: 24px
 }
 
 .humberger,
