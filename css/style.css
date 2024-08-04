@@ -419,6 +419,25 @@ header nav a {
   padding-block: 24px
 }
 
+.ea-link {
+  font-size: 16px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: color .3s ease-in-out;
+  background-color: var(--color-primary);
+  color: #8cb3ed;
+  padding-block: 24px
+}
+
+.ea-link-popup {
+  font-size: 16px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: color .3s ease-in-out;
+  color: #3C5BFF;
+  padding-block: 24px
+}
+
 .humberger,
 .only-for-mobile {
   display: none;
