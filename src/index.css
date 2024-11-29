@@ -337,7 +337,6 @@ select::-ms-expand {
 .slider-controls {
   align-items: center;
   gap: 22px;
-  width: ;
 }
 
 .slide-btn {
@@ -965,7 +964,7 @@ footer nav a {
   box-shadow: 0px 2px 15px 0px #ee46bc99;
   background-color: #fff;
   border-radius: 8px;
-  max-width: 589px;
+  max-width: 500px;
   min-height: 506px;
   padding: 40px;
   display: flex;

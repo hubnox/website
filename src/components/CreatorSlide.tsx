@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 
 interface CreatorSlideProps {
   objectId: string;
@@ -7,14 +6,15 @@ interface CreatorSlideProps {
   lastName: string;
   image: { url: string };
   tagLine: string;
+  handlePopupToggle: () => void;
 }
 
 const CreatorSlide: React.FC<CreatorSlideProps> = ({
-  objectId,
   firstName,
   lastName,
   image,
   tagLine,
+  handlePopupToggle,
 }) => {
   const fullName = `${firstName} ${lastName}`.trim();
   const maxLength = 45;
@@ -28,21 +28,21 @@ const CreatorSlide: React.FC<CreatorSlideProps> = ({
   return (
     <div className="flex flex-col bg-slate-900 text-white rounded-lg shadow-lg overflow-hidden h-full profiles__item min-h-[430px]">
       <div className="relative h-64 w-full profiles__img">
-        <Link to={`/creator/${objectId}`}>
+        <div onClick={handlePopupToggle}>
           <img
             src={image.url}
             alt={`${fullName}'s profile`}
             className="w-full h-full object-cover object-[0%_30%] transition-transform hover:scale-105"
           />
-        </Link>
+        </div>
       </div>
 
       <div className="p-4 flex flex-col flex-grow">
         <h2 className="text-xl font-bold mb-2">{fullName}</h2>
         <p className="text-gray-300 text-sm flex-grow">{description}</p>
 
-        <Link
-          to={`/creator/${objectId}`}
+        <button
+          onClick={handlePopupToggle}
           className="font-semibold hover:underline popup-toggle flex items-center mt-4"
         >
           See creator's events
@@ -68,7 +68,7 @@ const CreatorSlide: React.FC<CreatorSlideProps> = ({
               strokeLinejoin="round"
             />
           </svg>
-        </Link>
+        </button>
       </div>
     </div>
   );

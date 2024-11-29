@@ -9,7 +9,7 @@ const Footer: React.FC = () => {
         <div>
           <a href="/" className="brand">
             <img
-              src="/assets/images/logo-main.svg"
+              src="./assets/images/logo-main.svg"
               alt="logo"
               aria-hidden="true"
             />
@@ -18,14 +18,14 @@ const Footer: React.FC = () => {
           <div className="social-links">
             <a href="https://www.instagram.com/hubnoxusa/?hl=en">
               <img
-                src="/assets/icons/icon-insta.svg"
+                src="./assets/icons/icon-insta.svg"
                 alt="Instagram"
                 aria-hidden="true"
               />
             </a>
             <a href="https://www.tiktok.com/@hubnox">
               <img
-                src="/assets/icons/icon-tiktok.webp"
+                src="./assets/icons/icon-tiktok.webp"
                 alt="TikTok"
                 aria-hidden="true"
                 style={{ maxWidth: "40px" }}

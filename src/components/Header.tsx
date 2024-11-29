@@ -16,7 +16,7 @@ const Header: React.FC<HeaderProps> = ({ onRequestAccess }) => {
       <div className=" max-w-[1266px] flex flex-row items-center justify-between pr-6 pl-6">
         <a href="/" className="w-[20%]">
           <img
-            src="/assets/images/logo-main.svg"
+            src="./assets/images/logo-main.svg"
             alt="main-logo"
             aria-hidden="true"
           />

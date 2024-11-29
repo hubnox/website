@@ -1,8 +1,15 @@
-import React  from "react";
+import React, { useState } from "react";
 import EventSlider from "../components/Slider";
 import CreatorSlider from "../components/CreatorSlider";
+import clsx from "clsx";
 
 const Home: React.FC = () => {
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
+
+  const handlePopupToggle = () => {
+    setIsPopupOpen((prev) => !prev);
+  };
+
   return (
     <>
       <main>
@@ -46,7 +53,7 @@ const Home: React.FC = () => {
               <div className="features__card">
                 <div className="features__icon">
                   <img
-                    src="/assets/icons/icon-feature-1.svg"
+                    src="./assets/icons/icon-feature-1.svg"
                     alt="feature-icon"
                   />
                 </div>
@@ -60,7 +67,7 @@ const Home: React.FC = () => {
               <div className="features__card">
                 <div className="features__icon">
                   <img
-                    src="/assets/icons/icon-feature-2.svg"
+                    src="./assets/icons/icon-feature-2.svg"
                     alt="feature-icon"
                   />
                 </div>
@@ -74,7 +81,7 @@ const Home: React.FC = () => {
               <div className="features__card">
                 <div className="features__icon">
                   <img
-                    src="/assets/icons/icon-feature-3.svg"
+                    src="./assets/icons/icon-feature-3.svg"
                     alt="feature-icon"
                   />
                 </div>
@@ -104,7 +111,7 @@ const Home: React.FC = () => {
               </div>
             </div>
 
-            <CreatorSlider />
+            <CreatorSlider handlePopupToggle={handlePopupToggle}/>
           </div>
         </section>
 
@@ -112,7 +119,7 @@ const Home: React.FC = () => {
           <div className="custom-container flex flex-col-reverse md:flex-row gap-[64px]">
             <div className="img-w-text__img w-full md:w-1/2">
               <img
-                src="/assets/images/img-w-text.webp"
+                src="./assets/images/img-w-text.webp"
                 alt="img-w-text"
                 aria-hidden="true"
               />
@@ -152,7 +159,7 @@ const Home: React.FC = () => {
               <div className="creator__feat creator__feat--large">
                 <div className="creator__icon">
                   <img
-                    src="/assets/icons/icon-orange.svg"
+                    src="./assets/icons/icon-orange.svg"
                     alt="img"
                     aria-hidden="true"
                   />
@@ -168,7 +175,7 @@ const Home: React.FC = () => {
               <div className="creator__feat">
                 <div className="creator__icon">
                   <img
-                    src="/assets/icons/icon-blue.svg"
+                    src="./assets/icons/icon-blue.svg"
                     alt="img"
                     aria-hidden="true"
                   />
@@ -185,7 +192,7 @@ const Home: React.FC = () => {
               <div className="creator__feat">
                 <div className="creator__icon">
                   <img
-                    src="/assets/icons/icon-blue.svg"
+                    src="./assets/icons/icon-blue.svg"
                     alt="img"
                     aria-hidden="true"
                   />
@@ -201,7 +208,7 @@ const Home: React.FC = () => {
               <div className="creator__feat creator__feat--large">
                 <div className="creator__icon">
                   <img
-                    src="/assets/icons/icon-orange.svg"
+                    src="./assets/icons/icon-orange.svg"
                     alt="img"
                     aria-hidden="true"
                   />
@@ -233,7 +240,7 @@ const Home: React.FC = () => {
               <div className="profiles__card">
                 <div className="profiles__img">
                   <img
-                    src="/assets/images/team-1.jpg"
+                    src="./assets/images/team-1.jpg"
                     alt="img"
                     aria-hidden="true"
                   />
@@ -271,7 +278,7 @@ const Home: React.FC = () => {
               <div className="profiles__card">
                 <div className="profiles__img">
                   <img
-                    src="/assets/images/team-2.jpg"
+                    src="./assets/images/team-2.jpg"
                     alt="img"
                     aria-hidden="true"
                   />
@@ -308,7 +315,7 @@ const Home: React.FC = () => {
               <div className="profiles__card">
                 <div className="profiles__img">
                   <img
-                    src="/assets/images/team-3.jpg"
+                    src="./assets/images/team-3.jpg"
                     alt="img"
                     aria-hidden="true"
                   />
@@ -349,7 +356,7 @@ const Home: React.FC = () => {
           <div className="custom-container flex flex-col-reverse justify-between items-start max-w-[1226] gap-[87px] md:flex-row md:items-center pt-[36px]">
             <div className="app__img md:w-1/2">
               <img
-                src="/assets/images/mobile.png"
+                src="./assets/images/mobile.png"
                 alt="img"
                 aria-hidden="true"
               />
@@ -374,8 +381,17 @@ const Home: React.FC = () => {
         </section>
       </main>
 
-      <div className="popup-wrapper">
-        <button className="popup__close">
+      <div
+        className={clsx("popup-wrapper", {
+          active: isPopupOpen,
+        })}
+        onClick={(e) => {
+          if (e.target instanceof HTMLElement && e.target.classList.contains("popup-wrapper")) {
+            handlePopupToggle();
+          }
+        }}
+      >
+        <button className="popup__close" onClick={handlePopupToggle}>
           <svg
             width="40"
             height="40"
@@ -413,7 +429,7 @@ const Home: React.FC = () => {
               click here
             </a>
           </p>
-          <img src="/assets/images/qr-code.png" alt="" />
+          <img src="./assets/images/qr-code.png" alt="" />
         </div>
       </div>
     </>

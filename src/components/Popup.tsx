@@ -1,3 +1,9 @@
+interface PopupProps {  
+  isOpen: boolean;
+  onClose: () => void;
+  children: React.ReactNode;
+}
+
 const Popup: React.FC<PopupProps> = ({ isOpen, onClose, children }) => {
   if (!isOpen) return null;
 

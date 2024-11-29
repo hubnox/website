@@ -12,7 +12,11 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../app/store';
 import CreatorSlide from "./CreatorSlide";
 
-const CreatorSlider: React.FC = () => {
+interface Props {
+  handlePopupToggle: () => void;
+}
+
+const CreatorSlider: React.FC<Props> = ({handlePopupToggle}) => {
   const creators = useSelector((state: RootState) => state.creators.creators);
 
   if (creators.length === 0) return (
@@ -132,6 +136,7 @@ const CreatorSlider: React.FC = () => {
                     lastName={creator.lastName}
                     image={creator.image}
                     tagLine={creator.tagLine}
+                    handlePopupToggle={handlePopupToggle}
                   />
                 </SwiperSlide>
               );
