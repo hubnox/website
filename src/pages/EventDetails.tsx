@@ -83,10 +83,15 @@ import Loader from '../components/Loader';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import '/node_modules/swiper/swiper-bundle.min.css';
 import { Navigation, Pagination } from 'swiper/modules';
+import { useEffect } from 'react';
 
 const EventDetailsPage = () => {
   const { eventId } = useParams<{ eventId: string }>();
   const { data, error, isLoading } = useGetEventsQuery();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   if (isLoading) return <Loader />;
   if (error) return <p className="text-center text-red-500">Error loading events.</p>;

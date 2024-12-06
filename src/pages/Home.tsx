@@ -1,15 +1,14 @@
-import React, { useState } from "react";
+import React from "react";
 import EventSlider from "../components/Slider";
 import CreatorSlider from "../components/CreatorSlider";
 import clsx from "clsx";
 
-const Home: React.FC = () => {
-  const [isPopupOpen, setIsPopupOpen] = useState(false);
+interface Props {
+  handlePopupToggle: () => void;
+  isPopupOpen: boolean;
+}
 
-  const handlePopupToggle = () => {
-    setIsPopupOpen((prev) => !prev);
-  };
-
+const Home: React.FC<Props> = ({ handlePopupToggle, isPopupOpen }) => {
   return (
     <>
       <main>
@@ -25,6 +24,7 @@ const Home: React.FC = () => {
             <button
               type="button"
               className="custom-button popup-toggle w-[183px]"
+              onClick={handlePopupToggle}
             >
               Join the hub
             </button>
@@ -111,7 +111,7 @@ const Home: React.FC = () => {
               </div>
             </div>
 
-            <CreatorSlider handlePopupToggle={handlePopupToggle}/>
+            <CreatorSlider handlePopupToggle={handlePopupToggle} />
           </div>
         </section>
 
@@ -133,7 +133,7 @@ const Home: React.FC = () => {
                 community of creators and will have an access to events of
                 life-changing power.{" "}
               </p>
-              <button type="button" className="custom-button popup-toggle">
+              <button type="button" className="custom-button popup-toggle" onClick={handlePopupToggle}>
                 Become a member
               </button>
             </div>
@@ -150,7 +150,7 @@ const Home: React.FC = () => {
                 </p>
               </div>
 
-              <button type="button" className="custom-button popup-toggle">
+              <button type="button" className="custom-button popup-toggle" onClick={handlePopupToggle}>
                 Become a creator
               </button>
             </div>
@@ -231,7 +231,7 @@ const Home: React.FC = () => {
                 <p>Meet the team behind Hubnox</p>
               </div>
 
-              <button type="button" className="custom-button popup-toggle">
+              <button type="button" className="custom-button popup-toggle" onClick={handlePopupToggle}>
                 Join the hub
               </button>
             </div>
@@ -248,7 +248,7 @@ const Home: React.FC = () => {
 
                 <h3>Byrd</h3>
                 <p>The creative mind.</p>
-                <a href="#" className="popup-toggle">
+                <p className="popup-toggle cursor-pointer" onClick={handlePopupToggle}>
                   See profile
                   <svg
                     width="24"
@@ -272,7 +272,7 @@ const Home: React.FC = () => {
                       strokeLinejoin="round"
                     />
                   </svg>
-                </a>
+                </p>
               </div>
 
               <div className="profiles__card">
@@ -285,7 +285,7 @@ const Home: React.FC = () => {
                 </div>
                 <h3>Margo</h3>
                 <p>The producer.</p>
-                <a href="#" className="popup-toggle">
+                <p className="popup-toggle cursor-pointer" onClick={handlePopupToggle}>
                   See profile
                   <svg
                     width="24"
@@ -309,7 +309,7 @@ const Home: React.FC = () => {
                       strokeLinejoin="round"
                     />
                   </svg>
-                </a>
+                </p>
               </div>
 
               <div className="profiles__card">
@@ -322,7 +322,7 @@ const Home: React.FC = () => {
                 </div>
                 <h3>Wojtek</h3>
                 <p>The man behind the tech.</p>
-                <a href="#" className="popup-toggle">
+                <p className="popup-toggle cursor-pointer" onClick={handlePopupToggle}>
                   See profile
                   <svg
                     width="24"
@@ -346,7 +346,7 @@ const Home: React.FC = () => {
                       strokeLinejoin="round"
                     />
                   </svg>
-                </a>
+                </p>
               </div>
             </div>
           </div>
@@ -386,6 +386,7 @@ const Home: React.FC = () => {
           active: isPopupOpen,
         })}
         onClick={(e) => {
+          console.log('click')
           if (e.target instanceof HTMLElement && e.target.classList.contains("popup-wrapper")) {
             handlePopupToggle();
           }

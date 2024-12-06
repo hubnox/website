@@ -28,13 +28,11 @@ const CreatorSlide: React.FC<CreatorSlideProps> = ({
   return (
     <div className="flex flex-col bg-slate-900 text-white rounded-lg shadow-lg overflow-hidden h-full profiles__item min-h-[430px]">
       <div className="relative h-64 w-full profiles__img">
-        <div onClick={handlePopupToggle}>
           <img
             src={image.url}
             alt={`${fullName}'s profile`}
             className="w-full h-full object-cover object-[0%_30%] transition-transform hover:scale-105"
           />
-        </div>
       </div>
 
       <div className="p-4 flex flex-col flex-grow">

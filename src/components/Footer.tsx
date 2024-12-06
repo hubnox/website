@@ -1,4 +1,8 @@
-const Footer: React.FC = () => {
+interface Props {
+  handlePopupToggle: () => void;
+}
+
+const Footer: React.FC<Props> = ({handlePopupToggle}) => {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
   };
@@ -53,7 +57,7 @@ const Footer: React.FC = () => {
               placeholder="Enter your email address"
               required
             />
-            <button type="submit" className="custom-button">
+            <button type="submit" className="custom-button" onClick={handlePopupToggle}>
               Subscribe
             </button>
           </form>

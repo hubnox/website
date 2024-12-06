@@ -1,10 +1,10 @@
 import { useState } from "react";
 
 interface HeaderProps {
-  onRequestAccess: () => void;
+  handlePopupToggle: () => void;
 }
 
-const Header: React.FC<HeaderProps> = ({ onRequestAccess }) => {
+const Header: React.FC<HeaderProps> = ({ handlePopupToggle }) => {
   const [isNavOpen, setIsNavOpen] = useState<boolean>(false);
 
   const toggleNav = (): void => {
@@ -32,13 +32,13 @@ const Header: React.FC<HeaderProps> = ({ onRequestAccess }) => {
           <a href="#creators" onClick={toggleNav}>
             Creators
           </a>
-          <a href="#our-creators" onClick={toggleNav}>
+          <a href="#create-event" onClick={toggleNav}>
             Create event
           </a>
           <a href="#about-us" onClick={toggleNav}>
             About us
           </a>
-          <button onClick={onRequestAccess} className="custom-button only-for-mobile">
+          <button onClick={handlePopupToggle} className="custom-button only-for-mobile">
             Become a member
           </button>
           {/* Add primary variant */}

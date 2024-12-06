@@ -1,6 +1,11 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 const Privacy: React.FC = () => {
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location]);
+
   return (
     <main>
       <section className="hero">

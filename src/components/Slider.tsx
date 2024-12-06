@@ -58,11 +58,11 @@ const EventSlider: React.FC = () => {
           spaceBetween={24}
           slidesPerView={1}
           breakpoints={{
-            750: {
+            650: {
               slidesPerView: 2,
               spaceBetween: 24,
             },
-            1240: {
+            1124: {
               slidesPerView: 3,
               spaceBetween: 36,
             },
