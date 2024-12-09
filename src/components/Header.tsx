@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 interface HeaderProps {
   handlePopupToggle: () => void;
@@ -14,13 +15,13 @@ const Header: React.FC<HeaderProps> = ({ handlePopupToggle }) => {
   return (
     <header className="w-full">
       <div className=" max-w-[1266px] flex flex-row items-center justify-between pr-6 pl-6">
-        <a href="/" className="w-[20%]">
+        <Link to="/" className="w-[20%]">
           <img
             src="./assets/images/logo-main.svg"
             alt="main-logo"
             aria-hidden="true"
           />
-        </a>
+        </Link>
         <nav
           className={`flex  flex-row  items-center justify-center mr-10 text-center lg:w-[700px]   ${
             isNavOpen ? "active" : ""

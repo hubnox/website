@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 interface Props {
   handlePopupToggle: () => void;
 }
@@ -11,13 +13,13 @@ const Footer: React.FC<Props> = ({handlePopupToggle}) => {
     <footer className="section-padding-sm">
       <div className="custom-container flex flex-col justify-between items-start gap-[20px] blg:flex-row blg:items-center">
         <div>
-          <a href="/" className="brand">
+          <Link to="/" className="brand">
             <img
               src="./assets/images/logo-main.svg"
               alt="logo"
               aria-hidden="true"
             />
-          </a>
+          </Link>
           <p>Follow us on social media</p>
           <div className="social-links">
             <a href="https://www.instagram.com/hubnoxusa/?hl=en">
