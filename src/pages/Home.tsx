@@ -3,6 +3,29 @@ import EventSlider from "../components/Slider";
 import CreatorSlider from "../components/CreatorSlider";
 import clsx from "clsx";
 
+import feature1 from '../assets/icons/icon-feature-1.svg';
+import feature2 from '../assets/icons/icon-feature-2.svg';
+import feature3 from '../assets/icons/icon-feature-3.svg';
+
+import member from '../assets/images/img-w-text.webp';
+
+import orange from '../assets/icons/icon-orange.svg';
+import blue from "../assets/icons/icon-blue.svg";
+
+import team1 from '../assets/images/team-1.jpg';
+import team2 from '../assets/images/team-2.jpg';
+import team3 from '../assets/images/team-3.jpg';
+
+import mobile from '../assets/images/mobile.png';
+
+import qrApp from "../assets/images/qr_appstore.png";
+import qrGoogle from "../assets/images/qr_googleplay.png";
+
+import google from "../assets/images/googlePlay.png";
+import apple from "../assets/images/appStore.png";
+
+import downloadNow from "../assets/images/download-now.png";
+
 interface Props {
   handlePopupToggle: () => void;
   isPopupOpen: boolean;
@@ -18,7 +41,7 @@ const Home: React.FC<Props> = ({ handlePopupToggle, isPopupOpen }) => {
             <h1 className="h1 mb-4 text-3xl md:text-4xl leading-tight">
               Events to inspire, disrupt, and impact
             </h1>
-            <p className="mb-8 text-lg">
+            <p className="mb-4 text-lg">
               Join Hubnox, community creating unique and unforgettable moments
             </p>
             <button
@@ -32,11 +55,7 @@ const Home: React.FC<Props> = ({ handlePopupToggle, isPopupOpen }) => {
         </section>
 
         <section className="profiles profiles--events" id="events">
-          <div>
-            <div className="">
-              <EventSlider />
-            </div>
-          </div>
+          <EventSlider />
         </section>
 
         <section className="features section-padding-md">
@@ -53,7 +72,7 @@ const Home: React.FC<Props> = ({ handlePopupToggle, isPopupOpen }) => {
               <div className="features__card">
                 <div className="features__icon">
                   <img
-                    src="./assets/icons/icon-feature-1.svg"
+                    src={feature1}
                     alt="feature-icon"
                   />
                 </div>
@@ -67,7 +86,7 @@ const Home: React.FC<Props> = ({ handlePopupToggle, isPopupOpen }) => {
               <div className="features__card">
                 <div className="features__icon">
                   <img
-                    src="./assets/icons/icon-feature-2.svg"
+                    src={feature2}
                     alt="feature-icon"
                   />
                 </div>
@@ -81,7 +100,7 @@ const Home: React.FC<Props> = ({ handlePopupToggle, isPopupOpen }) => {
               <div className="features__card">
                 <div className="features__icon">
                   <img
-                    src="./assets/icons/icon-feature-3.svg"
+                    src={feature3}
                     alt="feature-icon"
                   />
                 </div>
@@ -100,35 +119,23 @@ const Home: React.FC<Props> = ({ handlePopupToggle, isPopupOpen }) => {
           className="profiles section-padding-lg profiles--creator"
           id="creators"
         >
-          <div>
-            <div className="section-header section-header--controls w-full max-w-[1266px] mx-auto pr-[25px] pl-[25px]">
-              <div className="section-header__content">
-                <h2 className="h2">Creators that create events with us</h2>
-                <p>
-                  Hubnox is a community of creators, educators, and industry
-                  shapers who deliver unforgettable moments.
-                </p>
-              </div>
-            </div>
-
-            <CreatorSlider handlePopupToggle={handlePopupToggle} />
-          </div>
+          <CreatorSlider handlePopupToggle={handlePopupToggle} />
         </section>
 
         <section className="img-w-text section-padding-md">
-          <div className="custom-container flex flex-col-reverse md:flex-row gap-[64px]">
-            <div className="img-w-text__img w-full md:w-1/2">
+          <div className="custom-container became-member">
+            <div className="img-w-text__img">
               <img
-                src="./assets/images/img-w-text.webp"
+                src={member}
                 alt="img-w-text"
                 aria-hidden="true"
               />
             </div>
-            <div className="w-full md:w-1/2 img-w-text__text">
+            <div className="img-w-text__text">
               <h2 className="h2 mb-4">
                 Join <span>Hubnox</span> for events that will change your life!
               </h2>
-              <p className="medium-text mb-8">
+              <p className="medium-text mb-8 text-[#D0D5DD]">
                 By becoming a member, you become a part of an exclusive
                 community of creators and will have an access to events of
                 life-changing power.{" "}
@@ -159,7 +166,7 @@ const Home: React.FC<Props> = ({ handlePopupToggle, isPopupOpen }) => {
               <div className="creator__feat creator__feat--large">
                 <div className="creator__icon">
                   <img
-                    src="./assets/icons/icon-orange.svg"
+                    src={orange}
                     alt="img"
                     aria-hidden="true"
                   />
@@ -175,7 +182,7 @@ const Home: React.FC<Props> = ({ handlePopupToggle, isPopupOpen }) => {
               <div className="creator__feat">
                 <div className="creator__icon">
                   <img
-                    src="./assets/icons/icon-blue.svg"
+                    src={blue}
                     alt="img"
                     aria-hidden="true"
                   />
@@ -192,7 +199,7 @@ const Home: React.FC<Props> = ({ handlePopupToggle, isPopupOpen }) => {
               <div className="creator__feat">
                 <div className="creator__icon">
                   <img
-                    src="./assets/icons/icon-blue.svg"
+                    src={blue}
                     alt="img"
                     aria-hidden="true"
                   />
@@ -208,7 +215,7 @@ const Home: React.FC<Props> = ({ handlePopupToggle, isPopupOpen }) => {
               <div className="creator__feat creator__feat--large">
                 <div className="creator__icon">
                   <img
-                    src="./assets/icons/icon-orange.svg"
+                    src={orange}
                     alt="img"
                     aria-hidden="true"
                   />
@@ -240,7 +247,7 @@ const Home: React.FC<Props> = ({ handlePopupToggle, isPopupOpen }) => {
               <div className="profiles__card">
                 <div className="profiles__img">
                   <img
-                    src="./assets/images/team-1.jpg"
+                    src={team1}
                     alt="img"
                     aria-hidden="true"
                   />
@@ -278,7 +285,7 @@ const Home: React.FC<Props> = ({ handlePopupToggle, isPopupOpen }) => {
               <div className="profiles__card">
                 <div className="profiles__img">
                   <img
-                    src="./assets/images/team-2.jpg"
+                    src={team2}
                     alt="img"
                     aria-hidden="true"
                   />
@@ -315,7 +322,7 @@ const Home: React.FC<Props> = ({ handlePopupToggle, isPopupOpen }) => {
               <div className="profiles__card">
                 <div className="profiles__img">
                   <img
-                    src="./assets/images/team-3.jpg"
+                    src={team3}
                     alt="img"
                     aria-hidden="true"
                   />
@@ -353,30 +360,43 @@ const Home: React.FC<Props> = ({ handlePopupToggle, isPopupOpen }) => {
         </section>
 
         <section className="app" id="become-a-member">
-          <div className="custom-container flex flex-col-reverse justify-between items-start max-w-[1226] gap-[87px] md:flex-row md:items-center pt-[36px]">
-            <div className="app__img md:w-1/2">
+          <div className="custom-container flex flex-col-reverse items-start max-w-[1226] gap-[87px] blg:flex-row md:items-center pt-[36px]">
+            <div className="app__img max-w-[393px] w-full">
               <img
-                src="./assets/images/mobile.png"
+                src={mobile}
                 alt="img"
                 aria-hidden="true"
               />
             </div>
-            <div className="md:w-1/2">
-              <h2 className="h2 text-2xl mb-[16px] font-semibold">
-                Download <span>Hubnox </span> app, create, and join best
-                industry events
-              </h2>
-              <p>
-                Scan the QR code to join our community of early adopters or {' '}
-                <a
-                  className="ea-link"
-                  target="_blank"
-                  href="https://tally.so/r/mOLDA7"
-                >
-                  click here
-                </a>
-              </p>
+            <div className="w-full">
+              <div className="max-w-[573px]">
+                <h2 className="h2 text-2xl mb-[16px] font-semibold">
+                  Download <span>Hubnox </span> app and explore a diverse range of beauty events!
+                </h2>
+                <p>
+                  Scan the QR code using your phone's camera or download the app from the Apple Store or Google Play.
+                </p>
+              </div>
+              <div className="flex flex-col justify-between gap-8 items-start w-full mt-[50px] md:flex-row md:items-center md:gap-0">
+                <img src={downloadNow} alt="download now" className="w-[303px] h-[111px] object-cover" />
+                <div className="flex gap-[43px]">
+                  <div className="flex flex-col gap-[19px] items-center">
+                    <a href="https://apps.apple.com/us/app/hubnox/id6504521207">
+                      <img src={apple} className="w-[134px] h-[46px] object-contain" />
+                    </a>
+                    <img src={qrApp} alt="" className="w-[96px] h-[96px]" />
+                  </div>
+                  <div className="flex flex-col gap-[19px] items-center">
+                    <a href="https://play.google.com/store/apps/details?id=com.hubnox">
+                      <img src={google} className="w-[134px] h-[46px] object-contain" />
+                    </a>
+                    <img src={qrGoogle} alt="" className="w-[96px] h-[96px]" />
+                  </div>
+                </div>
+
+              </div>
             </div>
+
           </div>
         </section>
       </main>
@@ -420,17 +440,31 @@ const Home: React.FC<Props> = ({ handlePopupToggle, isPopupOpen }) => {
           <h2 className="popup__title">
             Get <span>Hubnox</span> App
           </h2>
-          <p>
-            Scan the QR code to join our community of early adopters or
-            <a
-              className="ea-link-popup"
-              target="_blank"
-              href="https://tally.so/r/mOLDA7"
-            >
-              click here
+          <p>Download the app from the Apple Store or Google Play.</p>
+          <div className="flex justify-between gap-[20px]">
+            <a href="https://apps.apple.com/us/app/hubnox/id6504521207">
+              <img src={apple} className="w-[134px] h-[46px] object-contain l:object-cover rounded-lg" />
             </a>
+            <a href="https://play.google.com/store/apps/details?id=com.hubnox">
+              <img src={google} className="w-[134px] h-[46px] object-contain l:object-cover rounded-lg" />
+            </a>
+          </div>
+          <p>
+            Or scan the QR code using your phone's camera
           </p>
-          <img src="./assets/images/qr-code.png" alt="" />
+          <div className="hidden l:flex gap-[29px]">
+            <img src={qrApp} alt="" />
+            <img src={qrGoogle} alt="" />
+          </div>
+
+          <div className="flex l:hidden gap-[43px]">
+            <div className="flex flex-col gap-[19px] items-center">
+              <img src={qrApp} alt="" className="w-[96px] h-[96px]" />
+            </div>
+            <div className="flex flex-col gap-[19px] items-center">
+              <img src={qrGoogle} alt="" className="w-[96px] h-[96px]" />
+            </div>
+          </div>
         </div>
       </div>
     </>

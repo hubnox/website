@@ -64,7 +64,6 @@ const EventSlider: React.FC = () => {
             },
             1124: {
               slidesPerView: 3,
-              spaceBetween: 36,
             },
           }}
           navigation={{

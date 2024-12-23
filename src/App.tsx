@@ -24,7 +24,7 @@ const App: React.FC = () => {
   }, []);
 
   return (
-    <Router basename="/website/">
+    <Router basename="/website">
       <div className="app">
         <Header handlePopupToggle={handlePopupToggle} />
 
@@ -35,7 +35,7 @@ const App: React.FC = () => {
           <Route path="/event/:eventId" element={<EventDetailsPage />} />
         </Routes>
 
-        <Footer handlePopupToggle={handlePopupToggle}/>
+        <Footer/>
       </div>
     </Router>
   );

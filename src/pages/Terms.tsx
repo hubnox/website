@@ -1,10 +1,16 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 const Terms: React.FC = () => {
+  useEffect(() => {
+    setTimeout(() => {
+      window.scroll({ top: 0, left: 0, behavior: 'smooth' });
+    }, 100); 
+  }, []);
+  
   return (
     <main>
-      <section className="hero">
-        <div className="container">
+      <section className="hero-bg">
+        <div className="custom-container">
           <h1 id="hubnox-terms-of-service">Hubnox - Terms of Service</h1>
           <p><em>Last Updated: [DATE]</em></p>
           

@@ -26,9 +26,16 @@ const CreatorSlider: React.FC<Props> = ({handlePopupToggle}) => {
   );
 
   return (
-    <section className="section-padding-lg">
+    <section>
       <div className="w-full max-w-[1266px] mx-auto px-[25px]">
         <div className="section-header section-header--controls">
+        <div className="section-header__content">
+                <h2 className="h2">Creators that create events with us</h2>
+                <p>
+                  Hubnox is a community of creators, educators, and industry
+                  shapers who deliver unforgettable moments.
+                </p>
+              </div>
           <div className="slider-controls">
             <button className="slide-btn slider-prev-btn">
               <svg

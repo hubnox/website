@@ -13,6 +13,10 @@ interface EventProps {
   creatorId: string;
 }
 
+const truncateText = (text: string, maxLength: number) => {
+  return text.length > maxLength ? text.slice(0, maxLength) + '...' : text;
+};
+
 const EventSlide: React.FC<EventProps> = ({
   objectId,
   name,
@@ -36,27 +40,28 @@ const EventSlide: React.FC<EventProps> = ({
   };
 
   return (
-    <div className="flex flex-col bg-slate-900 text-white rounded-lg shadow-lg overflow-hidden h-full profiles__item h-[442px]">
-      <div className="relative h-64 w-full profiles__img">
+    <div className="flex flex-col bg-slate-900 text-white rounded-lg shadow-lg overflow-hidden h-full profiles__item l:min-h-[540px]">
+      <div className="relative w-full profiles__img">
         <Link to={`/event/${objectId}`}>
           <img
             src={thumbnail.url}
             alt={name}
-            className="w-full h-full object-cover transition-transform hover:scale-105"
+            className="w-full h-full object-cover transition-transform hover:scale-105 min-h-[300px]"
           />
         </Link>
       </div>
 
-      <div className="p-4 flex flex-col flex-grow">
+      <div className="p-4 flex flex-col flex-grow pt-0">
       <div className="data">
-          <p className="text-lg mt-2">{`${formatDate(startDate)} - ${formatDate(
+          <p className="text-lg">{`${formatDate(startDate)} - ${formatDate(
             endDate
           )}`}</p>
         </div>
 
-        <h2 className="text-xl font-bold my-2">{name}</h2>
+        <h2 className="text-xl font-bold mb-2 text-[#D0D5DD]">{truncateText(name, 25)}</h2>
         <p className="text-gray-300 text-sm flex-grow">
-          {description.slice(0, 90) + '...'}
+
+          {truncateText(description, 35)}
         </p>
 
         <div className="mt-4 flex items-center justify-between">
