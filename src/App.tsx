@@ -24,7 +24,7 @@ const App: React.FC = () => {
   }, []);
 
   return (
-    <Router basename="/website">
+    <Router>
       <div className="app">
         <Header handlePopupToggle={handlePopupToggle} />
 
