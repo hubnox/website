@@ -1,7 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import { RootState } from '../app/store';
+import { useGetCreatorsQuery } from '../app/creatorsApi';
+import Loader from './Loader';
+import { Creator } from '../types';
 
 interface EventProps {
   objectId: string;
@@ -26,9 +27,17 @@ const EventSlide: React.FC<EventProps> = ({
   endDate,
   creatorId,
 }) => {
-  const creators = useSelector((state: RootState) => state.creators.creators);
 
-  const creator = creators.find((c) => c.objectId === creatorId);
+  const { data, error, isLoading } = useGetCreatorsQuery();
+
+  if (isLoading) return <Loader />;
+  if (error) return <p>Error loading events.</p>;
+
+  const creators = data?.results || [];
+
+
+
+  const creator = creators.find((c: Creator) => c.objectId === creatorId);
 
   const formatDate = (date: string) => {
     const options: Intl.DateTimeFormatOptions = {

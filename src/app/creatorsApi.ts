@@ -1,23 +1,18 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { apiSlice } from './apiSlice';
 import { Creator } from '../types';
 
-interface CreatorsState {
-  creators: Creator[];
-}
-
-const initialState: CreatorsState = {
-  creators: [],
+type CreatorsResponse = {
+  results: Creator[];
 };
 
-const creatorsSlice = createSlice({
-  name: 'creators',
-  initialState,
-  reducers: {
-    setCreators(state, action: PayloadAction<Creator[]>) {
-      state.creators = action.payload;
-    },
-  },
+export const creatorApi = apiSlice.injectEndpoints({
+  endpoints: (builder) => ({
+    getCreators: builder.query<CreatorsResponse, void>({
+      query: () => '/classes/_User',
+      providesTags: ['Creators'],
+    }),
+  }),
 });
 
-export const { setCreators } = creatorsSlice.actions;
-export default creatorsSlice.reducer;
+export const { useGetCreatorsQuery } = creatorApi;
+

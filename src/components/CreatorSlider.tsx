@@ -8,22 +8,32 @@ import '/node_modules/swiper/swiper.min.css'
 import '/node_modules/swiper/swiper-bundle.min.css'
 import '../styles/Slider.css';
 
-import { useSelector } from 'react-redux';
-import { RootState } from '../app/store';
 import CreatorSlide from "./CreatorSlide";
+import { useGetCreatorsQuery } from "../app/creatorsApi";
+import Loader from "./Loader";
+import { Creator } from "../types";
 
 interface Props {
   handlePopupToggle: () => void;
 }
 
 const CreatorSlider: React.FC<Props> = ({handlePopupToggle}) => {
-  const creators = useSelector((state: RootState) => state.creators.creators);
+  const { data, error, isLoading } = useGetCreatorsQuery();
+
+  if (isLoading) return <Loader />;
+  if (error) return <p>Error loading events.</p>;
+
+  const creators = data?.results || [];
 
   if (creators.length === 0) return (
   <section className="section-padding-lg">
-    <p className="section-padding-lg">No creators available.</p>
+    <div className="w-full max-w-[1266px] mx-auto px-[25px]">
+      <p className="section-padding-lg">No creators available.</p>
+    </div>
   </section>
   );
+
+  console.log('creators', creators);
 
   return (
     <section>
@@ -130,7 +140,7 @@ const CreatorSlider: React.FC<Props> = ({handlePopupToggle}) => {
           }}
         >
           {creators &&
-            creators.map((creator) => {
+            creators.map((creator: Creator) => {
               if (!creator || !creator.firstName || !creator.lastName || !creator.image?.url) {
                 return null;
               }

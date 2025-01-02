@@ -12,8 +12,16 @@ const Header: React.FC<HeaderProps> = ({ handlePopupToggle }) => {
   const path = location.pathname.toString();
   const [showNav, setShowNav] = useState(path.includes('event') || path.includes('terms') || path.includes('privacy'));
 
-  const toggleNav = (): void => {
+  const handleScroll = (id: string) => {
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
+  const toggleNav = (id: string): void => {
     setIsNavOpen(!isNavOpen);
+    handleScroll(id);
   };
 
   useEffect(() => {
@@ -38,29 +46,30 @@ const Header: React.FC<HeaderProps> = ({ handlePopupToggle }) => {
               className={`flex  items-center justify-center mr-10 text-center lg:w-[700px]   ${isNavOpen ? "active" : ""
                 }`}
             >
-              <a href="#events" onClick={toggleNav}>
+              <Link to="#events" onClick={() => toggleNav('events')}>
                 Events
-              </a>
-              <a href="#creators" onClick={toggleNav}>
+              </Link>
+              <Link to="#creators" onClick={() => toggleNav('creators')}>
                 Creators
-              </a>
-              <a href="#create-event" onClick={toggleNav}>
+              </Link>
+              <Link to="#create-event" onClick={() => toggleNav('create-event')}>
                 Create event
-              </a>
-              <a href="#about-us" onClick={toggleNav}>
+              </Link>
+              <Link to="#about-us" onClick={() => toggleNav('about-us')}>
                 About us
-              </a>
+              </Link>
               <button onClick={handlePopupToggle} className="custom-button only-for-mobile">
                 Become a member
               </button>
             </nav>
-            <a
-              href="#become-a-member"
+            <Link
+              to="#become-a-member"
               className="custom-button btn--primary hidden lg:inline-flex hover:text-[#ee46bc]"
+              onClick={() => toggleNav('become-a-member')}
             >
               Request access
-            </a>{" "}
-            <button className="humberger" onClick={toggleNav}>
+            </Link>{" "}
+            <button className="humberger" onClick={() => setIsNavOpen(!isNavOpen)}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 448 512"

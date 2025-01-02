@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { HashRouter as Router, Routes, Route } from "react-router-dom";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import Home from "./pages/Home";
@@ -25,7 +25,7 @@ const App: React.FC = () => {
 
   return (
     <Router>
-      <div className="app">
+      <div className="app min-h-screen flex flex-col justify-between">
         <Header handlePopupToggle={handlePopupToggle} />
 
         <Routes>
