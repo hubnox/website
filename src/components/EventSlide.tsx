@@ -36,7 +36,7 @@ const EventSlide: React.FC<EventProps> = ({
   const creators = data?.results || [];
 
 
-
+  
   const creator = creators.find((c: Creator) => c.objectId === creatorId);
 
   const formatDate = (date: string) => {

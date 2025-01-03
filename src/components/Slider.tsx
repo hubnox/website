@@ -11,16 +11,27 @@ import '../styles/Slider.css';
 import { useGetEventsQuery } from "../app/eventsApi";
 import Loader from "./Loader";
 
-import { Event } from "../types/home-type";
+import { Creator, Event } from "../types/home-type";
 import EventSlide from "./EventSlide";
+import { useGetCreatorsQuery } from "../app/creatorsApi";
 
 const EventSlider: React.FC = () => {
   const { data, error, isLoading } = useGetEventsQuery();
+  const { data: creatorsData, error: creatorsError, isLoading: creatorsLoading } = useGetCreatorsQuery();
 
-  if (isLoading) return <Loader />;
-  if (error) return <p>Error loading events.</p>;
+  if (isLoading || creatorsLoading) return <Loader />;
+  if (error || creatorsError) return <p>Error loading events.</p>;
 
   const events = data?.results || [];
+  const creators = creatorsData?.results || [];
+
+  const visibleCreators = new Set(
+    creators
+      .filter((creator: Creator) => creator.isShowOnWeb) 
+      .map((creator: Creator) => creator.objectId) 
+  );
+
+  const filteredEvents = events.filter((event: Event) => visibleCreators.has(event.creator?.objectId));
 
   if (events.length === 0) {
     return <p>No events available at the moment.</p>;
@@ -76,7 +87,7 @@ const EventSlider: React.FC = () => {
             type: "fraction",
           }}
         >
-          {events.map((event: Event) => (
+          {filteredEvents.map((event: Event) => (
             <SwiperSlide key={event.objectId}>
               <EventSlide name={event.name} description={event.description} thumbnail={event.thumbnail} startDate={event.startDateAndTime.iso} endDate={event.endDateAndTime.iso} creatorId={event.creatorId} objectId={event.objectId} />
             </SwiperSlide>

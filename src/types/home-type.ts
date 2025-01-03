@@ -5,6 +5,7 @@ export interface Creator {
   aboutMe: string;
   address: string;
   tagLine: string;
+  isShowOnWeb: boolean;
   instagramLink: string;
   image: {
     url: string;
