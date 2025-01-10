@@ -7,6 +7,7 @@ import Privacy from "./pages/Privacy";
 import Terms from "./pages/Terms";
 import Parse from 'parse';
 import EventDetailsPage from "./pages/EventDetails";
+import { HelmetProvider } from "react-helmet-async";
 
 const App: React.FC = () => {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
@@ -24,20 +25,30 @@ const App: React.FC = () => {
   }, []);
 
   return (
-    <Router>
-      <div className="app min-h-screen flex flex-col justify-between">
-        <Header handlePopupToggle={handlePopupToggle} />
+    <HelmetProvider>
+      <Router>
+        <div className="app min-h-screen flex flex-col justify-between">
+          <Header handlePopupToggle={handlePopupToggle} />
 
-        <Routes>
-          <Route path="/" element={<Home handlePopupToggle={handlePopupToggle} isPopupOpen={isPopupOpen}/>} />
-          <Route path="/privacy" element={<Privacy />} />
-          <Route path="/terms" element={<Terms />} />
-          <Route path="/event/:eventId" element={<EventDetailsPage />} />
-        </Routes>
+          <Routes>
+            <Route
+              path="/"
+              element={
+                <Home
+                  handlePopupToggle={handlePopupToggle}
+                  isPopupOpen={isPopupOpen}
+                />
+              }
+            />
+            <Route path="/privacy" element={<Privacy />} />
+            <Route path="/terms" element={<Terms />} />
+            <Route path="/event/:eventId" element={<EventDetailsPage />} />
+          </Routes>
 
-        <Footer/>
-      </div>
-    </Router>
+          <Footer />
+        </div>
+      </Router>
+    </HelmetProvider>
   );
 };
 
