@@ -1,8 +1,8 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { useGetCreatorsQuery } from '../app/creatorsApi';
-import Loader from './Loader';
-import { Creator } from '../types';
+import React from "react";
+import { Link } from "react-router-dom";
+import { useGetCreatorsQuery } from "../app/creatorsApi";
+import Loader from "./Loader";
+import { Creator } from "../types";
 
 interface EventProps {
   objectId: string;
@@ -15,7 +15,7 @@ interface EventProps {
 }
 
 const truncateText = (text: string, maxLength: number) => {
-  return text.length > maxLength ? text.slice(0, maxLength) + '...' : text;
+  return text.length > maxLength ? text.slice(0, maxLength) + "..." : text;
 };
 
 const EventSlide: React.FC<EventProps> = ({
@@ -27,7 +27,6 @@ const EventSlide: React.FC<EventProps> = ({
   endDate,
   creatorId,
 }) => {
-
   const { data, error, isLoading } = useGetCreatorsQuery();
 
   if (isLoading) return <Loader />;
@@ -35,22 +34,20 @@ const EventSlide: React.FC<EventProps> = ({
 
   const creators = data?.results || [];
 
-
-  
   const creator = creators.find((c: Creator) => c.objectId === creatorId);
 
   const formatDate = (date: string) => {
     const options: Intl.DateTimeFormatOptions = {
-      day: '2-digit',
-      month: 'short',
-      year: 'numeric',
+      day: "2-digit",
+      month: "short",
+      year: "numeric",
     };
-    return new Date(date).toLocaleDateString('en-US', options);
+    return new Date(date).toLocaleDateString("en-US", options);
   };
 
   return (
-    <div className="flex flex-col bg-slate-900 text-white rounded-lg shadow-lg overflow-hidden h-full profiles__item l:min-h-[540px]">
-      <div className="relative w-full profiles__img">
+    <div className="flex flex-col bg-slate-900 text-white rounded-lg shadow-lg overflow-hidden h-full profiles__item l:min-h-[540px] ">
+      <div className="relative w-full profiles__img ">
         <Link to={`/event/${objectId}`}>
           <img
             src={thumbnail.url}
@@ -61,15 +58,16 @@ const EventSlide: React.FC<EventProps> = ({
       </div>
 
       <div className="p-4 flex flex-col flex-grow pt-0">
-      <div className="data">
+        <div className="data">
           <p className="text-lg">{`${formatDate(startDate)} - ${formatDate(
             endDate
           )}`}</p>
         </div>
 
-        <h2 className="text-xl font-bold mb-2 text-[#D0D5DD]">{truncateText(name, 25)}</h2>
+        <h2 className="text-xl font-bold mb-2 text-[#D0D5DD]">
+          {truncateText(name, 25)}
+        </h2>
         <p className="text-gray-300 text-sm flex-grow">
-
           {truncateText(description, 35)}
         </p>
 
