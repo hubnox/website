@@ -5,7 +5,7 @@ import Footer from "./components/Footer";
 import Home from "./pages/Home";
 import Privacy from "./pages/Privacy";
 import Terms from "./pages/Terms";
-import Parse from 'parse';
+import Parse from "parse";
 import EventDetailsPage from "./pages/EventDetails";
 import { HelmetProvider } from "react-helmet-async";
 
@@ -42,7 +42,15 @@ const App: React.FC = () => {
             />
             <Route path="/privacy" element={<Privacy />} />
             <Route path="/terms" element={<Terms />} />
-            <Route path="/event/:eventId" element={<EventDetailsPage />} />
+            <Route
+              path="/event/:eventId"
+              element={
+                <EventDetailsPage
+                  isPopupOpen={isPopupOpen}
+                  handlePopupToggle={handlePopupToggle}
+                />
+              }
+            />
           </Routes>
 
           <Footer />
