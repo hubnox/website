@@ -26,10 +26,47 @@ const EventDetailsPage: React.FC<Props> = ({
   const DEFAULT_OG_IMAGE = "/favicon.ico";
 
   useEffect(() => {
-    setTimeout(() => {
-      window.scroll({ top: 0, left: 0, behavior: "smooth" });
-    }, 100);
-  }, []);
+    if (!data || !eventId) return;
+
+    const event = data.results.find((e: Event) => e.objectId === eventId);
+    if (!event) return;
+
+    const originalMeta = Array.from(document.getElementsByTagName("meta"))
+      .filter((tag) => tag.getAttribute("property")?.startsWith("og:"))
+      .map((tag) => ({
+        property: tag.getAttribute("property"),
+        content: tag.getAttribute("content"),
+      }));
+
+    const head = document.querySelector("head")!;
+    const metaTags = [
+      { property: "og:title", content: event.name },
+      { property: "og:description", content: event.description },
+      { property: "og:image", content: event.thumbnail?.url },
+      { property: "og:url", content: `https://hubnox.com/#/event/${eventId}` },
+    ];
+
+    metaTags.forEach((tag) => {
+      let element = document.querySelector(`meta[property="${tag.property}"]`);
+      if (!element) {
+        element = document.createElement("meta");
+        element.setAttribute("property", tag.property);
+        head.appendChild(element);
+      }
+      element.setAttribute("content", tag.content);
+    });
+
+    return () => {
+      originalMeta.forEach((tag) => {
+        const element = document.querySelector(
+          `meta[property="${tag.property}"]`
+        );
+        if (element && tag.content) {
+          element.setAttribute("content", tag.content);
+        }
+      });
+    };
+  }, [data, eventId]);
 
   if (isLoading) return <Loader />;
   if (error)
