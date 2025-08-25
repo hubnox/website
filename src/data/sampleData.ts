@@ -1,10 +1,15 @@
+// Import actual assets to use in sample data
+import event1 from '../assets/images/event-1.webp';
+import event2 from '../assets/images/event-2.webp'; 
+import event3 from '../assets/images/event-3.webp';
+
 // Sample data for when API is unavailable
 export const sampleEvents = [
   {
     objectId: "sample1",
     name: "Digital Marketing Masterclass",
     description: "Learn the latest digital marketing strategies from industry experts. This comprehensive workshop covers SEO, social media marketing, content creation, and analytics.",
-    thumbnail: { url: "https://via.placeholder.com/400x300/39405a/ffffff?text=Event+1" },
+    thumbnail: { url: event1 },
     startDateAndTime: { iso: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString() }, // 7 days from now
     endDateAndTime: { iso: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000 + 2 * 60 * 60 * 1000).toISOString() }, // 2 hours later
     creatorId: "creator1",
@@ -14,7 +19,7 @@ export const sampleEvents = [
     objectId: "sample2", 
     name: "Entrepreneurship Workshop",
     description: "Discover how to turn your ideas into successful businesses. Topics include business planning, funding, market research, and scaling strategies.",
-    thumbnail: { url: "https://via.placeholder.com/400x300/EE46BC/ffffff?text=Event+2" },
+    thumbnail: { url: event2 },
     startDateAndTime: { iso: new Date(Date.now() + 14 * 24 * 60 * 60 * 1000).toISOString() }, // 14 days from now
     endDateAndTime: { iso: new Date(Date.now() + 14 * 24 * 60 * 60 * 1000 + 3 * 60 * 60 * 1000).toISOString() }, // 3 hours later
     creatorId: "creator2",
@@ -24,13 +29,18 @@ export const sampleEvents = [
     objectId: "sample3",
     name: "Creative Design Bootcamp",
     description: "Master the fundamentals of graphic design, UI/UX principles, and creative thinking. Perfect for beginners and those looking to enhance their design skills.",
-    thumbnail: { url: "https://via.placeholder.com/400x300/3C5BFF/ffffff?text=Event+3" },
+    thumbnail: { url: event3 },
     startDateAndTime: { iso: new Date(Date.now() + 21 * 24 * 60 * 60 * 1000).toISOString() }, // 21 days from now
     endDateAndTime: { iso: new Date(Date.now() + 21 * 24 * 60 * 60 * 1000 + 4 * 60 * 60 * 1000).toISOString() }, // 4 hours later
     creatorId: "creator3",
     creator: { objectId: "creator3" }
   }
 ];
+
+// Import actual creator assets
+import creator1 from '../assets/images/creator-1.png';
+import creator2 from '../assets/images/creator-2.png';
+import creator3 from '../assets/images/creator-3.png';
 
 export const sampleCreators = [
   {
@@ -39,7 +49,7 @@ export const sampleCreators = [
     firstName: "Sarah",
     lastName: "Johnson",
     username: "sarah_marketing",
-    profilePhoto: { url: "https://via.placeholder.com/200x200/39405a/ffffff?text=SJ" },
+    profilePhoto: { url: creator1 },
     bio: "Digital marketing expert with 10+ years of experience helping businesses grow online."
   },
   {
@@ -48,7 +58,7 @@ export const sampleCreators = [
     firstName: "Michael",
     lastName: "Chen",
     username: "mike_entrepreneur",
-    profilePhoto: { url: "https://via.placeholder.com/200x200/EE46BC/ffffff?text=MC" },
+    profilePhoto: { url: creator2 },
     bio: "Serial entrepreneur and business mentor. Founded 3 successful startups."
   },
   {
@@ -57,7 +67,7 @@ export const sampleCreators = [
     firstName: "Emma",
     lastName: "Rodriguez",
     username: "emma_design", 
-    profilePhoto: { url: "https://via.placeholder.com/200x200/3C5BFF/ffffff?text=ER" },
+    profilePhoto: { url: creator3 },
     bio: "Creative director and design educator. Specializes in user experience and visual design."
   }
 ];
