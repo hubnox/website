@@ -10,134 +10,165 @@ const Privacy: React.FC = () => {
 
   return (
     <main>
-      <section className="hero-bg">
-        <div className="pl-6 pr-6">
-          <h1>Privacy Policy of HubNox</h1>
-
-          <p>
-            HubNox operates the https://hubnox.com website, which provides the
-            SERVICE.
-          </p>
-
-          <p>
-            This page is used to inform website visitors regarding our policies
-            with the collection, use, and disclosure of Personal Information if
-            anyone decided to use our Service, the HubNox website.
-          </p>
-
-          <p>
-            If you choose to use our Service, then you agree to the collection
-            and use of information in relation with this policy. The Personal
-            Information that we collect are used for providing and improving the
-            Service. We will not use or share your information with anyone
-            except as described in this Privacy Policy.
-          </p>
-
-          <h2>Information Collection and Use</h2>
-          <p>
-            For a better experience while using our Service, we may require you
-            to provide us with certain personally identifiable information,
-            including but not limited to your name, phone number, and postal
-            address. The information that we collect will be used to contact or
-            identify you.
-          </p>
-
-          <h2>Log Data</h2>
-          <p>
-            We want to inform you that whenever you visit our Service, we
-            collect information that your browser sends to us that is called Log
-            Data. This Log Data may include information such as your computer's
-            Internet Protocol ("IP") address, browser version, pages of our
-            Service that you visit, the time and date of your visit, the time
-            spent on those pages, and other statistics.
-          </p>
-
-          <h2>Cookies</h2>
-          <p>
-            Cookies are files with small amount of data that is commonly used an
-            anonymous unique identifier. These are sent to your browser from the
-            website that you visit and are stored on your computer's hard drive.
-          </p>
-
-          <p>
-            Our website uses these "cookies" to collection information and to
-            improve our Service. You have the option to either accept or refuse
-            these cookies, and know when a cookie is being sent to your
-            computer. If you choose to refuse our cookies, you may not be able
-            to use some portions of our Service.
-          </p>
-
-          <h2>Service Providers</h2>
-          <p>
-            We may employ third-party companies and individuals due to the
-            following reasons:
-          </p>
-          <ul>
-            <li>To facilitate our Service;</li>
-            <li>To provide the Service on our behalf;</li>
-            <li>To perform Service-related services; or</li>
-            <li>To assist us in analyzing how our Service is used.</li>
-          </ul>
-
-          <p>
-            We want to inform our Service users that these third parties have
-            access to your Personal Information. The reason is to perform the
-            tasks assigned to them on our behalf. However, they are obligated
-            not to disclose or use the information for any other purpose.
-          </p>
-
-          <h2>Security</h2>
-          <p>
-            We value your trust in providing us your Personal Information, thus
-            we are striving to use commercially acceptable means of protecting
-            it. But remember that no method of transmission over the internet,
-            or method of electronic storage is 100% secure and reliable, and we
-            cannot guarantee its absolute security.
-          </p>
-
-          <h2>Links to Other Sites</h2>
-          <p>
-            Our Service may contain links to other sites. If you click on a
-            third-party link, you will be directed to that site. Note that these
-            external sites are not operated by us. Therefore, we strongly advise
-            you to review the Privacy Policy of these websites. We have no
-            control over, and assume no responsibility for the content, privacy
-            policies, or practices of any third-party sites or services.
-          </p>
-
-          <h2>Children's Privacy</h2>
-          <p>
-            Our Services do not address anyone under the age of 13. We do not
-            knowingly collect personal identifiable information from children
-            under 13. In the case we discover that a child under 13 has provided
-            us with personal information, we immediately delete this from our
-            servers. If you are a parent or guardian and you are aware that your
-            child has provided us with personal information, please contact us
-            so that we will be able to do necessary actions.
-          </p>
-
-          <h2>Changes to This Privacy Policy</h2>
-          <p>
-            We may update our Privacy Policy from time to time. Thus, we advise
-            you to review this page periodically for any changes. We will notify
-            you of any changes by posting the new Privacy Policy on this page.
-            These changes are effective immediately, after they are posted on
-            this page.
-          </p>
-
-          <p>
-            Our Privacy Policy was created with the help of the{" "}
-            <a href="https://www.privacypolicytemplate.net">
-              Privacy Policy Template
-            </a>
-            .
-          </p>
-
-          <h2>Contact Us</h2>
-          <p>
-            If you have any questions or suggestions about our Privacy Policy,
-            do not hesitate to contact us.
-          </p>
+      <section className="hero">
+        <div className="custom-container">
+          <div className="max-w-4xl mx-auto">
+            <div className="text-center mb-12">
+              <h1 className="h1 mb-4">Hubnox — <span>Privacy Policy</span></h1>
+              <p className="text-lg text-gray-400"><em>Last updated: July 28, 2025</em></p>
+            </div>
+            
+            <div className="prose prose-lg max-w-none text-white">
+              <div className="mb-8">
+                <p className="text-lg">Hubnox Inc. ("<strong>Hubnox,</strong>" "<strong>we,</strong>" "<strong>us</strong>") respects your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our mobile applications, website, and related services (collectively, the <strong>"Service"</strong>).</p>
+                <p className="mt-4">If you do not agree with the practices described here, please do not use the Service. Capitalized terms not defined in this Policy have the meanings given in our Terms of Use.</p>
+              </div>
+              
+              <section className="mb-8">
+                <h2 className="h2 mb-4">1. Scope of This Policy</h2>
+                <p>This Policy applies to personal information that we process in connection with your use of the Service worldwide. Separate privacy notices may apply to employees, contractors, or specific promotions; those notices supplement this Policy.</p>
+              </section>
+              
+              <section className="mb-8">
+                <h2 className="h2 mb-4">2. Information We Collect</h2>
+                <div className="overflow-x-auto">
+                  <table className="w-full border-collapse border border-gray-600 mb-6">
+                    <thead>
+                      <tr className="bg-[#39405a]">
+                        <th className="border border-gray-600 px-4 py-3 text-left font-semibold">Category</th>
+                        <th className="border border-gray-600 px-4 py-3 text-left font-semibold">Examples</th>
+                        <th className="border border-gray-600 px-4 py-3 text-left font-semibold">Source</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td className="border border-gray-600 px-4 py-3"><strong>Account Information</strong></td>
+                        <td className="border border-gray-600 px-4 py-3">Name, email, password hash, profile photo, display name (pseudonym)</td>
+                        <td className="border border-gray-600 px-4 py-3">You</td>
+                      </tr>
+                      <tr>
+                        <td className="border border-gray-600 px-4 py-3"><strong>Creator & Event Data</strong></td>
+                        <td className="border border-gray-600 px-4 py-3">Event titles, descriptions, dates, ticket prices, recordings, chat messages</td>
+                        <td className="border border-gray-600 px-4 py-3">You / Creators</td>
+                      </tr>
+                      <tr>
+                        <td className="border border-gray-600 px-4 py-3"><strong>Transaction Data</strong></td>
+                        <td className="border border-gray-600 px-4 py-3">Purchase amount, currency, last 4 digits of card, billing address</td>
+                        <td className="border border-gray-600 px-4 py-3">Stripe (we never store full card numbers)</td>
+                      </tr>
+                      <tr>
+                        <td className="border border-gray-600 px-4 py-3"><strong>Usage Data</strong></td>
+                        <td className="border border-gray-600 px-4 py-3">Pages viewed, links clicked, referral URL, session duration</td>
+                        <td className="border border-gray-600 px-4 py-3">Automatic</td>
+                      </tr>
+                      <tr>
+                        <td className="border border-gray-600 px-4 py-3"><strong>Device & Log Data</strong></td>
+                        <td className="border border-gray-600 px-4 py-3">IP address, device ID, OS, browser type, crash logs</td>
+                        <td className="border border-gray-600 px-4 py-3">Automatic</td>
+                      </tr>
+                      <tr>
+                        <td className="border border-gray-600 px-4 py-3"><strong>Cookies & Similar Tech</strong></td>
+                        <td className="border border-gray-600 px-4 py-3">Session cookies, analytics cookies, marketing pixels</td>
+                        <td className="border border-gray-600 px-4 py-3">Automatic</td>
+                      </tr>
+                      <tr>
+                        <td className="border border-gray-600 px-4 py-3"><strong>Support & Communications</strong></td>
+                        <td className="border border-gray-600 px-4 py-3">Emails, in-app messages, survey responses</td>
+                        <td className="border border-gray-600 px-4 py-3">You</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <p className="text-sm text-gray-300">We do <strong>not</strong> knowingly collect data from children under 13. If you believe we have collected such data, contact us at <strong>hello@hubnox.com</strong> and we will delete it.</p>
+              </section>
+              
+              <section className="mb-8">
+                <h2 className="h2 mb-4">3. How We Use Your Information</h2>
+                <p className="mb-4">We use personal information to:</p>
+                <ol className="list-decimal pl-6 space-y-2">
+                  <li><strong>Provide and maintain the Service</strong> (create accounts, host events, process payments, pay Creators).</li>
+                  <li><strong>Improve and personalize</strong> the Service, including AI-powered recommendations.</li>
+                  <li><strong>Communicate</strong> with you about your account, transactions, and changes to our terms.</li>
+                  <li><strong>Market</strong> events or features you may like (you can opt out at any time).</li>
+                  <li><strong>Detect, prevent, and address</strong> fraud, abuse, security incidents, and legal claims.</li>
+                  <li><strong>Comply</strong> with legal obligations and enforce our Terms of Use.</li>
+                </ol>
+                <p className="mt-4 text-sm text-gray-300">Where required by law, we rely on the following legal bases: (a) performance of a contract; (b) your consent; (c) our legitimate interests (e.g., service improvement, marketing); and (d) compliance with a legal obligation.</p>
+              </section>
+              
+              <section className="mb-8">
+                <h2 className="h2 mb-4">4. How We Share Information</h2>
+                <p className="mb-4">We share information:</p>
+                <ul className="list-disc pl-6 space-y-2">
+                  <li><strong>With Creators.</strong> If you buy a ticket, your name, email, and attendance status are shared with the Creator so they can run the Event.</li>
+                  <li><strong>With Service Providers.</strong> Payment processing (Stripe), cloud hosting, analytics, email delivery, customer-support tools.</li>
+                  <li><strong>As Required by Law.</strong> To regulators, courts, or law-enforcement when we believe disclosure is required.</li>
+                  <li><strong>Business Transfers.</strong> In connection with a merger, acquisition, or asset sale. You will be notified of any change in ownership.</li>
+                </ul>
+                <p className="mt-4">We do <strong>not</strong> sell personal information for money. We do not allow third-party advertising networks on the Service.</p>
+              </section>
+              
+              <section className="mb-8">
+                <h2 className="h2 mb-4">5. Cookies &amp; Tracking Technologies</h2>
+                <p>We use cookies and similar technologies to keep you signed in, remember preferences, and measure Site performance. You can control cookies through your browser settings; however, disabling cookies may limit certain features.</p>
+              </section>
+              
+              <section className="mb-8">
+                <h2 className="h2 mb-4">6. Your Privacy Rights</h2>
+                
+                <div className="mb-6">
+                  <h3 className="h3 mb-3">6.1 European Economic Area (EEA/UK)</h3>
+                  <p>If you are located in the EEA or UK, you have the right to access, correct, delete, restrict, or object to our processing of your personal data, and the right to data portability. You may also lodge a complaint with your local Data Protection Authority.</p>
+                </div>
+                
+                <div className="mb-6">
+                  <h3 className="h3 mb-3">6.2 California (CCPA/CPRA)</h3>
+                  <p>California residents may request (i) a list of the categories of personal information we collected, disclosed, or "shared" in the last 12 months, (ii) access to specific pieces of information, (iii) deletion, and (iv) correction. We do not "sell" or "share" personal information as those terms are defined under the CCPA.</p>
+                </div>
+                
+                <p>To exercise any privacy right, email <strong><a href="mailto:hello@hubnox.com" className="text-[#EE46BC] hover:underline">hello@hubnox.com</a></strong>. We will verify your identity before responding.</p>
+              </section>
+              
+              <section className="mb-8">
+                <h2 className="h2 mb-4">7. Data Retention</h2>
+                <p className="mb-4">We keep personal information only as long as necessary to fulfill the purposes described above, to comply with legal obligations, or to resolve disputes—whichever period is longer. Typical retention periods are:</p>
+                <ul className="list-disc pl-6 space-y-2">
+                  <li>Account data: while your account is active and for up to 2 years after closure.</li>
+                  <li>Transaction records: 7 years (for tax and accounting).</li>
+                  <li>Event recordings: until the Creator requests deletion or 2 years after the Event, whichever comes first.</li>
+                </ul>
+              </section>
+              
+              <section className="mb-8">
+                <h2 className="h2 mb-4">8. Security</h2>
+                <p>We employ industry-standard technical and organizational measures such as encryption in transit and at rest, access controls, and regular security audits. No system is 100% secure, so we cannot guarantee absolute security.</p>
+              </section>
+              
+              <section className="mb-8">
+                <h2 className="h2 mb-4">9. International Transfers</h2>
+                <p>We are headquartered in the United States and store data on U.S. servers. If you access the Service from outside the U.S., you consent to transferring your data to the U.S. Where required, we use Standard Contractual Clauses or rely on adequacy decisions to legitimize transfers.</p>
+              </section>
+              
+              <section className="mb-8">
+                <h2 className="h2 mb-4">10. Children's Privacy</h2>
+                <p>The Service is <strong>not directed to children under 13</strong>. Parents or guardians who believe their child provided us personal information may contact <strong><a href="mailto:hello@hubnox.com" className="text-[#EE46BC] hover:underline">hello@hubnox.com</a></strong> to request deletion.</p>
+              </section>
+              
+              <section className="mb-8">
+                <h2 className="h2 mb-4">11. Changes to This Policy</h2>
+                <p>We may modify this Policy. We will give at least <strong>7 days' notice</strong> via email or in-app message before material changes take effect. Continued use after the effective date constitutes acceptance.</p>
+              </section>
+              
+              <section className="mb-8">
+                <h2 className="h2 mb-4">12. Contact Us</h2>
+                <p>Questions about this Policy or our privacy practices? Email <strong><a href="mailto:hello@hubnox.com" className="text-[#EE46BC] hover:underline">hello@hubnox.com</a></strong></p>
+              </section>
+              
+              <div className="bg-[#39405a] p-6 rounded-lg mt-8">
+                <p className="mb-0 text-sm italic text-gray-400">This Privacy Policy is provided for general informational purposes and does not constitute legal advice. Consult a qualified attorney to ensure compliance with all applicable laws.</p>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
     </main>

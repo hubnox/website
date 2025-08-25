@@ -9,130 +9,129 @@ const Terms: React.FC = () => {
   
   return (
     <main>
-      <section className="hero-bg">
+      <section className="hero">
         <div className="custom-container">
-          <h1 id="hubnox-terms-of-service">Hubnox - Terms of Service</h1>
-          <p><em>Last Updated: [DATE]</em></p>
-          
-          <p>Welcome to Hubnox! These Terms of Service ("Terms") govern your access to and use of the Hubnox website
-              (hubnox.com), mobile applications, and related services (collectively, the "Services"). Please read these
-              Terms carefully before using our Services.</p>
-              
-          <p>By accessing or using the Services, you agree to be bound by these Terms. If you do not agree to all the
-              terms and conditions, you may not use the Services.</p>
-              
-          <section className="terms-section">
-            <h2 id="1-use-of-the-service">1. Use of the Service</h2>
-            
-            <h3 id="1-1-eligibility">1.1 Eligibility</h3>
-            <p>You must be at least 18 years old to use Hubnox. By using the Services, you represent and warrant that you
-                are 18 years of age or older.</p>
-                
-            <h3 id="1-2-account-creation">1.2 Account Creation</h3>
-            <p>To access some features of Hubnox, you may be required to create an account. You agree to provide accurate,
-                current, and complete information during registration. You are responsible for maintaining the
-                confidentiality of your account credentials.</p>
-                
-            <h3 id="1-3-acceptable-use">1.3 Acceptable Use</h3>
-            <p>You agree to use Hubnox for lawful purposes only and in compliance with all applicable laws and regulations.
-                You agree not to:</p>
-            <ul>
-                <li>Use the Services for any fraudulent or malicious activity.</li>
-                <li>Impersonate any person or entity, or falsely state or misrepresent yourself.</li>
-                <li>Interfere with or disrupt the integrity or performance of the Services.</li>
-            </ul>
-          </section>
-          
-          <section className="terms-section">
-            <h2 id="2-event-creation-and-ticket-sales">2. Event Creation and Ticket Sales</h2>
-            
-            <h3 id="2-1-event-organizer-responsibilities">2.1 Event Organizer Responsibilities</h3>
-            <p>As an event organizer, you are responsible for ensuring that all information related to your event, including
-                pricing, schedule, and event details, is accurate and up-to-date. Hubnox is not responsible for the content
-                or conduct of your event.</p>
-                
-            <h3 id="2-2-ticket-sales">2.2 Ticket Sales</h3>
-            <p>Hubnox provides a platform for event organizers to sell tickets to their events. Hubnox does not sell tickets
-                directly and is not responsible for the fulfillment of ticket sales. All sales are final, and it is the
-                responsibility of the event organizer to handle any disputes, refunds, or issues related to ticket
-                sales.</p>
-          </section>
-          
-          <section className="terms-section">
-            <h2 id="3-fees-and-payments">3. Fees and Payments</h2>
-            
-            <h3 id="3-1-service-fees">3.1 Service Fees</h3>
-            <p>Hubnox may charge service fees for certain features or transactions conducted through the platform. You will
-                be informed of any applicable fees before incurring them.</p>
-                
-            <h3 id="3-2-payment-processing">3.2 Payment Processing</h3>
-            <p>Hubnox uses third-party payment processors to handle transactions. By using Hubnox, you agree to be bound by
-                the terms and conditions of our payment processors. Hubnox is not responsible for any issues arising from
-                payment processing.</p>
-          </section>
-          
-          <section className="terms-section">
-            <h2 id="4-intellectual-property">4. Intellectual Property</h2>
-            
-            <h3 id="4-1-hubnox-ownership">4.1 Hubnox Ownership</h3>
-            <p>Hubnox and its content, features, and functionality (including but not limited to text, graphics, logos, and
-                software) are owned by Hubnox or its licensors. You may not reproduce, distribute, or create derivative
-                works of any content found on Hubnox without our express written permission.</p>
-                
-            <h3 id="4-2-user-generated-content">4.2 User-Generated Content</h3>
-            <p>By submitting content (such as event listings, descriptions, etc.) to Hubnox, you grant us a non-exclusive,
-                royalty-free, worldwide, perpetual license to use, reproduce, and display your content in connection with
-                the Services.</p>
-          </section>
-          
-          <section className="terms-section">
-            <h2 id="5-termination">5. Termination</h2>
-            
-            <h3 id="5-1-termination-by-you">5.1 Termination by You</h3>
-            <p>You may terminate your account at any time by contacting us at hello@hubnox.com. Termination will not affect
-                your obligation to pay any outstanding fees.</p>
-                
-            <h3 id="5-2-termination-by-hubnox">5.2 Termination by Hubnox</h3>
-            <p>Hubnox reserves the right to suspend or terminate your account or access to the Services at any time, without
-                notice, for any reason, including but not limited to, violation of these Terms.</p>
-          </section>
-          
-          <section className="terms-section">
-            <h2 id="6-disclaimer-of-warranties">6. Disclaimer of Warranties</h2>
-            <p>Hubnox provides the Services on an "AS IS" and "AS AVAILABLE" basis. We do not guarantee
-                that the Services will be error-free, secure, or uninterrupted. You use the Services at your own risk.</p>
-          </section>
-          
-          <section className="terms-section">
-            <h2 id="7-limitation-of-liability">7. Limitation of Liability</h2>
-            <p>To the fullest extent permitted by law, Hubnox will not be liable for any indirect, incidental, special,
-                consequential, or punitive damages, or any loss of profits or revenues, whether incurred directly or
-                indirectly, or any loss of data, use, goodwill, or other intangible losses, resulting from:</p>
-            <ul>
-                <li>Your use or inability to use the Services;</li>
-                <li>Any conduct or content of any third party on the Services;</li>
-                <li>Any content obtained from the Services.</li>
-            </ul>
-          </section>
-          
-          <section className="terms-section">
-            <h2 id="8-changes-to-the-terms">8. Changes to the Terms</h2>
-            <p>Hubnox reserves the right to modify these Terms at any time. If we make changes, we will provide notice by
-                updating the "Last Updated" date at the top of the Terms. Your continued use of the Services after the
-                changes become effective will constitute acceptance of the revised Terms.</p>
-          </section>
-          
-          <section className="terms-section">
-            <h2 id="9-contact-information">9. Contact Information</h2>
-            <p>If you have any questions about these Terms, please contact us at:</p>
-            <div className="contact-info">
-              <p>
-                <strong>Hubnox</strong><br />
-                Email: <a href="mailto:hello@hubnox.com">hello@hubnox.com</a><br />
-                Website: <a href="https://hubnox.com" target="_blank" rel="noopener noreferrer">hubnox.com</a>
-              </p>
+          <div className="max-w-4xl mx-auto">
+            <div className="text-center mb-12">
+              <h1 className="h1 mb-4">Hubnox — <span>Terms of Use</span></h1>
+              <p className="text-lg text-gray-400"><em>Last updated: July 28, 2025</em></p>
             </div>
-          </section>
+            
+            <div className="prose prose-lg max-w-none text-white">
+              <div className="bg-[#39405a] p-6 rounded-lg mb-8">
+                <p className="mb-0 font-medium"><strong>Plain-English notice:</strong> These Terms form a binding contract between you and Hubnox Inc. Please read them carefully. By creating an account, purchasing a ticket, hosting an event, or otherwise using the Hubnox mobile or web apps (collectively, the <strong>"Platform"</strong>), you agree to these Terms. If you do not agree, do not use the Platform.</p>
+              </div>
+              
+              <section className="mb-8">
+                <h2 className="h2 mb-4">1. Who We Are</h2>
+                <p className="mb-4"><strong>Hubnox Inc.</strong></p>
+                <p className="mb-4"><strong>Legal &amp; Support Email:</strong> hello@hubnox.com</p>
+                <p className="mb-4">Hubnox is a <strong>service software</strong> where independent creators (<strong>"Creators"</strong>) host, sell, and manage live or recorded educational experiences (<strong>"Events"</strong>). Hubnox <strong>is not</strong> the organizer, operator, or insurer of any Event; we simply provide ticketing and related services.</p>
+              </section>
+              
+              <section className="mb-8">
+                <h2 className="h2 mb-4">2. Eligibility &amp; Accounts</h2>
+                <ul className="list-disc pl-6 space-y-2">
+                  <li><strong>No minimum age.</strong> However, if you are under 13 you must have parental or guardian consent, and you may not use the Platform if your local law prohibits online service use by minors.</li>
+                  <li>You must provide accurate, complete information. Pseudonyms are allowed <strong>in addition</strong> to your legal name, which we may request at any time to verify identity.</li>
+                  <li>You are responsible for all activity under your account, including compliance with these Terms.</li>
+                </ul>
+              </section>
+              
+              <section className="mb-8">
+                <h2 className="h2 mb-4">3. Fees, Payments &amp; Payouts</h2>
+                <ol className="list-decimal pl-6 space-y-4">
+                  <li><strong>Payment Processor.</strong> All payments are processed by <strong>Stripe</strong>. By transacting on Hubnox, you agree to Stripe's Terms and Privacy Policy.</li>
+                  <li><strong>Ticket Fees.</strong> Buyers pay a ticket processing fee of <strong>7%</strong>. We may introduce Platform monthly plans with at least <strong>7 days' prior notice</strong> (we will email you first).</li>
+                  <li><strong>Subscriptions.</strong> Optional SaaS subscriptions renew automatically <strong>monthly or annually</strong> unless you turn off auto-renew in your account settings before the current term ends.</li>
+                  <li><strong>Refunds.</strong> Refund policies vary <strong>per Event</strong>. Refunds may be issued by Hubnox or by the Creator at their discretion. Where no explicit policy is stated, all sales are final.</li>
+                  <li><strong>Payouts to Creators.</strong> Net ticket proceeds (after Stripe fees and any applicable taxes/refunds) are remitted <strong>after the Event concludes</strong>. Creators must request payout by emailing hello@hubnox.com. Additional verification may be required.</li>
+                </ol>
+              </section>
+              
+              <section className="mb-8">
+                <h2 className="h2 mb-4">4. User-Generated Content &amp; Intellectual Property</h2>
+                <ul className="list-disc pl-6 space-y-2">
+                  <li><strong>Your Content.</strong> You retain ownership of all text, images, video, audio, and other materials you upload (<strong>"Content"</strong>). You grant Hubnox a <strong>non-exclusive, worldwide, royalty-free license</strong> to host, display, transmit, and publicly perform the Content for the purpose of operating, promoting, and improving the Platform.</li>
+                  <li><strong>Recordings.</strong> Creators own their Event recordings. Hubnox may feature limited excerpts solely to promote the Event or the Platform; Hubnox will <strong>not</strong> sell or license full recordings without your written consent.</li>
+                  <li><strong>DMCA.</strong> Hubnox responds to Digital Millennium Copyright Act takedown notices. Send claims to <strong>hello@hubnox.com</strong> with the subject line "DMCA Notice."</li>
+                </ul>
+              </section>
+              
+              <section className="mb-8">
+                <h2 className="h2 mb-4">5. Acceptable Use &amp; Prohibited Activities</h2>
+                <p className="mb-4">You agree <strong>not</strong> to:</p>
+                <ol className="list-decimal pl-6 space-y-2">
+                  <li>Upload or distribute content that is illegal, defamatory, harassing, hateful, or pornographic.</li>
+                  <li>Facilitate or teach activities involving firearms, explosives, or other regulated weapons.</li>
+                  <li>Infringe any third-party IP or privacy rights.</li>
+                  <li>Interfere with, hack, or attempt to disrupt the Platform.</li>
+                  <li>Use automated means (bots, scrapers) without our prior written consent.</li>
+                </ol>
+                <p className="mt-4">Hubnox may remove content or suspend accounts <strong>immediately</strong> for violations.</p>
+              </section>
+              
+              <section className="mb-8">
+                <h2 className="h2 mb-4">6. Safety &amp; Disclaimers</h2>
+                <ul className="list-disc pl-6 space-y-2">
+                  <li><strong>Event Liability.</strong> Hubnox is <strong>only a ticketing service</strong>. Creators are solely responsible for running their Events and for any personal injury, property damage, or other claims arising therefrom. Participants assume all risks associated with attending or participating in an Event.</li>
+                  <li><strong>No Professional Endorsement.</strong> Hubnox does not certify, accredit, or endorse any Creator or their qualifications.</li>
+                </ul>
+              </section>
+              
+              <section className="mb-8">
+                <h2 className="h2 mb-4">7. Termination</h2>
+                <ul className="list-disc pl-6 space-y-2">
+                  <li>You may close your account at any time via the app settings.</li>
+                  <li>Hubnox may suspend or terminate any account <strong>immediately</strong> for violation of these Terms, suspected fraud, or to comply with law.</li>
+                  <li>Upon termination, access to your data may be disabled, but Hubnox will retain attendee records on your behalf for compliance and audit purposes.</li>
+                </ul>
+              </section>
+              
+              <section className="mb-8">
+                <h2 className="h2 mb-4">8. Modifying These Terms</h2>
+                <p>We may update these Terms with at least <strong>7 days' notice</strong> posted in-app or via email. Continued use after the effective date constitutes acceptance. Material fee changes will apply only to future transactions.</p>
+              </section>
+              
+              <section className="mb-8">
+                <h2 className="h2 mb-4">9. Governing Law &amp; Dispute Resolution</h2>
+                <ol className="list-decimal pl-6 space-y-4">
+                  <li><strong>Governing Law.</strong> These Terms are governed by the laws of the <strong>State of Delaware</strong>, excluding its conflict-of-law rules.</li>
+                  <li><strong>Arbitration Agreement.</strong> Any dispute that cannot be resolved informally shall be finally settled by <strong>binding arbitration</strong> administered by the American Arbitration Association (AAA) under its Commercial Rules. The arbitration will be in English, in Wilmington, Delaware, unless you and Hubnox agree otherwise.</li>
+                  <li><strong>Opt-Out.</strong> You may opt out of this arbitration agreement by emailing <strong>hello@hubnox.com</strong> within <strong>30 days</strong> of first accepting these Terms. If you do, disputes may be resolved in the state or federal courts located in Delaware.</li>
+                  <li><strong>Class-Action Waiver.</strong> ALL CLAIMS MUST BE BROUGHT <strong>INDIVIDUALLY</strong>; you and Hubnox waive any right to participate in class or representative actions.</li>
+                </ol>
+              </section>
+              
+              <section className="mb-8">
+                <h2 className="h2 mb-4">10. International Users</h2>
+                <ul className="list-disc pl-6 space-y-2">
+                  <li><strong>No EU/UK 14-Day Withdrawal Right.</strong> By completing a purchase, you expressly request immediate performance of the service and acknowledge that you lose any statutory cooling-off period.</li>
+                  <li><strong>GDPR.</strong> For details on personal-data processing and your data-subject rights, see our separate <a href="/privacy" className="text-[#EE46BC] hover:underline">[Privacy Policy]</a>, which is incorporated by reference.</li>
+                </ul>
+              </section>
+              
+              <section className="mb-8">
+                <h2 className="h2 mb-4">11. Miscellaneous</h2>
+                <ul className="list-disc pl-6 space-y-2">
+                  <li>These Terms (together with any additional policies referenced herein) constitute the entire agreement between you and Hubnox.</li>
+                  <li>If any provision is found unenforceable, the rest will remain in effect.</li>
+                  <li>Hubnox's failure to enforce a right is <strong>not</strong> a waiver.</li>
+                  <li>You may not assign these Terms without our consent; we may assign them as part of a merger, acquisition, or asset sale.</li>
+                  <li>Section headings are for convenience only.</li>
+                </ul>
+              </section>
+              
+              <section className="mb-8">
+                <h2 className="h2 mb-4">12. Contact Us</h2>
+                <p>Questions? Reach out at <strong><a href="mailto:hello@hubnox.com" className="text-[#EE46BC] hover:underline">hello@hubnox.com</a></strong>.</p>
+              </section>
+              
+              <div className="bg-[#39405a] p-6 rounded-lg mt-8">
+                <p className="mb-0 text-sm italic text-gray-400">These Terms are provided for informational purposes and do not constitute legal advice. Consult your attorney to ensure compliance with all applicable laws.</p>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
     </main>
