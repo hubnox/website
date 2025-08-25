@@ -17,11 +17,16 @@ const App: React.FC = () => {
   };
 
   useEffect(() => {
-    Parse.initialize(
-      import.meta.env.VITE_PARSE_APP_ID,
-      import.meta.env.VITE_PARSE_JS_KEY
-    );
-    Parse.serverURL = import.meta.env.VITE_PARSE_SERVER_URL;
+    // Only initialize Parse if environment variables are available
+    if (import.meta.env.VITE_PARSE_APP_ID && 
+        import.meta.env.VITE_PARSE_JS_KEY && 
+        import.meta.env.VITE_PARSE_SERVER_URL) {
+      Parse.initialize(
+        import.meta.env.VITE_PARSE_APP_ID,
+        import.meta.env.VITE_PARSE_JS_KEY
+      );
+      Parse.serverURL = import.meta.env.VITE_PARSE_SERVER_URL;
+    }
   }, []);
 
   return (
