@@ -12,16 +12,16 @@ const Privacy: React.FC = () => {
     <main>
       <section className="hero">
         <div className="custom-container">
-          <div className="max-w-4xl mx-auto">
-            <div className="text-center mb-12">
-              <h1 className="h1 mb-4">Hubnox — <span>Privacy Policy</span></h1>
-              <p className="text-lg text-gray-400"><em>Last updated: July 28, 2025</em></p>
+          <div className="max-w-4xl mx-auto px-4 md:px-6">
+            <div className="text-center mb-8 md:mb-12">
+              <h1 className="h1 mb-4 text-2xl md:text-3xl lg:text-4xl">Hubnox — <span>Privacy Policy</span></h1>
+              <p className="text-base md:text-lg text-gray-400"><em>Last updated: July 28, 2025</em></p>
             </div>
             
-            <div className="prose prose-lg max-w-none text-white">
-              <div className="mb-8">
-                <p className="text-lg">Hubnox Inc. ("<strong>Hubnox,</strong>" "<strong>we,</strong>" "<strong>us</strong>") respects your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our mobile applications, website, and related services (collectively, the <strong>"Service"</strong>).</p>
-                <p className="mt-4">If you do not agree with the practices described here, please do not use the Service. Capitalized terms not defined in this Policy have the meanings given in our Terms of Use.</p>
+            <div className="prose prose-sm md:prose-lg max-w-none text-white">
+              <div className="mb-6 md:mb-8">
+                <p className="text-sm md:text-lg">Hubnox Inc. ("<strong>Hubnox,</strong>" "<strong>we,</strong>" "<strong>us</strong>") respects your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our mobile applications, website, and related services (collectively, the <strong>"Service"</strong>).</p>
+                <p className="mt-3 md:mt-4 text-sm md:text-base">If you do not agree with the practices described here, please do not use the Service. Capitalized terms not defined in this Policy have the meanings given in our Terms of Use.</p>
               </div>
               
               <section className="mb-8">
@@ -32,19 +32,19 @@ const Privacy: React.FC = () => {
               <section className="mb-8">
                 <h2 className="h2 mb-4">2. Information We Collect</h2>
                 <div className="overflow-x-auto">
-                  <table className="w-full border-collapse border border-gray-600 mb-6">
+                  <table className="w-full border-collapse border border-gray-600 mb-6 text-sm">
                     <thead>
                       <tr className="bg-[#39405a]">
-                        <th className="border border-gray-600 px-4 py-3 text-left font-semibold">Category</th>
-                        <th className="border border-gray-600 px-4 py-3 text-left font-semibold">Examples</th>
-                        <th className="border border-gray-600 px-4 py-3 text-left font-semibold">Source</th>
+                        <th className="border border-gray-600 px-2 md:px-4 py-2 md:py-3 text-left font-semibold text-xs md:text-sm">Category</th>
+                        <th className="border border-gray-600 px-2 md:px-4 py-2 md:py-3 text-left font-semibold text-xs md:text-sm">Examples</th>
+                        <th className="border border-gray-600 px-2 md:px-4 py-2 md:py-3 text-left font-semibold text-xs md:text-sm">Source</th>
                       </tr>
                     </thead>
                     <tbody>
                       <tr>
-                        <td className="border border-gray-600 px-4 py-3"><strong>Account Information</strong></td>
-                        <td className="border border-gray-600 px-4 py-3">Name, email, password hash, profile photo, display name (pseudonym)</td>
-                        <td className="border border-gray-600 px-4 py-3">You</td>
+                        <td className="border border-gray-600 px-2 md:px-4 py-2 md:py-3 text-xs md:text-sm"><strong>Account Information</strong></td>
+                        <td className="border border-gray-600 px-2 md:px-4 py-2 md:py-3 text-xs md:text-sm">Name, email, password hash, profile photo, display name (pseudonym)</td>
+                        <td className="border border-gray-600 px-2 md:px-4 py-2 md:py-3 text-xs md:text-sm">You</td>
                       </tr>
                       <tr>
                         <td className="border border-gray-600 px-4 py-3"><strong>Creator & Event Data</strong></td>

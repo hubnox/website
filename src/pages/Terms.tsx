@@ -11,22 +11,22 @@ const Terms: React.FC = () => {
     <main>
       <section className="hero">
         <div className="custom-container">
-          <div className="max-w-4xl mx-auto">
-            <div className="text-center mb-12">
-              <h1 className="h1 mb-4">Hubnox — <span>Terms of Use</span></h1>
-              <p className="text-lg text-gray-400"><em>Last updated: July 28, 2025</em></p>
+          <div className="max-w-4xl mx-auto px-4 md:px-6">
+            <div className="text-center mb-8 md:mb-12">
+              <h1 className="h1 mb-4 text-2xl md:text-3xl lg:text-4xl">Hubnox — <span>Terms of Use</span></h1>
+              <p className="text-base md:text-lg text-gray-400"><em>Last updated: July 28, 2025</em></p>
             </div>
             
-            <div className="prose prose-lg max-w-none text-white">
-              <div className="bg-[#39405a] p-6 rounded-lg mb-8">
-                <p className="mb-0 font-medium"><strong>Plain-English notice:</strong> These Terms form a binding contract between you and Hubnox Inc. Please read them carefully. By creating an account, purchasing a ticket, hosting an event, or otherwise using the Hubnox mobile or web apps (collectively, the <strong>"Platform"</strong>), you agree to these Terms. If you do not agree, do not use the Platform.</p>
+            <div className="prose prose-sm md:prose-lg max-w-none text-white">
+              <div className="bg-[#39405a] p-4 md:p-6 rounded-lg mb-6 md:mb-8">
+                <p className="mb-0 font-medium text-sm md:text-base"><strong>Plain-English notice:</strong> These Terms form a binding contract between you and Hubnox Inc. Please read them carefully. By creating an account, purchasing a ticket, hosting an event, or otherwise using the Hubnox mobile or web apps (collectively, the <strong>"Platform"</strong>), you agree to these Terms. If you do not agree, do not use the Platform.</p>
               </div>
               
-              <section className="mb-8">
-                <h2 className="h2 mb-4">1. Who We Are</h2>
-                <p className="mb-4"><strong>Hubnox Inc.</strong></p>
-                <p className="mb-4"><strong>Legal &amp; Support Email:</strong> hello@hubnox.com</p>
-                <p className="mb-4">Hubnox is a <strong>service software</strong> where independent creators (<strong>"Creators"</strong>) host, sell, and manage live or recorded educational experiences (<strong>"Events"</strong>). Hubnox <strong>is not</strong> the organizer, operator, or insurer of any Event; we simply provide ticketing and related services.</p>
+              <section className="mb-6 md:mb-8">
+                <h2 className="h2 mb-3 md:mb-4 text-xl md:text-2xl">1. Who We Are</h2>
+                <p className="mb-3 md:mb-4 text-sm md:text-base"><strong>Hubnox Inc.</strong></p>
+                <p className="mb-3 md:mb-4 text-sm md:text-base"><strong>Legal &amp; Support Email:</strong> hello@hubnox.com</p>
+                <p className="mb-3 md:mb-4 text-sm md:text-base">Hubnox is a <strong>service software</strong> where independent creators (<strong>"Creators"</strong>) host, sell, and manage live or recorded educational experiences (<strong>"Events"</strong>). Hubnox <strong>is not</strong> the organizer, operator, or insurer of any Event; we simply provide ticketing and related services.</p>
               </section>
               
               <section className="mb-8">
