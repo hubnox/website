@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import TicketStep1 from "./TicketStep1";
+import TicketStep2 from "./TicketStep2";
 
 interface TicketModalProps {
   onClose: () => void;
@@ -35,7 +36,7 @@ const TicketModal: React.FC<TicketModalProps> = ({
       className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40 flex items-center justify-center"
       onClick={(e) => e.target === e.currentTarget && onClose()}
     >
-      <div className="relative z-50 w-[596px] h-[554px] bg-[#1B2334] rounded-2xl p-5 flex flex-col gap-[30px]">
+      <div className="relative z-50 w-[596px] bg-[#1B2334] rounded-2xl p-5 flex flex-col gap-[30px]">
         <div className="relative w-[556px] h-[44px] flex items-center justify-between">
           {step > 1 ? (
             <button
@@ -86,9 +87,7 @@ const TicketModal: React.FC<TicketModalProps> = ({
           <TicketStep1 email={email} onEmailChange={setEmail} onNext={nextStep} />
         )}
         {step === 2 && (
-          <div className="flex flex-col items-center justify-center h-full text-white">
-            <p>Step 2: Ticket details coming soon...</p>
-          </div>
+         <TicketStep2 onNext={nextStep} />
         )}
         {step === 3 && (
           <div className="flex flex-col items-center justify-center h-full text-white">
