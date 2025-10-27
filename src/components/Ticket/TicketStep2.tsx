@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-interface TicketOption {
+export interface TicketOption {
   id: number;
   title: string;
   description: string;
@@ -8,42 +8,24 @@ interface TicketOption {
   soldOut?: boolean;
 }
 
-// mock
-const mockTickets: TicketOption[] = [
-  {
-    id: 1,
-    title: "Standard",
-    description:
-      "Provides access to members who seek a basic entry pass without any specialized privileges or perks.",
-    price: "from $30.00 + Fees",
-  },
-  {
-    id: 2,
-    title: "VIP",
-    description:
-      "Gives exclusive access to VIP lounge, premium seating, and special event merchandise.",
-    price: "from $120.00 + Fees",
-  },
-  {
-    id: 3,
-    title: "Premium",
-    description:
-      "Full access to all event areas with complimentary drinks and backstage privileges.",
-    price: "from $250.00 + Fees",
-    soldOut: true,
-  }, 
-];
-
 interface TicketStep2Props {
-  onNext: () => void;
+  tickets: TicketOption[];               
+  onNext: (selectedTicket: TicketOption) => void;
 }
 
-const TicketStep2: React.FC<TicketStep2Props> = ({ onNext }) => {
+const TicketStep2: React.FC<TicketStep2Props> = ({ tickets, onNext }) => {
   const [selectedId, setSelectedId] = useState<number | null>(null);
 
   const handleSelect = (id: number, soldOut?: boolean) => {
     if (soldOut) return;
     setSelectedId(id);
+  };
+
+  const handleNext = () => {
+    const selectedTicket = tickets.find((t) => t.id === selectedId);
+    if (selectedTicket) {
+      onNext(selectedTicket);
+    }
   };
 
   return (
@@ -53,8 +35,11 @@ const TicketStep2: React.FC<TicketStep2Props> = ({ onNext }) => {
           Please, choose a ticket type.
         </h2>
 
-        <div style={{ scrollbarWidth: "none", msOverflowStyle: "none" }} className="flex flex-col gap-2 w-[556px] h-[424px] overflow-y-auto scrollbar-thin scrollbar-thumb-[#3C5BFF40] scrollbar-track-transparent">
-          {mockTickets.map((ticket) => {
+        <div
+          style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+          className="flex flex-col gap-2 w-[556px] h-[424px] overflow-y-auto scrollbar-thin scrollbar-thumb-[#3C5BFF40] scrollbar-track-transparent"
+        >
+          {tickets.map((ticket) => {
             const isSelected = ticket.id === selectedId;
             const isSoldOut = ticket.soldOut;
 
@@ -63,14 +48,21 @@ const TicketStep2: React.FC<TicketStep2Props> = ({ onNext }) => {
                 key={ticket.id}
                 onClick={() => handleSelect(ticket.id, isSoldOut)}
                 className={`flex items-center gap-[10px] w-[556px] h-[100px] p-2 rounded-lg cursor-pointer transition-all duration-150
-                  ${isSoldOut
-                    ? "bg-[#212C42] opacity-70 cursor-not-allowed"
-                    : "bg-[#39405A]"
+                  ${
+                    isSoldOut
+                      ? "bg-[#212C42] opacity-70 cursor-not-allowed"
+                      : "bg-[#39405A]"
                   }`}
               >
                 <div
                   className={`w-6 h-6 flex items-center justify-center rounded-full border-2
-                    ${isSoldOut ? "border-[#6B7280]" : isSelected ? "border-[#3C5BFF]" : "border-[#D0D5DD]"}
+                    ${
+                      isSoldOut
+                        ? "border-[#6B7280]"
+                        : isSelected
+                        ? "border-[#3C5BFF]"
+                        : "border-[#D0D5DD]"
+                    }
                   `}
                 >
                   {isSelected && !isSoldOut && (
@@ -98,7 +90,7 @@ const TicketStep2: React.FC<TicketStep2Props> = ({ onNext }) => {
       <button
         type="button"
         disabled={selectedId === null}
-        onClick={onNext}
+        onClick={handleNext}
         className={`w-[556px] h-[52px] rounded-lg font-bold text-white shadow-[0_1px_2px_0_#1018280D]
           ${selectedId ? "bg-[#3C5BFF]" : "bg-[#3C5BFF] opacity-60"}
         `}

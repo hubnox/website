@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import TicketStep1 from "./TicketStep1";
-import TicketStep2 from "./TicketStep2";
+import TicketStep2, { TicketOption } from "./TicketStep2";
+import TicketStep3 from "./TicketStep3";
 
 interface TicketModalProps {
   onClose: () => void;
@@ -10,7 +11,30 @@ interface TicketModalProps {
   date: string;
   location: string;
 }
-
+const mockTickets: TicketOption[] = [
+  {
+    id: 1,
+    title: "Standard",
+    description:
+      "Provides access to members who seek a basic entry pass without any specialized privileges or perks.",
+    price: "from $30.00 + Fees",
+  },
+  {
+    id: 2,
+    title: "VIP",
+    description:
+      "Gives exclusive access to VIP lounge, premium seating, and special event merchandise.",
+    price: "from $120.00 + Fees",
+  },
+  {
+    id: 3,
+    title: "Premium",
+    description:
+      "Full access to all event areas with complimentary drinks and backstage privileges.",
+    price: "from $250.00 + Fees",
+    soldOut: true,
+  },
+];
 const TicketModal: React.FC<TicketModalProps> = ({
   onClose,
   image,
@@ -20,7 +44,7 @@ const TicketModal: React.FC<TicketModalProps> = ({
 }) => {
   const [step, setStep] = useState(1);
   const [email, setEmail] = useState("");
-
+  const [selectedTicket, setSelectedTicket] = useState<TicketOption | null>(null);
   useEffect(() => {
     document.body.style.overflow = "hidden";
     return () => {
@@ -30,6 +54,11 @@ const TicketModal: React.FC<TicketModalProps> = ({
 
   const nextStep = () => setStep((prev) => prev + 1);
   const prevStep = () => setStep((prev) => Math.max(1, prev - 1));
+
+  const handleNext = (ticket: TicketOption) => {
+    setSelectedTicket(ticket);
+    nextStep();
+  };
 
   return createPortal(
     <div
@@ -87,12 +116,15 @@ const TicketModal: React.FC<TicketModalProps> = ({
           <TicketStep1 email={email} onEmailChange={setEmail} onNext={nextStep} />
         )}
         {step === 2 && (
-         <TicketStep2 onNext={nextStep} />
+          <TicketStep2 tickets={mockTickets} onNext={handleNext} />
         )}
-        {step === 3 && (
-          <div className="flex flex-col items-center justify-center h-full text-white">
-            <p>Step 3</p>
-          </div>
+        {step === 3 && selectedTicket && (
+          <TicketStep3
+            onBuy={onClose}
+            ticketName={selectedTicket.title}
+            ticketPriceLabel={selectedTicket.price}
+            subtotal={parseFloat(selectedTicket.price.replace(/[^\d.]/g, ""))}
+          />
         )}
       </div>
     </div>,
