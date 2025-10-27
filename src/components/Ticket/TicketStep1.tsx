@@ -1,37 +1,42 @@
 import React, { useState, useEffect, useRef } from "react";
-import AlertIcon from "../../assets/icons/tickets/alert-circle.svg";
 import CheckIcon from "../../assets/icons/tickets/check.svg";
 import SpinnerIcon from "../../assets/icons/tickets/Spinner.svg";
+import AlertIcon from "../../assets/icons/tickets/alert-circle";
 
 interface TicketStep1Props {
   email: string;
   onEmailChange: (email: string) => void;
   onNext: () => void;
+  onDownload: () => void;
 }
 
-const TicketStep1: React.FC<TicketStep1Props> = ({ email, onEmailChange, onNext }) => {
+const TicketStep1: React.FC<TicketStep1Props> = ({ email, onEmailChange, onNext, onDownload }) => {
   const [isTouched, setIsTouched] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
-  const [isValid, setIsValid] = useState(false);
+  const [isValid, setIsValid] = useState<boolean | null>(null)
   const [isChecking, setIsChecking] = useState(false);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
+    if (timeoutRef.current) clearTimeout(timeoutRef.current);
+
     if (email.trim() === "") {
-      setIsValid(false);
+      setIsValid(null);
       setIsChecking(false);
-      if (timeoutRef.current) clearTimeout(timeoutRef.current);
       return;
     }
 
     setIsChecking(true);
-    if (timeoutRef.current) clearTimeout(timeoutRef.current);
 
     timeoutRef.current = setTimeout(() => {
       const valid = /\S+@\S+\.\S+/.test(email);
       setIsValid(valid);
       setIsChecking(false);
-    }, 3000);
+    }, 1000);
+
+    return () => {
+      if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    };
   }, [email]);
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -41,10 +46,18 @@ const TicketStep1: React.FC<TicketStep1Props> = ({ email, onEmailChange, onNext 
   };
 
   const getBorderClass = () => {
-    if (!isValid && isTouched && email.trim() !== "") return "border border-[#F97066]";
-    if (isValid) return "border border-[#6CE9A6]";
-    if (isFocused) return "border border-[#3C5BFF] shadow-[0_0_0_4px_#5B76FA80]";
-    if (email.trim() !== "") return "border border-[#3C5BFF]";
+    if (isValid === false) {
+      return "border border-[#F97066]";
+    }
+    if (isValid === true) {
+      return "border border-[#6CE9A6]";
+    }
+    if (isFocused) {
+      return "border border-[#3C5BFF] shadow-[0_0_0_4px_#5B76FA80]";
+    }
+    if (email.trim() !== "") {
+      return "border border-[#3C5BFF]";
+    }
     return "border border-transparent";
   };
 
@@ -68,31 +81,26 @@ const TicketStep1: React.FC<TicketStep1Props> = ({ email, onEmailChange, onNext 
             className={`w-full h-11 rounded-lg pl-4 pr-12 text-white placeholder-[#D0D5DD] outline-none bg-[#39405A] ${getBorderClass()}`}
           />
 
-          <div className="absolute right-3 top-1/2 transform -translate-y-[-10%] w-5 h-5 flex items-center justify-center">
-            <div className="relative w-5 h-5">
-              {isChecking && (
-                <img
-                  src={SpinnerIcon}
-                  alt="spinner"
-                  className="absolute top-0 left-0 w-5 h-5 animate-spin"
-                />
-              )}
-              {!isChecking && isValid && (
-                <img
-                  src={CheckIcon}
-                  alt="valid"
-                  className="absolute top-0 left-0 w-5 h-5"
-                />
-              )}
-              {!isChecking && !isValid && isTouched && email.trim() !== "" && (
-                <img
-                  src={AlertIcon}
-                  alt="invalid"
-                  className="absolute bottom-3 left-0 w-5 h-5"
-                />
-              )}
-            </div>
+          <div className="absolute right-3 top-1/2 transform -translate-y-1/2 flex items-center justify-center">
+            {isChecking && (
+              <img
+                src={SpinnerIcon}
+                alt="spinner"
+                className="w-5 h-5 mt-5 animate-spin" 
+              />
+            )}
+            {!isChecking && isValid && (
+              <img
+                src={CheckIcon}
+                alt="valid"
+                className="w-5 h-5 mt-5" 
+              />
+            )}
+            {!isChecking && isValid === false && email.trim() !== "" && (
+              <AlertIcon color="#F97066" size={16} /> 
+            )}
           </div>
+
 
           {!isValid && isTouched && email.trim() !== "" && !isChecking && (
             <p className="text-[#F97066] mt-1.5 text-sm">
@@ -109,7 +117,7 @@ const TicketStep1: React.FC<TicketStep1Props> = ({ email, onEmailChange, onNext 
       <div className="flex flex-col gap-[22px]">
         <p className="text-[14px] leading-[22px] text-[#D0D5DD]">
           Don’t have an account?{" "}
-          <span className="font-bold underline text-[#EE46BC] cursor-pointer">
+          <span className="font-bold underline text-[#EE46BC] cursor-pointer" onClick={onDownload}>
             First Download the App
           </span>{" "}
           and register. Then use the same email here to buy tickets.
@@ -119,7 +127,7 @@ const TicketStep1: React.FC<TicketStep1Props> = ({ email, onEmailChange, onNext 
           disabled={!isValid || isChecking}
           className={`w-[556px] h-[52px] rounded-lg ${isValid ? "bg-[#3C5BFF]" : "bg-[#3C5BFF] opacity-60"} shadow-[0_1px_2px_0_#1018280D] font-bold text-white`}
         >
-          {isChecking ? "Checking..." : "Next"}
+          Next
         </button>
       </div>
     </form>

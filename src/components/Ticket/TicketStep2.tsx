@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-
+import AlertIcon from "../../assets/icons/tickets/alert-circle";
 export interface TicketOption {
   id: number;
   title: string;
@@ -9,7 +9,7 @@ export interface TicketOption {
 }
 
 interface TicketStep2Props {
-  tickets: TicketOption[];               
+  tickets: TicketOption[];
   onNext: (selectedTicket: TicketOption) => void;
 }
 
@@ -47,19 +47,25 @@ const TicketStep2: React.FC<TicketStep2Props> = ({ tickets, onNext }) => {
               <div
                 key={ticket.id}
                 onClick={() => handleSelect(ticket.id, isSoldOut)}
-                className={`flex items-center gap-[10px] w-[556px] h-[100px] p-2 rounded-lg cursor-pointer transition-all duration-150
-                  ${
-                    isSoldOut
-                      ? "bg-[#212C42] opacity-70 cursor-not-allowed"
-                      : "bg-[#39405A]"
+                className={`relative flex items-center gap-[10px] w-[556px] h-[100px] p-2 rounded-lg cursor-pointer transition-all duration-150
+                  ${isSoldOut
+                    ? "bg-[#212C42] cursor-not-allowed"
+                    : "bg-[#39405A]"
                   }`}
               >
+                {isSoldOut && (
+                  <div className="absolute top-0 right-0 flex items-center gap-1 bg-[#EE46BC] rounded-sm px-2 py-1 w-[82px] h-[28px]">
+                    <AlertIcon />
+                    <span className="text-white font-dm-sans font-semibold text-[12px] leading-[20px] whitespace-nowrap">
+                      Sold Out
+                    </span>
+                  </div>
+                )}
                 <div
                   className={`w-6 h-6 flex items-center justify-center rounded-full border-2
-                    ${
-                      isSoldOut
-                        ? "border-[#6B7280]"
-                        : isSelected
+                    ${isSoldOut
+                      ? "border-[#6B7280]"
+                      : isSelected
                         ? "border-[#3C5BFF]"
                         : "border-[#D0D5DD]"
                     }
