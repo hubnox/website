@@ -125,7 +125,7 @@ const TicketModal: React.FC<TicketModalProps> = ({
           {step === 2 && <TicketStep2 tickets={mockTickets} onNext={handleNext} />}
           {step === 3 && selectedTicket && (
             <TicketStep3
-              onBuy={onClose}
+              // onBuy={onClose}
               ticketName={selectedTicket.title}
               ticketPriceLabel={selectedTicket.price}
               subtotal={parseFloat(selectedTicket.price.replace(/[^\d.]/g, ""))}

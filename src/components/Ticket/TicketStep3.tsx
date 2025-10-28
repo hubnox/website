@@ -1,12 +1,14 @@
-import React, { useState, useMemo } from "react";
-
+import React, { useState, useMemo, useEffect } from "react";
+import CheckIcon from "../../assets/icons/tickets/check.svg";
+import SpinnerIcon from "../../assets/icons/tickets/Spinner.svg";
+import PaymentResultModal from "./PaymentResultModal";
 interface TicketStep3Props {
-  onBuy: () => void;
+  onBuy?: () => void;
   subtotal?: number;
   paymentFee?: number;
   platformFee?: number;
   ticketName?: string;
-  ticketPriceLabel?: string; 
+  ticketPriceLabel?: string;
 }
 
 const TicketStep3: React.FC<TicketStep3Props> = ({
@@ -20,7 +22,12 @@ const TicketStep3: React.FC<TicketStep3Props> = ({
   const [count, setCount] = useState(1);
   const [discountCode, setDiscountCode] = useState("");
   const [isDiscountApplied, setIsDiscountApplied] = useState(false);
+  const [isValid, setIsValid] = useState<boolean | null>(null);
+  const [isChecking, setIsChecking] = useState(false);
+  const [errorMsg, setErrorMsg] = useState("");
   const maxCount = 5;
+  const [isProcessing, setIsProcessing] = useState(false);
+  const [showPaymentModal, setShowPaymentModal] = useState(false);
 
   const handleMinus = () => count > 1 && setCount((prev) => prev - 1);
   const handlePlus = () => count < maxCount && setCount((prev) => prev + 1);
@@ -28,20 +35,73 @@ const TicketStep3: React.FC<TicketStep3Props> = ({
   const total = useMemo(() => {
     const base = subtotal * count;
     const totalFees = (paymentFee + platformFee) * count;
-    const discount = isDiscountApplied ? base * 0.1 : 0; 
+    const discount = isDiscountApplied ? base * 0.1 : 0;
     return base + totalFees - discount;
   }, [subtotal, paymentFee, platformFee, count, isDiscountApplied]);
 
   const handleApplyDiscount = () => {
-    if (discountCode.trim().toLowerCase() === "promo10") {
-      setIsDiscountApplied(true);
-    } else {
-      setIsDiscountApplied(false);
-    }
+    setIsChecking(true);
+    setErrorMsg("");
+
+    setTimeout(() => {
+      setIsChecking(false);
+
+      if (discountCode.trim().toLowerCase() === "test123") {
+        setIsValid(true);
+        setIsDiscountApplied(true);
+        setErrorMsg("");
+      } else {
+        setIsValid(false);
+        setIsDiscountApplied(false);
+        setErrorMsg("This discount code has expired.");
+      }
+    }, 800);
   };
+  const handleBuyClick = () => {
+    setIsProcessing(true);
+
+    setTimeout(() => {
+      setIsProcessing(false);
+      setShowPaymentModal(true);
+    }, 3000);
+
+    onBuy && onBuy();
+  };
+
+  useEffect(() => {
+    setIsValid(null);
+    setIsDiscountApplied(false);
+    setErrorMsg("");
+  }, [discountCode]);
+
+  const isApplyDisabled =
+    !discountCode.trim() || isChecking || (isValid !== null && !isChecking);
+
+  const isBuyDisabled =
+    (discountCode.trim() && isValid === null) || isChecking;
 
   return (
     <div className="flex flex-col gap-[64px] text-white">
+      {isProcessing && (
+        <div className="fixed inset-0 z-40 flex items-center justify-center bg-black/40 backdrop-blur-sm">
+          <img
+            src={SpinnerIcon}
+            alt="spinner"
+            className="w-10 h-10 animate-spin"
+          />
+        </div>
+      )}
+      {showPaymentModal && (
+        <PaymentResultModal
+          onBack={() => setShowPaymentModal(false)}
+          onTryAgain={() => {
+            setShowPaymentModal(false);
+            setIsProcessing(true);
+            setTimeout(() => setIsProcessing(false), 3000);
+          }}
+        />
+      )}
+
       <div className="w-[556px] h-[350px] flex flex-col gap-[24px]">
         <div className="w-[556px] h-[88px] flex flex-col gap-[12px]">
           <span className="font-dmSans font-bold text-[16px] leading-[20px] text-white">
@@ -129,32 +189,52 @@ const TicketStep3: React.FC<TicketStep3Props> = ({
             </div>
           </div>
 
-          <div className="w-[556px] h-[70px] flex items-end justify-between gap-[8px]">
-            <div className="flex flex-col w-[468px] h-[70px] gap-[6px]">
-              <span className="font-dmSans font-normal text-[14px] leading-[20px] text-white">
-                Discount
-              </span>
+          <div className="flex flex-col gap-[6px] relative">
+            <span className="font-dmSans text-[14px] text-white">
+              Discount
+            </span>
 
-              <input
-                type="text"
-                placeholder="Enter discount code"
-                value={discountCode}
-                onChange={(e) => setDiscountCode(e.target.value)}
-                className="w-[468px] h-[44px] rounded-[8px] px-[14px] py-[10px] bg-[#39405A] shadow-[0px_1px_2px_0px_#1018280D] text-white placeholder-[#D0D5DD] outline-none"
-              />
+            <div className="flex items-end justify-between gap-[8px] relative">
+              <div
+                className={`flex flex-col w-full relative transition-all duration-300 ${isDiscountApplied ? "" : "max-w-[468px]"
+                  }`}
+              >
+                <input
+                  type="text"
+                  placeholder="Enter discount code"
+                  value={discountCode}
+                  onChange={(e) => setDiscountCode(e.target.value)}
+                  className={`w-full h-[44px] rounded-[8px] px-[14px] py-[10px] bg-[#39405A] text-white placeholder-[#D0D5DD] outline-none pr-[36px] ${isValid === true ? "border border-[#12B76A]" : ""
+                    } transition-all duration-300`}
+                />
+                {!isChecking && isValid && (
+                  <img
+                    src={CheckIcon}
+                    alt="valid"
+                    className="w-5 h-5 absolute right-3 top-1/2 transform -translate-y-1/2"
+                  />
+                )}
+              </div>
+
+              {!isDiscountApplied && (
+                <button
+                  onClick={handleApplyDiscount}
+                  disabled={isApplyDisabled}
+                  className={`w-[80px] h-[44px] rounded-[8px] px-[14px] py-[6px] font-dmSans text-[14px] font-medium text-white transition-all duration-200 ${isApplyDisabled ? "bg-[#EE46BC80]" : "bg-[#EE46BC]"
+                    }`}
+                >
+                  Apply
+                </button>
+              )}
             </div>
 
-            <button
-              onClick={handleApplyDiscount}
-              className={`w-[80px] h-[44px] rounded-[8px] px-[14px] py-[6px] font-dmSans text-[14px] leading-[20px] font-medium text-white shadow-[0px_1px_2px_0px_#1018280D] ${
-                discountCode.trim()
-                  ? "bg-[#EE46BC]"
-                  : "bg-[#EE46BC80]"
-              }`}
-              disabled={!discountCode.trim()}
-            >
-              Apply
-            </button>
+            <div className="absolute -bottom-[24px] left-0 w-full">
+              {errorMsg && (
+                <div className="mt-[8px] text-[#F97066] rounded-[4px] font-inter text-[14px] leading-[20px]">
+                  {errorMsg}
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </div>
@@ -171,8 +251,10 @@ const TicketStep3: React.FC<TicketStep3Props> = ({
           </div>
 
           <button
-            onClick={onBuy}
-            className="w-[524px] h-[52px] rounded-lg bg-[#3C5BFF] shadow-[0px_1px_2px_0px_#1018280D] px-[18px] py-[16px] font-dmSans font-bold text-[16px] leading-[20px] text-white"
+            onClick={handleBuyClick}
+            disabled={isBuyDisabled}
+            className={`w-[524px] h-[52px] rounded-lg px-[18px] py-[16px] font-dmSans font-bold text-[16px] text-white shadow-[0px_1px_2px_0px_#1018280D] ${isBuyDisabled ? "bg-[#3C5BFF80]" : "bg-[#3C5BFF]"
+              }`}
           >
             Buy now
           </button>

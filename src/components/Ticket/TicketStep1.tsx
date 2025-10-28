@@ -101,7 +101,6 @@ const TicketStep1: React.FC<TicketStep1Props> = ({ email, onEmailChange, onNext,
             )}
           </div>
 
-
           {!isValid && isTouched && email.trim() !== "" && !isChecking && (
             <p className="text-[#F97066] mt-1.5 text-sm">
               Please enter a valid email address
