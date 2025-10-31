@@ -50,6 +50,7 @@ const EventSlide: React.FC<EventProps> = ({
     <div className="flex flex-col bg-slate-900 text-white rounded-lg shadow-lg overflow-hidden h-full profiles__item l:min-h-[540px] ">
       {isModalOpen && (
         <TicketModal
+          eventId={objectId} 
           onClose={() => setIsModalOpen(false)}
           image={thumbnail.url}
           title={name}

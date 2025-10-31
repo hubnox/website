@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import CheckIcon from "../../assets/icons/tickets/check.svg";
 import SpinnerIcon from "../../assets/icons/tickets/Spinner.svg";
 import AlertIcon from "../../assets/icons/tickets/alert-circle";
+import { useCheckOrCreateUserByEmailMutation } from "../../app/userApi";
 
 interface TicketStep1Props {
   email: string;
@@ -13,9 +14,11 @@ interface TicketStep1Props {
 const TicketStep1: React.FC<TicketStep1Props> = ({ email, onEmailChange, onNext, onDownload }) => {
   const [isTouched, setIsTouched] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
-  const [isValid, setIsValid] = useState<boolean | null>(null)
+  const [isValid, setIsValid] = useState<boolean | null>(null);
   const [isChecking, setIsChecking] = useState(false);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+  const [checkOrCreateUser, { isLoading }] = useCheckOrCreateUserByEmailMutation();
 
   useEffect(() => {
     if (timeoutRef.current) clearTimeout(timeoutRef.current);
@@ -39,25 +42,31 @@ const TicketStep1: React.FC<TicketStep1Props> = ({ email, onEmailChange, onNext,
     };
   }, [email]);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (isValid) onNext();
     setIsTouched(true);
+
+    if (!isValid) return;
+
+    try {
+      setIsChecking(true);
+      const result = await checkOrCreateUser({ email }).unwrap();
+      console.log("User check/create result:", result);
+
+      onNext();
+    } catch (error) {
+      console.error("Failed to check/create user:", error);
+     
+    } finally {
+      setIsChecking(false);
+    }
   };
 
   const getBorderClass = () => {
-    if (isValid === false) {
-      return "border border-[#F97066]";
-    }
-    if (isValid === true) {
-      return "border border-[#6CE9A6]";
-    }
-    if (isFocused) {
-      return "border border-[#3C5BFF] shadow-[0_0_0_4px_#5B76FA80]";
-    }
-    if (email.trim() !== "") {
-      return "border border-[#3C5BFF]";
-    }
+    if (isValid === false) return "border border-[#F97066]";
+    if (isValid === true) return "border border-[#6CE9A6]";
+    if (isFocused) return "border border-[#3C5BFF] shadow-[0_0_0_4px_#5B76FA80]";
+    if (email.trim() !== "") return "border border-[#3C5BFF]";
     return "border border-transparent";
   };
 
@@ -74,37 +83,23 @@ const TicketStep1: React.FC<TicketStep1Props> = ({ email, onEmailChange, onNext,
             value={email}
             onChange={(e) => onEmailChange(e.target.value)}
             onFocus={() => setIsFocused(true)}
-            onBlur={() => {
-              setIsTouched(true);
-              setIsFocused(false);
-            }}
+            onBlur={() => setIsFocused(false)}
             className={`w-full h-11 rounded-lg pl-4 pr-12 text-white placeholder-[#D0D5DD] outline-none bg-[#39405A] ${getBorderClass()}`}
           />
-
           <div className="absolute right-3 top-1/2 transform -translate-y-1/2 flex items-center justify-center">
-            {isChecking && (
-              <img
-                src={SpinnerIcon}
-                alt="spinner"
-                className="w-5 h-5 mt-5 animate-spin" 
-              />
+            {(isChecking || isLoading) && (
+              <img src={SpinnerIcon} alt="spinner" className="w-5 h-5 mt-5 animate-spin" />
             )}
-            {!isChecking && isValid && (
-              <img
-                src={CheckIcon}
-                alt="valid"
-                className="w-5 h-5 mt-5" 
-              />
+            {!isChecking && !isLoading && isValid && (
+              <img src={CheckIcon} alt="valid" className="w-5 h-5 mt-5" />
             )}
-            {!isChecking && isValid === false && email.trim() !== "" && (
-              <AlertIcon color="#F97066" size={16} /> 
+            {!isChecking && !isLoading && isValid === false && email.trim() !== "" && (
+              <AlertIcon color="#F97066" size={16} />
             )}
           </div>
 
-          {!isValid && isTouched && email.trim() !== "" && !isChecking && (
-            <p className="text-[#F97066] mt-1.5 text-sm">
-              Please enter a valid email address
-            </p>
+          {!isValid && isTouched && email.trim() !== "" && !isChecking && !isLoading && (
+            <p className="text-[#F97066] mt-1.5 text-sm">Please enter a valid email address</p>
           )}
         </div>
         <p className="text-[16px] leading-[24px] text-[#D0D5DD]">
@@ -123,7 +118,7 @@ const TicketStep1: React.FC<TicketStep1Props> = ({ email, onEmailChange, onNext,
         </p>
         <button
           type="submit"
-          disabled={!isValid || isChecking}
+          disabled={!isValid || isChecking || isLoading}
           className={`w-[556px] h-[52px] rounded-lg ${isValid ? "bg-[#3C5BFF]" : "bg-[#3C5BFF] opacity-60"} shadow-[0_1px_2px_0_#1018280D] font-bold text-white`}
         >
           Next

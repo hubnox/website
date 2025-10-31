@@ -4,49 +4,37 @@ import TicketStep1 from "./TicketStep1";
 import TicketStep2, { TicketOption } from "./TicketStep2";
 import TicketStep3 from "./TicketStep3";
 import DownloadPopup from "../DownloadPopup";
+import { useGetTicketsByEventIdQuery } from "../../app/eventsApi";
 
 interface TicketModalProps {
   onClose: () => void;
   image: string;
   title: string;
   date: string;
-  location: string;
+  location?: string;
+  eventId?: string;
 }
-const mockTickets: TicketOption[] = [
-  {
-    id: 1,
-    title: "Standard",
-    description:
-      "Provides access to members who seek a basic entry pass without any specialized privileges or perks.",
-    price: "from $30.00 + Fees",
-  },
-  {
-    id: 2,
-    title: "VIP",
-    description:
-      "Gives exclusive access to VIP lounge, premium seating, and special event merchandise.",
-    price: "from $120.00 + Fees",
-  },
-  {
-    id: 3,
-    title: "Premium",
-    description:
-      "Full access to all event areas with complimentary drinks and backstage privileges.",
-    price: "from $250.00 + Fees",
-    soldOut: true,
-  },
-];
+
 const TicketModal: React.FC<TicketModalProps> = ({
   onClose,
   image,
   title,
   date,
   location,
+  eventId,
 }) => {
   const [step, setStep] = useState(1);
   const [email, setEmail] = useState("");
   const [selectedTicket, setSelectedTicket] = useState<TicketOption | null>(null);
   const [isDownloadOpen, setIsDownloadOpen] = useState(false);
+  console.log("TicketModal mounted with eventId:", eventId);
+
+  const { data: tickets, isLoading, error } = useGetTicketsByEventIdQuery(eventId!, {
+    refetchOnMountOrArgChange: true,
+    skip: !eventId,
+  });
+
+  console.log("data: tickets", tickets);
 
   useEffect(() => {
     document.body.style.overflow = "hidden";
@@ -122,7 +110,17 @@ const TicketModal: React.FC<TicketModalProps> = ({
               onDownload={() => setIsDownloadOpen(true)}
             />
           )}
-          {step === 2 && <TicketStep2 tickets={mockTickets} onNext={handleNext} />}
+          {step === 2 && (
+            <div className="flex flex-col gap-2">
+              {isLoading && <div className="text-white">Loading tickets...</div>}
+              {error && <div className="text-red-500">Failed to load tickets</div>}
+              {tickets && tickets.result && tickets.result.length > 0 ? (
+                <TicketStep2 tickets={tickets.result} onNext={handleNext} />
+              ) : (
+                !isLoading && <div className="text-white">No tickets available</div>
+              )}
+            </div>
+          )}
           {step === 3 && selectedTicket && (
             <TicketStep3
               // onBuy={onClose}

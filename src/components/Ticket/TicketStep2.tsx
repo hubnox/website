@@ -18,7 +18,7 @@ const TicketStep2: React.FC<TicketStep2Props> = ({ tickets, onNext }) => {
 
   const handleSelect = (id: number, soldOut?: boolean) => {
     if (soldOut) return;
-    setSelectedId(id);
+    setSelectedId((prev) => (prev === id ? null : id));
   };
 
   const handleNext = () => {
@@ -83,8 +83,9 @@ const TicketStep2: React.FC<TicketStep2Props> = ({ tickets, onNext }) => {
                   <p className="font-dm-sans font-normal text-[11px] leading-[14px] text-[#D0D5DD]">
                     {ticket.description}
                   </p>
-                  <p className="font-inter font-bold text-[14px] leading-[20px] text-white">
-                    {ticket.price}
+                  <p className="font-inter text-white text-[14px] leading-[20px]">
+                    <span className="font-bold">{ticket.price}</span>{" "}
+                    <span className="font-medium">+ Fees</span>
                   </p>
                 </div>
               </div>
@@ -98,7 +99,7 @@ const TicketStep2: React.FC<TicketStep2Props> = ({ tickets, onNext }) => {
         disabled={selectedId === null}
         onClick={handleNext}
         className={`w-[556px] h-[52px] rounded-lg font-bold text-white shadow-[0_1px_2px_0_#1018280D]
-          ${selectedId ? "bg-[#3C5BFF]" : "bg-[#3C5BFF] opacity-60"}
+          ${selectedId !== null ? "bg-[#3C5BFF]" : "bg-[#3C5BFF] opacity-60"}
         `}
       >
         Next

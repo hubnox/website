@@ -96,6 +96,7 @@ const EventDetailsPage: React.FC<Props> = ({
     <>
       {isModalOpen && (
         <TicketModal
+          eventId={eventId}
           onClose={() => setIsModalOpen(false)}
           image={event.thumbnail?.url || "/fallback-image.png"}
           title={event.name}
