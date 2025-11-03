@@ -11,7 +11,7 @@ export const apiSlice = createApi({
       return headers;
     },
   }),
-  tagTypes: ['Creators', 'Events', 'AboutUs'],
+   tagTypes: ['Creators', 'Events', 'AboutUs', 'EventTickets'],
   endpoints: (builder) => ({
     getEvents: builder.query({
       queryFn: async () => {
