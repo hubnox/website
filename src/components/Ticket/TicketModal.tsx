@@ -5,6 +5,8 @@ import TicketStep2, { TicketOption } from "./TicketStep2";
 import TicketStep3 from "./TicketStep3";
 import DownloadPopup from "../DownloadPopup";
 import { useGetTicketsByEventIdQuery } from "../../app/eventsApi";
+import { Elements } from "@stripe/react-stripe-js";
+import { stripePromise } from "./stripe";
 
 interface TicketModalProps {
   onClose: () => void;
@@ -122,12 +124,16 @@ const TicketModal: React.FC<TicketModalProps> = ({
             </div>
           )}
           {step === 3 && selectedTicket && (
-            <TicketStep3
-              // onBuy={onClose}
-              ticketName={selectedTicket.title}
-              ticketPriceLabel={selectedTicket.price}
-              subtotal={parseFloat(selectedTicket.price.replace(/[^\d.]/g, ""))}
-            />
+            <Elements stripe={stripePromise}>
+              <TicketStep3
+                ticketName={selectedTicket.title}
+                ticketPriceLabel={selectedTicket.price}
+                subtotal={parseFloat(selectedTicket.price.replace(/[^\d.]/g, ""))}
+                onClose={onClose}
+                setStep={setStep}
+                totalTickets={selectedTicket.amount}
+              />
+            </Elements>
           )}
         </div>
       )}

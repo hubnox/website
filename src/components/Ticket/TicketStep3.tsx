@@ -2,22 +2,24 @@ import React, { useState, useMemo, useEffect } from "react";
 import CheckIcon from "../../assets/icons/tickets/check.svg";
 import SpinnerIcon from "../../assets/icons/tickets/Spinner.svg";
 import PaymentResultModal from "./PaymentResultModal";
+import { useStripe, useElements } from "@stripe/react-stripe-js";
+import PaymentModal from "./PaymentModal";
 interface TicketStep3Props {
-  onBuy?: () => void;
   subtotal?: number;
-  paymentFee?: number;
-  platformFee?: number;
   ticketName?: string;
   ticketPriceLabel?: string;
+  onClose?: () => void;
+  setStep?: (step: number) => void;
+  totalTickets?: number;
 }
 
 const TicketStep3: React.FC<TicketStep3Props> = ({
-  onBuy,
   subtotal = 25,
-  paymentFee = 5,
-  platformFee = 5,
   ticketName = "Early Bird",
   ticketPriceLabel = "$25.00 + Fees",
+  onClose,
+  setStep,
+  totalTickets = 0,
 }) => {
   const [count, setCount] = useState(1);
   const [discountCode, setDiscountCode] = useState("");
@@ -25,19 +27,15 @@ const TicketStep3: React.FC<TicketStep3Props> = ({
   const [isValid, setIsValid] = useState<boolean | null>(null);
   const [isChecking, setIsChecking] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
-  const maxCount = 5;
   const [isProcessing, setIsProcessing] = useState(false);
   const [showPaymentModal, setShowPaymentModal] = useState(false);
+  const [showResultModal, setShowResultModal] = useState(false);
+  const [paymentStatus, setPaymentStatus] = useState<"success" | "error" | "failed" | "unavailable" | null>(null);
 
+  const stripe = useStripe();
+  const elements = useElements();
   const handleMinus = () => count > 1 && setCount((prev) => prev - 1);
-  const handlePlus = () => count < maxCount && setCount((prev) => prev + 1);
-
-  const total = useMemo(() => {
-    const base = subtotal * count;
-    const totalFees = (paymentFee + platformFee) * count;
-    const discount = isDiscountApplied ? base * 0.1 : 0;
-    return base + totalFees - discount;
-  }, [subtotal, paymentFee, platformFee, count, isDiscountApplied]);
+  const handlePlus = () => count < totalTickets && setCount((prev) => prev + 1);
 
   const handleApplyDiscount = () => {
     setIsChecking(true);
@@ -57,15 +55,21 @@ const TicketStep3: React.FC<TicketStep3Props> = ({
       }
     }, 800);
   };
-  const handleBuyClick = () => {
+
+  const handleBuyClick = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!stripe || !elements) return;
+
     setIsProcessing(true);
 
-    setTimeout(() => {
-      setIsProcessing(false);
+    try {
       setShowPaymentModal(true);
-    }, 3000);
-
-    onBuy && onBuy();
+    } catch (err) {
+      console.error(err);
+      alert("Payment failed");
+    } finally {
+      setIsProcessing(false);
+    }
   };
 
   useEffect(() => {
@@ -79,6 +83,18 @@ const TicketStep3: React.FC<TicketStep3Props> = ({
 
   const isBuyDisabled =
     (discountCode.trim() && isValid === null) || isChecking;
+  const platformFeeAmount = useMemo(() => {
+    return subtotal > 0 ? subtotal * count * 0.04 : 0;
+  }, [subtotal, count]);
+
+  const paymentFeeAmount = useMemo(() => {
+    const basePlusPlatform = subtotal * count + platformFeeAmount;
+    return subtotal > 0 ? basePlusPlatform * 0.029 + 0.3 : 0;
+  }, [subtotal, count, platformFeeAmount]);
+
+  const total = useMemo(() => {
+    return subtotal * count + platformFeeAmount + paymentFeeAmount;
+  }, [subtotal, count, platformFeeAmount, paymentFeeAmount]);
 
   return (
     <div className="flex flex-col gap-[64px] text-white">
@@ -92,12 +108,29 @@ const TicketStep3: React.FC<TicketStep3Props> = ({
         </div>
       )}
       {showPaymentModal && (
-        <PaymentResultModal
-          onBack={() => setShowPaymentModal(false)}
-          onTryAgain={() => {
+        <PaymentModal
+          amount={total}
+          onClose={() => setShowPaymentModal(false)}
+          onResult={(status) => {
             setShowPaymentModal(false);
-            setIsProcessing(true);
-            setTimeout(() => setIsProcessing(false), 3000);
+            setPaymentStatus(status);
+            setShowResultModal(true);
+          }}
+        />
+      )}
+      {showResultModal && paymentStatus && (
+        <PaymentResultModal
+          status={paymentStatus}
+          onBack={() => setShowResultModal(false)}
+          onTryAgain={() => {
+            setShowResultModal(false);
+            setShowPaymentModal(true);
+          }}
+          onClose={onClose}
+          onBackToEvents={() => {
+            setStep?.(2);
+            setShowResultModal(false);
+            setShowPaymentModal(false);
           }}
         />
       )}
@@ -128,9 +161,8 @@ const TicketStep3: React.FC<TicketStep3Props> = ({
                 className="w-[40px] h-[40px] rounded-[4px] p-[4px] flex items-center justify-center bg-[#1B2334]"
               >
                 <span
-                  className={`text-[20px] leading-[20px] font-bold select-none ${
-                    count === 1 ? "text-[#98A2B3]" : "text-white"
-                  }`}
+                  className={`text-[20px] leading-[20px] font-bold select-none ${count === 1 ? "text-[#98A2B3]" : "text-white"
+                    }`}
                 >
                   –
                 </span>
@@ -142,13 +174,12 @@ const TicketStep3: React.FC<TicketStep3Props> = ({
 
               <button
                 onClick={handlePlus}
-                disabled={count === maxCount}
+                disabled={count === totalTickets}
                 className="w-[40px] h-[40px] rounded-[4px] p-[4px] flex items-center justify-center bg-[#1B2334]"
               >
                 <span
-                  className={`text-[20px] leading-[20px] font-bold select-none ${
-                    count === maxCount ? "text-[#98A2B3]" : "text-white"
-                  }`}
+                  className={`text-[20px] leading-[20px] font-bold select-none ${count === totalTickets ? "text-[#98A2B3]" : "text-white"
+                    }`}
                 >
                   +
                 </span>
@@ -161,20 +192,16 @@ const TicketStep3: React.FC<TicketStep3Props> = ({
           <div className="w-[556px] h-[152px] bg-[#39405A] rounded-[8px] p-[8px] flex flex-col gap-[4px]">
             <div className="w-[540px] flex flex-col gap-[8px]">
               {[
-                { label: "Subtotal:", value: subtotal },
-                { label: "Payment fee:", value: paymentFee },
-                { label: "Platform fee:", value: platformFee },
+                { label: "Subtotal:", value: subtotal * count },
+                ...(platformFeeAmount > 0 ? [{ label: "Platform fee:", value: platformFeeAmount }] : []),
+                ...(paymentFeeAmount > 0 ? [{ label: "Payment fee:", value: paymentFeeAmount }] : []),
               ].map(({ label, value }) => (
                 <div
                   key={label}
                   className="flex justify-between items-center w-[540px] h-[28px] pb-[4px] border-b border-[#475069]"
                 >
-                  <span className="font-dmSans text-[16px] text-[#D0D5DD]">
-                    {label}
-                  </span>
-                  <span className="font-dmSans text-[16px] font-bold text-white">
-                    ${(value * count).toFixed(2)}
-                  </span>
+                  <span className="font-dmSans text-[16px] text-[#D0D5DD]">{label}</span>
+                  <span className="font-dmSans text-[16px] font-bold text-white">${value.toFixed(2)}</span>
                 </div>
               ))}
             </div>
