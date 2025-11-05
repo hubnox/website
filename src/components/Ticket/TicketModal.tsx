@@ -132,6 +132,9 @@ const TicketModal: React.FC<TicketModalProps> = ({
                 onClose={onClose}
                 setStep={setStep}
                 totalTickets={selectedTicket.amount}
+                email={email}
+                eventId={eventId}
+                ticketTypeId={selectedTicket.id.toString()}
               />
             </Elements>
           )}

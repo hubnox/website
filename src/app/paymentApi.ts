@@ -23,7 +23,18 @@ export const paymentApi = apiSlice.injectEndpoints({
         body,
       }),
     }),
+
+    saveUserTicketAfterPayment: builder.mutation({
+      query: (body) => ({
+        url: "/functions/saveUserTicketAfterPayment",
+        method: "POST",
+        body,
+      }),
+    }),
   }),
 });
 
-export const { useCreatePaymentIntentMutation } = paymentApi;
+export const {
+  useCreatePaymentIntentMutation,
+  useSaveUserTicketAfterPaymentMutation,
+} = paymentApi;

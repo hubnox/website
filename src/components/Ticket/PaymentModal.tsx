@@ -7,20 +7,24 @@ import {
   CardCvcElement,
 } from "@stripe/react-stripe-js";
 import SpinnerIcon from "../../assets/icons/tickets/Spinner.svg";
-import { useCreatePaymentIntentMutation } from "../../app/paymentApi";
+import { useCreatePaymentIntentMutation, useSaveUserTicketAfterPaymentMutation } from "../../app/paymentApi";
 
 interface PaymentModalProps {
   onClose: () => void;
   onResult: (status: "success" | "error" | "unavailable" | "failed") => void;
   amount: number;
+  email?: string;
+  eventId?: string;
+  ticketTypeId?: string;
 }
 
-const PaymentModal: React.FC<PaymentModalProps> = ({ amount, onResult, onClose }) => {
+const PaymentModal: React.FC<PaymentModalProps> = ({ amount, onResult, onClose, email, eventId, ticketTypeId }) => {
   const stripe = useStripe();
   const elements = useElements();
   const [isProcessing, setIsProcessing] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
   const [createPaymentIntent] = useCreatePaymentIntentMutation();
+  const [saveUserTicketAfterPayment] = useSaveUserTicketAfterPaymentMutation();
 
   const handlePay = async () => {
     if (!stripe || !elements) return;
@@ -44,7 +48,20 @@ const PaymentModal: React.FC<PaymentModalProps> = ({ amount, onResult, onClose }
       if (error) {
         setErrorMsg(error.message || "Payment failed");
       } else if (paymentIntent?.status === "succeeded") {
-        onResult("success");
+        try {
+          await saveUserTicketAfterPayment({
+            email: email,
+            eventId: eventId,
+            ticketTypeId: ticketTypeId,
+            ticketPrice: amount,
+            transactionId: paymentIntent.id,
+          }).unwrap();
+
+          onResult("success");
+        } catch (err) {
+          console.error("Error saving ticket:", err);
+          setErrorMsg("Payment succeeded, but ticket save failed");
+        }
       }
     } catch (err) {
       console.error(err);

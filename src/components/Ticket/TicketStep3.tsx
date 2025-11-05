@@ -11,6 +11,9 @@ interface TicketStep3Props {
   onClose?: () => void;
   setStep?: (step: number) => void;
   totalTickets?: number;
+  email?: string;
+  eventId?: string;
+  ticketTypeId?: string;
 }
 
 const TicketStep3: React.FC<TicketStep3Props> = ({
@@ -20,6 +23,9 @@ const TicketStep3: React.FC<TicketStep3Props> = ({
   onClose,
   setStep,
   totalTickets = 0,
+  email,
+  eventId,
+  ticketTypeId,
 }) => {
   const [count, setCount] = useState(1);
   const [discountCode, setDiscountCode] = useState("");
@@ -116,6 +122,9 @@ const TicketStep3: React.FC<TicketStep3Props> = ({
             setPaymentStatus(status);
             setShowResultModal(true);
           }}
+          email={email}
+          eventId={eventId}
+          ticketTypeId={ticketTypeId}
         />
       )}
       {showResultModal && paymentStatus && (
