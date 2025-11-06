@@ -6,6 +6,7 @@ export interface TicketOption {
   description: string;
   price: string;
   soldOut?: boolean;
+  amount?: number;
 }
 
 interface TicketStep2Props {
