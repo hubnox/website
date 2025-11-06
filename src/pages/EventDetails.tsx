@@ -5,11 +5,12 @@ import Loader from "../components/Loader";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "/node_modules/swiper/swiper-bundle.min.css";
 import { Navigation, Pagination } from "swiper/modules";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
 
 import DownloadHubnoxBanner from "../components/DownloadHubnox";
 import DownloadPopup from "../components/DownloadPopup";
+import TicketModal from "../components/Ticket/TicketModal";
 
 interface Props {
   handlePopupToggle: () => void;
@@ -22,7 +23,7 @@ const EventDetailsPage: React.FC<Props> = ({
 }) => {
   const { eventId } = useParams<{ eventId: string }>();
   const { data, error, isLoading } = useGetEventsQuery();
-
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const DEFAULT_OG_IMAGE = "/favicon.ico";
 
   useEffect(() => {
@@ -93,6 +94,17 @@ const EventDetailsPage: React.FC<Props> = ({
 
   return (
     <>
+      {isModalOpen && (
+        <TicketModal
+          eventId={eventId}
+          onClose={() => setIsModalOpen(false)}
+          image={event.thumbnail?.url || "/fallback-image.png"}
+          title={event.name}
+          date={`${new Date(event.startDateAndTime.iso).toLocaleString()} - ${new Date(event.endDateAndTime.iso).toLocaleString()}`}
+          location={event.location || "Unknown location"}
+        />
+      )}
+
       <Helmet>
         <title>{event.name} | Hubnox</title>
         <meta name="description" content={event.description} />
@@ -137,6 +149,15 @@ const EventDetailsPage: React.FC<Props> = ({
                     className="w-full h-full object-cover transition-transform hover:scale-105 min-h-[300px]"
                   />
                 </div>
+                <button
+                  onClick={() => setIsModalOpen(true)}
+                  className="
+                  w-full max-w-[756px] h-13 rounded-lg border 
+                  border-[#3C5BFF] bg-[#3C5BFF] text-white font-bold
+                  text-lg leading-[20px] text-center py-4 px-4 
+                  hover:bg-blue-600 transition-colors mt-2 mb-6">
+                  Buy tickets
+                </button>
                 <p className="w-full text-lg overflow-hidden text-ellipsis whitespace-pre-wrap break-words">
                   {event.description.trim().replace(/\n{2,}/g, "\n\n")}
                 </p>

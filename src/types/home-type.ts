@@ -7,6 +7,7 @@ export interface Creator {
   tagLine: string;
   isShowOnWeb: boolean;
   instagramLink: string;
+  location?: string;
   image: {
     url: string;
   };

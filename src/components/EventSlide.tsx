@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useGetCreatorsQuery } from "../app/creatorsApi";
 import Loader from "./Loader";
 import { Creator } from "../types";
+import TicketModal from "./Ticket/TicketModal";
 
 interface EventProps {
   objectId: string;
@@ -33,7 +34,7 @@ const EventSlide: React.FC<EventProps> = ({
   if (error) return <p>Error loading events.</p>;
 
   const creators = data?.results || [];
-
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const creator = creators.find((c: Creator) => c.objectId === creatorId);
 
   const formatDate = (date: string) => {
@@ -47,6 +48,16 @@ const EventSlide: React.FC<EventProps> = ({
 
   return (
     <div className="flex flex-col bg-slate-900 text-white rounded-lg shadow-lg overflow-hidden h-full profiles__item l:min-h-[540px] ">
+      {isModalOpen && (
+        <TicketModal
+          eventId={objectId} 
+          onClose={() => setIsModalOpen(false)}
+          image={thumbnail.url}
+          title={name}
+          date={`${formatDate(startDate)} - ${formatDate(endDate)}`}
+          location={creator?.location || "Unknown location"}
+        />
+      )}
       <div className="relative w-full profiles__img ">
         <Link to={`/event/${objectId}`}>
           <img
@@ -70,6 +81,16 @@ const EventSlide: React.FC<EventProps> = ({
         <p className="text-gray-300 text-sm flex-grow">
           {truncateText(description, 35)}
         </p>
+        
+        <button
+          onClick={() => setIsModalOpen(true)}
+          className="
+        w-full max-w-[357px] h-13 rounded-lg border 
+        border-[#3C5BFF] bg-[#3C5BFF] text-white font-bold
+         text-lg leading-[20px] text-center py-4 px-4 
+         hover:bg-blue-600 transition-colors mt-4">
+          Buy tickets
+        </button>
 
         <div className="mt-4 flex items-center justify-between">
           <div className="flex items-center">
