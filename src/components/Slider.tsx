@@ -167,6 +167,7 @@ const EventSlider: React.FC = () => {
                 endDate={event.endDateAndTime.iso}
                 creatorId={event.creatorId}
                 objectId={event.objectId}
+                location={event.location}
               />
             </SwiperSlide>
           ))}

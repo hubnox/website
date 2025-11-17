@@ -13,6 +13,7 @@ interface EventProps {
   startDate: string;
   endDate: string;
   creatorId: string;
+  location?: string;
 }
 
 const truncateText = (text: string, maxLength: number) => {
@@ -27,6 +28,7 @@ const EventSlide: React.FC<EventProps> = ({
   startDate,
   endDate,
   creatorId,
+  location,
 }) => {
   const { data, error, isLoading } = useGetCreatorsQuery();
 
@@ -47,7 +49,7 @@ const EventSlide: React.FC<EventProps> = ({
   };
 
   return (
-    <div className="flex flex-col bg-slate-900 text-white rounded-lg shadow-lg overflow-hidden h-full profiles__item l:min-h-[540px] ">
+    <div className="flex flex-col p-4 bg-slate-900 text-white rounded-lg shadow-lg overflow-hidden h-full profiles__item l:min-h-[540px] ">
       {isModalOpen && (
         <TicketModal
           eventId={objectId} 
@@ -55,20 +57,20 @@ const EventSlide: React.FC<EventProps> = ({
           image={thumbnail.url}
           title={name}
           date={`${formatDate(startDate)} - ${formatDate(endDate)}`}
-          location={creator?.location || "Unknown location"}
+          location={location || "Unknown location"}
         />
       )}
-      <div className="relative w-full profiles__img ">
+      <div className="relative w-full profiles__img max-h-[278px] ">
         <Link to={`/event/${objectId}`}>
           <img
             src={thumbnail.url}
             alt={name}
-            className="w-full h-full object-cover transition-transform hover:scale-105 min-h-[300px]"
+            className="w-full h-full object-cover transition-transform hover:scale-105 rounded-lg "
           />
         </Link>
       </div>
 
-      <div className="p-4 flex flex-col flex-grow pt-0">
+      <div className="flex flex-col flex-grow pt-0">
         <div className="data">
           <p className="text-lg">{`${formatDate(startDate)} - ${formatDate(
             endDate
@@ -88,11 +90,11 @@ const EventSlide: React.FC<EventProps> = ({
         w-full max-w-[357px] h-13 rounded-lg border 
         border-[#3C5BFF] bg-[#3C5BFF] text-white font-bold
          text-lg leading-[20px] text-center py-4 px-4 
-         hover:bg-blue-600 transition-colors mt-4">
+         hover:bg-blue-600 transition-colors mt-[22px] mb-[42px]">
           Buy tickets
         </button>
 
-        <div className="mt-4 flex items-center justify-between">
+        <div className="flex items-center justify-between">
           <div className="flex items-center">
             {creator?.image?.url && (
               <div className="w-8 h-8 rounded-full overflow-hidden">
