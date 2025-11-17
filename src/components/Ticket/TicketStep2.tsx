@@ -30,7 +30,7 @@ const TicketStep2: React.FC<TicketStep2Props> = ({ tickets, onNext }) => {
   };
 
   return (
-    <div className="flex flex-col gap-[24px] w-[556px]">
+    <div className="flex flex-col gap-[64px] w-[556px]">
       <div className="flex flex-col gap-3 w-[556px] h-[456px]">
         <h2 className="font-dm-sans font-bold text-[16px] leading-[20px] text-white">
           Please, choose a ticket type.
@@ -55,27 +55,36 @@ const TicketStep2: React.FC<TicketStep2Props> = ({ tickets, onNext }) => {
                   }`}
               >
                 {isSoldOut && (
-                  <div className="absolute top-0 right-0 flex items-center gap-1 bg-[#EE46BC] rounded-sm px-2 py-1 w-[82px] h-[28px]">
-                    <AlertIcon />
+                  <div className="absolute top-0 right-0 flex items-center gap-1 bg-[#EE46BC] rounded-sm px-1.5 py-1 h-[28px] w-[82px]">
+                    <div className="h-[16px] w-[16px] flex items-center justify-center">
+                      <AlertIcon size={16} />
+                    </div>
+
                     <span className="text-white font-dm-sans font-semibold text-[12px] leading-[20px] whitespace-nowrap">
                       Sold Out
                     </span>
                   </div>
                 )}
-                <div
-                  className={`w-6 h-6 flex items-center justify-center rounded-full border-2
+
+                {!isSoldOut ? (
+                  <div
+                    className={`w-5 h-5 m-[2px] flex items-center justify-center rounded-full border-2
                     ${isSoldOut
-                      ? "border-[#6B7280]"
-                      : isSelected
-                        ? "border-[#3C5BFF]"
-                        : "border-[#D0D5DD]"
-                    }
+                        ? "border-[#6B7280]"
+                        : isSelected
+                          ? "border-[#3C5BFF]"
+                          : "border-[#D0D5DD]"
+                      }
                   `}
-                >
-                  {isSelected && !isSoldOut && (
-                    <div className="w-3 h-3 bg-[#3C5BFF] rounded-full"></div>
-                  )}
-                </div>
+                  >
+                    {isSelected && (
+                      <div className="w-3 h-3 bg-[#3C5BFF] rounded-full"></div>
+                    )}
+                  </div>
+                ) : (
+                  <div className={`w-5 h-5 m-[2px] flex items-center justify-center rounded-full`} />
+                )}
+
 
                 <div className="flex flex-col justify-between gap-1 w-[506px] h-[84px]">
                   <span className="font-dm-sans font-bold text-[16px] leading-[22px] text-white">
@@ -85,7 +94,7 @@ const TicketStep2: React.FC<TicketStep2Props> = ({ tickets, onNext }) => {
                     {ticket.description}
                   </p>
                   <p className="font-inter text-white text-[14px] leading-[20px]">
-                    <span className="font-bold">{ticket.price}</span>{" "}
+                    <span className="font-bold">from {ticket.price}</span>{" "}
                     <span className="font-medium">+ Fees</span>
                   </p>
                 </div>

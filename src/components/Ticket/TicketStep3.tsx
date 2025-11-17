@@ -102,6 +102,13 @@ const TicketStep3: React.FC<TicketStep3Props> = ({
     return subtotal * count + platformFeeAmount + paymentFeeAmount;
   }, [subtotal, count, platformFeeAmount, paymentFeeAmount]);
 
+  const formatPrice = (priceStr: string) => {
+    const numeric = priceStr.replace(/[^\d.]/g, "");
+    if (!numeric) return "$0.00";
+
+    const number = parseFloat(numeric);
+    return `$${number.toFixed(2)}`;
+  };
   return (
     <div className="flex flex-col gap-[64px] text-white">
       {isProcessing && (
@@ -159,7 +166,7 @@ const TicketStep3: React.FC<TicketStep3Props> = ({
                 {ticketName}
               </span>
               <span className="font-dmSans font-semibold text-[16px] leading-[20px] text-white">
-                ({ticketPriceLabel})
+                ({formatPrice(ticketPriceLabel)} + Fees)
               </span>
             </div>
 
@@ -237,7 +244,7 @@ const TicketStep3: React.FC<TicketStep3Props> = ({
               >
                 <input
                   type="text"
-                  placeholder="Enter discount code"
+                  placeholder="Enter code"
                   value={discountCode}
                   onChange={(e) => setDiscountCode(e.target.value)}
                   className={`w-full h-[44px] rounded-[8px] px-[14px] py-[10px] bg-[#39405A] text-white placeholder-[#D0D5DD] outline-none pr-[36px] ${isValid === true ? "border border-[#12B76A]" : ""
