@@ -95,7 +95,7 @@ const TicketStep1: React.FC<TicketStep1Props> = ({ email, onEmailChange, onNext,
               onChange={(e) => onEmailChange(e.target.value)}
               onFocus={() => setIsFocused(true)}
               onBlur={() => setIsFocused(false)}
-              className={`w-full h-full rounded-lg pl-[43px] pr-12 text-white placeholder-[#D0D5DD] outline-none bg-[#39405A] ${getBorderClass()}  focus:placeholder-transparent`}
+              className={`w-full h-full rounded-lg pl-[43px] pr-12 text-white placeholder-[#D0D5DD] font-normal outline-none bg-[#39405A] ${getBorderClass()}  focus:placeholder-transparent`}
             />
           </div>
 
@@ -115,14 +115,14 @@ const TicketStep1: React.FC<TicketStep1Props> = ({ email, onEmailChange, onNext,
             <p className="text-[#F97066] mt-1.5 text-sm">Please enter a valid email address</p>
           )}
         </div>
-        <p className="text-[16px] leading-[24px] text-[#D0D5DD]">
+        <p className="text-[16px] leading-[24px] text-[#D0D5DD] font-normal">
           To purchase a ticket, please enter the email registered in the app.
           The purchased ticket will appear in your app profile.
         </p>
       </div>
 
       <div className="flex flex-col gap-[22px]">
-        <p className="text-[14px] leading-[22px] text-[#D0D5DD]">
+        <p className="text-[14px] leading-[22px] text-[#D0D5DD] font-normal">
           Don’t have an account? {" "}
           <span className="font-bold underline text-[#EE46BC] cursor-pointer" onClick={onDownload}>
             Download the App

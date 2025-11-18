@@ -4,6 +4,8 @@ import SpinnerIcon from "../../assets/icons/tickets/Spinner.svg";
 import PaymentResultModal from "./PaymentResultModal";
 import { useStripe, useElements } from "@stripe/react-stripe-js";
 import PaymentModal from "./PaymentModal";
+import { apiSlice } from "../../app/apiSlice";
+
 interface TicketStep3Props {
   subtotal?: number;
   ticketName?: string;
@@ -42,24 +44,37 @@ const TicketStep3: React.FC<TicketStep3Props> = ({
   const elements = useElements();
   const handleMinus = () => count > 1 && setCount((prev) => prev - 1);
   const handlePlus = () => count < totalTickets && setCount((prev) => prev + 1);
+  const [getDiscountByCode, { isFetching }] =
+    apiSlice.endpoints.getDiscountByCode.useLazyQuery();
 
-  const handleApplyDiscount = () => {
-    setIsChecking(true);
+  const handleApplyDiscount = async () => {
     setErrorMsg("");
+    setIsChecking(true);
 
-    setTimeout(() => {
-      setIsChecking(false);
+    try {
+      const result = await getDiscountByCode(discountCode).unwrap();
+      const discount = result.results?.[0];
 
-      if (discountCode.trim().toLowerCase() === "test123") {
-        setIsValid(true);
-        setIsDiscountApplied(true);
-        setErrorMsg("");
-      } else {
+      if (!discount) {
         setIsValid(false);
-        setIsDiscountApplied(false);
-        setErrorMsg("This discount code has expired.");
+        setErrorMsg("No such discount code exists.");
+        return;
       }
-    }, 800);
+
+      if (discount.eventId !== eventId) {
+        setIsValid(false);
+        setErrorMsg("This discount code does not apply to this event.");
+        return;
+      }
+
+      setIsValid(true);
+      setIsDiscountApplied(true);
+    } catch (err) {
+      setIsValid(false);
+      setErrorMsg("Error fetching discount code.");
+    } finally {
+      setIsChecking(false);
+    }
   };
 
   const handleBuyClick = async (e: React.FormEvent) => {
@@ -111,7 +126,7 @@ const TicketStep3: React.FC<TicketStep3Props> = ({
   };
   return (
     <div className="flex flex-col gap-[64px] text-white">
-      {isProcessing && (
+      {isProcessing || isFetching && (
         <div className="fixed inset-0 z-40 flex items-center justify-center bg-black/40 backdrop-blur-sm">
           <img
             src={SpinnerIcon}
@@ -263,8 +278,9 @@ const TicketStep3: React.FC<TicketStep3Props> = ({
                 <button
                   onClick={handleApplyDiscount}
                   disabled={isApplyDisabled}
-                  className={`w-[80px] h-[44px] rounded-[8px] px-[14px] py-[6px] font-dmSans text-[14px] font-medium text-white transition-all duration-200 ${isApplyDisabled ? "bg-[#EE46BC80]" : "bg-[#EE46BC]"
-                    }`}
+                  className={`w-[80px] h-[44px] rounded-[8px] px-[14px] py-[6px] font-dmSans text-[14px] font-medium transition-all duration-200
+                    ${isApplyDisabled ? "bg-[#EE46BC80] text-[#8d919a]" : "bg-[#EE46BC] text-white"}
+                  `}
                 >
                   Apply
                 </button>
@@ -296,7 +312,7 @@ const TicketStep3: React.FC<TicketStep3Props> = ({
           <button
             onClick={handleBuyClick}
             disabled={isBuyDisabled}
-            className={`w-[524px] h-[52px] rounded-lg px-[18px] py-[16px] font-dmSans font-bold text-[16px] text-white shadow-[0px_1px_2px_0px_#1018280D] ${isBuyDisabled ? "bg-[#3C5BFF80]" : "bg-[#3C5BFF]"
+            className={`w-[524px] h-[52px] rounded-lg px-[18px] py-[16px] font-dmSans font-bold text-[16px] text-white shadow-[0px_1px_2px_0px_#1018280D] ${isBuyDisabled ? "bg-[#3C5BFF80] text-[#8d919a]" : "bg-[#3C5BFF] text-white"
               }`}
           >
             Buy now

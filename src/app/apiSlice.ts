@@ -86,6 +86,57 @@ export const apiSlice = createApi({
       },
       providesTags: ['Creators'],
     }),
+
+    getDiscountByCode: builder.query({
+      queryFn: async (discountCode) => {
+        try {
+          console.log(`Searching discount by code: "${discountCode}"`);
+
+          if (
+            !import.meta.env.VITE_PARSE_SERVER_URL ||
+            !import.meta.env.VITE_PARSE_APP_ID
+          ) {
+            console.warn("Parse ENV missing — returning empty discounts");
+            return { data: { results: [] } };
+          }
+
+          const where = encodeURIComponent(
+            JSON.stringify({ discountCode })
+          );
+
+          const response = await fetch(
+            `${import.meta.env.VITE_PARSE_SERVER_URL}classes/Discounts?where=${where}`,
+            {
+              method: "GET",
+              headers: {
+                "X-Parse-Application-Id": import.meta.env.VITE_PARSE_APP_ID,
+                "X-Parse-JavaScript-Key": import.meta.env.VITE_PARSE_JS_KEY || "",
+                "Content-Type": "application/json",
+              },
+            }
+          );
+
+          if (!response.ok) {
+            console.log("Discount API error:", response.status, response.statusText);
+            throw new Error(`API request failed: ${response.status}`);
+          }
+
+          const data = await response.json();
+          console.log(
+            "Discount search results:",
+            data.results?.length || 0
+          );
+
+          return { data };
+        } catch (error) {
+          console.log(`Discount API failed for code="${discountCode}"`, error);
+          return { data: { results: [] } };
+        }
+      },
+    }),
+
   }),
 });
-
+export const {
+  useGetDiscountByCodeQuery,
+} = apiSlice;
