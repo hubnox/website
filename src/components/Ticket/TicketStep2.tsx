@@ -29,6 +29,14 @@ const TicketStep2: React.FC<TicketStep2Props> = ({ tickets, onNext }) => {
     }
   };
 
+  const formatPrice = (priceStr: string) => {
+    const numeric = priceStr.replace(/[^\d.]/g, "");
+    if (!numeric) return "$0.00";
+
+    const number = parseFloat(numeric);
+    return `$${number.toFixed(2)}`;
+  };
+
   return (
     <div className="flex flex-col gap-[64px] w-[556px]">
       <div className="flex flex-col gap-3 w-[556px] h-[456px]">
@@ -94,7 +102,7 @@ const TicketStep2: React.FC<TicketStep2Props> = ({ tickets, onNext }) => {
                     {ticket.description}
                   </p>
                   <p className="font-inter text-white text-[14px] leading-[20px]">
-                    <span className="font-bold">from {ticket.price}</span>{" "}
+                    <span className="font-bold">from {formatPrice(ticket.price)} </span>{" "}
                     <span className="font-medium">+ Fees</span>
                   </p>
                 </div>

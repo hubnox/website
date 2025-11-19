@@ -22,7 +22,6 @@ const PaymentModal: React.FC<PaymentModalProps> = ({ amount, onResult, onClose, 
   const stripe = useStripe();
   const elements = useElements();
   const [isProcessing, setIsProcessing] = useState(false);
-  const [errorMsg, setErrorMsg] = useState("");
   const [createPaymentIntent] = useCreatePaymentIntentMutation();
   const [saveUserTicketAfterPayment] = useSaveUserTicketAfterPaymentMutation();
 
@@ -30,7 +29,6 @@ const PaymentModal: React.FC<PaymentModalProps> = ({ amount, onResult, onClose, 
     if (!stripe || !elements) return;
 
     setIsProcessing(true);
-    setErrorMsg("");
 
     try {
       const res = await createPaymentIntent({ amount: Math.round(amount * 100) }).unwrap();
@@ -46,7 +44,7 @@ const PaymentModal: React.FC<PaymentModalProps> = ({ amount, onResult, onClose, 
       });
 
       if (error) {
-        setErrorMsg(error.message || "Payment failed");
+        onResult("failed");
       } else if (paymentIntent?.status === "succeeded") {
         try {
           await saveUserTicketAfterPayment({
@@ -60,17 +58,16 @@ const PaymentModal: React.FC<PaymentModalProps> = ({ amount, onResult, onClose, 
           onResult("success");
         } catch (err) {
           console.error("Error saving ticket:", err);
-          setErrorMsg("Payment succeeded, but ticket save failed");
+          onResult("error");
         }
       }
     } catch (err) {
       console.error(err);
-      setErrorMsg("Payment failed");
+      onResult("failed");
     } finally {
       setIsProcessing(false);
     }
   };
-
 
   const elementStyle = {
     style: {
@@ -114,8 +111,6 @@ const PaymentModal: React.FC<PaymentModalProps> = ({ amount, onResult, onClose, 
             <CardCvcElement options={elementStyle} />
           </div>
         </div>
-
-        {errorMsg && <p className="text-red-500 text-center text-sm">{errorMsg}</p>}
 
         <div className="flex gap-[8px] w-full mt-2">
           <button

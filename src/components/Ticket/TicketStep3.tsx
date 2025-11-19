@@ -4,6 +4,8 @@ import SpinnerIcon from "../../assets/icons/tickets/Spinner.svg";
 import PaymentResultModal from "./PaymentResultModal";
 import { useStripe, useElements } from "@stripe/react-stripe-js";
 import PaymentModal from "./PaymentModal";
+import { apiSlice } from "../../app/apiSlice";
+
 interface TicketStep3Props {
   subtotal?: number;
   ticketName?: string;
@@ -42,24 +44,30 @@ const TicketStep3: React.FC<TicketStep3Props> = ({
   const elements = useElements();
   const handleMinus = () => count > 1 && setCount((prev) => prev - 1);
   const handlePlus = () => count < totalTickets && setCount((prev) => prev + 1);
+  const [applyDiscount, { isLoading }] = apiSlice.endpoints.getDiscountByCode.useMutation();
 
-  const handleApplyDiscount = () => {
+  const [appliedDiscountAmount, setAppliedDiscountAmount] = useState(0);
+
+  const handleApplyDiscount = async () => {
     setIsChecking(true);
     setErrorMsg("");
-
-    setTimeout(() => {
-      setIsChecking(false);
-
-      if (discountCode.trim().toLowerCase() === "test123") {
-        setIsValid(true);
-        setIsDiscountApplied(true);
-        setErrorMsg("");
-      } else {
+    try {
+      const result = await applyDiscount({ discountCode, eventId, ticketQuantity: count }).unwrap();
+      if (!result?.discount) {
         setIsValid(false);
-        setIsDiscountApplied(false);
         setErrorMsg("This discount code has expired.");
+        return;
       }
-    }, 800);
+
+      setIsDiscountApplied(true);
+      setIsValid(true);
+      setAppliedDiscountAmount(result.discountedAmount || 0);
+    } catch (err) {
+      setIsValid(false);
+      setErrorMsg("This discount code has expired.");
+    } finally {
+      setIsChecking(false);
+    }
   };
 
   const handleBuyClick = async (e: React.FormEvent) => {
@@ -72,7 +80,6 @@ const TicketStep3: React.FC<TicketStep3Props> = ({
       setShowPaymentModal(true);
     } catch (err) {
       console.error(err);
-      alert("Payment failed");
     } finally {
       setIsProcessing(false);
     }
@@ -89,18 +96,29 @@ const TicketStep3: React.FC<TicketStep3Props> = ({
 
   const isBuyDisabled =
     (discountCode.trim() && isValid === null) || isChecking;
+
+  const totalBeforeDiscount = useMemo(() => subtotal * count, [subtotal, count]);
+
+  const subtotalBeforeDiscount = useMemo(() => subtotal * count, [subtotal, count]);
+
   const platformFeeAmount = useMemo(() => {
-    return subtotal > 0 ? subtotal * count * 0.04 : 0;
-  }, [subtotal, count]);
+    return subtotalBeforeDiscount * 0.04;
+  }, [subtotalBeforeDiscount]);
 
   const paymentFeeAmount = useMemo(() => {
-    const basePlusPlatform = subtotal * count + platformFeeAmount;
-    return subtotal > 0 ? basePlusPlatform * 0.029 + 0.3 : 0;
-  }, [subtotal, count, platformFeeAmount]);
+    return subtotalBeforeDiscount * 0.029 + 0.3 + platformFeeAmount;
+  }, [subtotalBeforeDiscount, platformFeeAmount]);
+
+  const discountAmount = useMemo(() => {
+    if (!isDiscountApplied || !appliedDiscountAmount) return 0;
+    return appliedDiscountAmount;
+  }, [isDiscountApplied, appliedDiscountAmount]);
 
   const total = useMemo(() => {
-    return subtotal * count + platformFeeAmount + paymentFeeAmount;
-  }, [subtotal, count, platformFeeAmount, paymentFeeAmount]);
+    const discountedSubtotal = subtotalBeforeDiscount - discountAmount;
+    const safeSubtotal = Math.max(discountedSubtotal, 0);
+    return safeSubtotal + platformFeeAmount + paymentFeeAmount;
+  }, [subtotalBeforeDiscount, discountAmount, platformFeeAmount, paymentFeeAmount]);
 
   const formatPrice = (priceStr: string) => {
     const numeric = priceStr.replace(/[^\d.]/g, "");
@@ -111,7 +129,7 @@ const TicketStep3: React.FC<TicketStep3Props> = ({
   };
   return (
     <div className="flex flex-col gap-[64px] text-white">
-      {isProcessing && (
+      {(isProcessing || isLoading) && (
         <div className="fixed inset-0 z-40 flex items-center justify-center bg-black/40 backdrop-blur-sm">
           <img
             src={SpinnerIcon}
@@ -151,8 +169,8 @@ const TicketStep3: React.FC<TicketStep3Props> = ({
         />
       )}
 
-      <div className="w-[556px] h-[350px] flex flex-col gap-[24px]">
-        <div className="w-[556px] h-[88px] flex flex-col gap-[12px]">
+      <div className="w-[556px] flex flex-col gap-[24px]">
+        <div className="flex flex-col gap-[12px]">
           <span className="font-dmSans font-bold text-[16px] leading-[20px] text-white">
             Please, select number of tickets
           </span>
@@ -204,38 +222,44 @@ const TicketStep3: React.FC<TicketStep3Props> = ({
           </div>
         </div>
 
-        <div className="w-[556px] h-[238px] flex flex-col justify-between">
-          <div className="w-[556px] h-[152px] bg-[#39405A] rounded-[8px] p-[8px] flex flex-col gap-[4px]">
+        <div className="flex flex-col gap-[12px]">
+          <div className="bg-[#39405A] rounded-[8px] p-[8px] flex flex-col gap-[4px]">
             <div className="w-[540px] flex flex-col gap-[8px]">
-              {[
-                { label: "Subtotal:", value: subtotal * count },
-                ...(platformFeeAmount > 0 ? [{ label: "Platform fee:", value: platformFeeAmount }] : []),
-                ...(paymentFeeAmount > 0 ? [{ label: "Payment fee:", value: paymentFeeAmount }] : []),
-              ].map(({ label, value }) => (
-                <div
-                  key={label}
-                  className="flex justify-between items-center w-[540px] h-[28px] pb-[4px] border-b border-[#475069]"
-                >
-                  <span className="font-dmSans text-[16px] text-[#D0D5DD]">{label}</span>
-                  <span className="font-dmSans text-[16px] font-bold text-white">${value.toFixed(2)}</span>
+
+              <div className="flex justify-between items-center w-full h-[28px] pb-[4px] border-b border-[#475069]">
+                <span className="font-dmSans text-[16px] text-[#D0D5DD]">Subtotal:</span>
+                <span className="font-dmSans text-[16px] font-bold text-white">${totalBeforeDiscount.toFixed(2)}</span>
+              </div>
+
+              {discountAmount > 0 && (
+                <div className="flex justify-between items-center w-full h-[28px] pb-[4px] border-b border-[#475069]">
+                  <span className="font-dmSans text-[16px] text-[#D0D5DD]">Discount:</span>
+                  <span className="font-dmSans text-[16px] font-bold text-[#EE46BC]">-${discountAmount.toFixed(2)}</span>
                 </div>
-              ))}
+              )}
+
+              <div className="flex justify-between items-center w-full h-[28px] pb-[4px] border-b border-[#475069]">
+                <span className="font-dmSans text-[16px] text-[#D0D5DD]">Platform fee:</span>
+                <span className="font-dmSans text-[16px] font-bold text-white">${platformFeeAmount.toFixed(2)}</span>
+              </div>
+
+
+
+              <div className="flex justify-between items-center w-full h-[28px] pb-[4px] border-b border-[#475069]">
+                <span className="font-dmSans text-[16px] text-[#D0D5DD]">Payment fee:</span>
+                <span className="font-dmSans text-[16px] font-bold text-white">${paymentFeeAmount.toFixed(2)}</span>
+              </div>
+
             </div>
 
-            <div className="w-[540px] h-[20px] flex justify-between items-center mt-[8px]">
-              <span className="font-dmSans text-[16px] text-[#D0D5DD]">
-                Total:
-              </span>
-              <span className="font-dmSans font-bold text-[16px] text-white">
-                ${total.toFixed(2)}
-              </span>
+            <div className="w-full h-[20px] flex justify-between items-center mt-[8px]">
+              <span className="font-dmSans text-[16px] text-[#D0D5DD]">Total:</span>
+              <span className="font-dmSans font-bold text-[16px] text-white">${total.toFixed(2)}</span>
             </div>
           </div>
 
           <div className="flex flex-col gap-[6px] relative">
-            <span className="font-dmSans text-[14px] text-white">
-              Discount
-            </span>
+            <span className="font-dmSans text-[14px] text-white">Discount</span>
 
             <div className="flex items-end justify-between gap-[8px] relative">
               <div
@@ -263,8 +287,9 @@ const TicketStep3: React.FC<TicketStep3Props> = ({
                 <button
                   onClick={handleApplyDiscount}
                   disabled={isApplyDisabled}
-                  className={`w-[80px] h-[44px] rounded-[8px] px-[14px] py-[6px] font-dmSans text-[14px] font-medium text-white transition-all duration-200 ${isApplyDisabled ? "bg-[#EE46BC80]" : "bg-[#EE46BC]"
-                    }`}
+                  className={`w-[80px] h-[44px] rounded-[8px] px-[14px] py-[6px] font-dmSans text-[14px] font-medium transition-all duration-200
+                    ${isApplyDisabled ? "bg-[#EE46BC80] text-[#8d919a]" : "bg-[#EE46BC] text-white"}
+                  `}
                 >
                   Apply
                 </button>
@@ -296,7 +321,7 @@ const TicketStep3: React.FC<TicketStep3Props> = ({
           <button
             onClick={handleBuyClick}
             disabled={isBuyDisabled}
-            className={`w-[524px] h-[52px] rounded-lg px-[18px] py-[16px] font-dmSans font-bold text-[16px] text-white shadow-[0px_1px_2px_0px_#1018280D] ${isBuyDisabled ? "bg-[#3C5BFF80]" : "bg-[#3C5BFF]"
+            className={`w-[524px] h-[52px] rounded-lg px-[18px] py-[16px] font-dmSans font-bold text-[16px] text-white shadow-[0px_1px_2px_0px_#1018280D] ${isBuyDisabled ? "bg-[#3C5BFF80] text-[#8d919a]" : "bg-[#3C5BFF] text-white"
               }`}
           >
             Buy now
