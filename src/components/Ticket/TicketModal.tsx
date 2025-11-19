@@ -28,15 +28,12 @@ const TicketModal: React.FC<TicketModalProps> = ({
   const [step, setStep] = useState(1);
   const [email, setEmail] = useState("");
   const [selectedTicket, setSelectedTicket] = useState<TicketOption | null>(null);
-  const [isDownloadOpen, setIsDownloadOpen] = useState(false);
-  console.log("TicketModal mounted with eventId:", eventId);
+  const [isDownloadOpen, setIsDownloadOpen] = useState(false)
 
   const { data: tickets, isLoading, error } = useGetTicketsByEventIdQuery(eventId!, {
     refetchOnMountOrArgChange: true,
     skip: !eventId,
   });
-
-  console.log("data: tickets", tickets);
 
   useEffect(() => {
     document.body.style.overflow = "hidden";

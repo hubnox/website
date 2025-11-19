@@ -51,8 +51,7 @@ const TicketStep1: React.FC<TicketStep1Props> = ({ email, onEmailChange, onNext,
 
     try {
       setIsChecking(true);
-      const result = await checkOrCreateUser({ email }).unwrap();
-      console.log("User check/create result:", result);
+      await checkOrCreateUser({ email }).unwrap();
 
       onNext();
     } catch (error) {
