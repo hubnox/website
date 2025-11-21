@@ -18,24 +18,24 @@ export const apiSlice = createApi({
         // Always try the real API first
         try {
           console.log('Attempting to fetch events from API:', import.meta.env.VITE_PARSE_SERVER_URL);
-          
+
           if (!import.meta.env.VITE_PARSE_SERVER_URL || !import.meta.env.VITE_PARSE_APP_ID) {
             console.log('API credentials missing, using sample data');
             return { data: { results: sampleEvents } };
           }
-          
+
           const response = await fetch(`${import.meta.env.VITE_PARSE_SERVER_URL}/classes/Events`, {
             headers: {
               'X-Parse-Application-Id': import.meta.env.VITE_PARSE_APP_ID,
               'X-Parse-JavaScript-Key': import.meta.env.VITE_PARSE_JS_KEY || '',
             },
           });
-          
+
           if (!response.ok) {
             console.log('API response not ok:', response.status, response.statusText);
             throw new Error(`API request failed: ${response.status}`);
           }
-          
+
           const data = await response.json();
           console.log('Successfully fetched events from API:', data.results?.length || 0, 'events');
           return { data };
@@ -53,28 +53,28 @@ export const apiSlice = createApi({
         // Always try the real API first
         try {
           console.log('Attempting to fetch creators from API:', import.meta.env.VITE_PARSE_SERVER_URL);
-          
+
           if (!import.meta.env.VITE_PARSE_SERVER_URL || !import.meta.env.VITE_PARSE_APP_ID) {
             console.log('API credentials missing, using sample data');
             return { data: { results: sampleCreators } };
           }
-          
+
           const params = new URLSearchParams({
             where: JSON.stringify({ isCreator: true, isShowOnWeb: true })
           });
-          
+
           const response = await fetch(`${import.meta.env.VITE_PARSE_SERVER_URL}/classes/_User?${params}`, {
             headers: {
               'X-Parse-Application-Id': import.meta.env.VITE_PARSE_APP_ID,
               'X-Parse-JavaScript-Key': import.meta.env.VITE_PARSE_JS_KEY || '',
             },
           });
-          
+
           if (!response.ok) {
             console.log('API response not ok:', response.status, response.statusText);
             throw new Error(`API request failed: ${response.status}`);
           }
-          
+
           const data = await response.json();
           console.log('Successfully fetched creators from API:', data.results?.length || 0, 'creators');
           return { data };
@@ -90,15 +90,17 @@ export const apiSlice = createApi({
     getDiscountByCode: builder.mutation({
       queryFn: async ({ discountCode, eventId, ticketQuantity }) => {
         try {
-          if (!import.meta.env.VITE_PARSE_SERVER_URL || !import.meta.env.VITE_PARSE_APP_ID) {
-            return { data: null };
-          }
+          const SERVER = import.meta.env.VITE_PARSE_SERVER_URL;
+          const APP_ID = import.meta.env.VITE_PARSE_APP_ID;
+          const JS_KEY = import.meta.env.VITE_PARSE_JS_KEY || "";
+
+          if (!SERVER || !APP_ID) return { data: null };
 
           const where = encodeURIComponent(JSON.stringify({ discountCode, eventId }));
-          const response = await fetch(`${import.meta.env.VITE_PARSE_SERVER_URL}/classes/Discounts?where=${where}`, {
+          const response = await fetch(`${SERVER}/classes/Discounts?where=${where}`, {
             headers: {
-              "X-Parse-Application-Id": import.meta.env.VITE_PARSE_APP_ID,
-              "X-Parse-JavaScript-Key": import.meta.env.VITE_PARSE_JS_KEY || "",
+              "X-Parse-Application-Id": APP_ID,
+              "X-Parse-JavaScript-Key": JS_KEY,
               "Content-Type": "application/json",
             },
           });
@@ -118,31 +120,19 @@ export const apiSlice = createApi({
             return { error: { status: 400, data: "Discount code expired" } };
           }
 
-          if (discount.maxNumberOfTickets && discount.maxNumberOfTickets < ticketQuantity) {
-            return { error: { status: 400, data: "Not enough tickets for this discount" } };
+          const max = discount.maxNumberOfTickets ?? 0;
+          const ticketsApplicable = Math.min(ticketQuantity, max);
+
+          if (ticketsApplicable === 0) {
+            return { error: { status: 400, data: "No discounted tickets left" } };
           }
-
-          const amountToSubtract = discount.amount || 0;
-
-          const updatedDiscount = {
-            maxNumberOfTickets: discount.maxNumberOfTickets > 0 ? discount.maxNumberOfTickets - ticketQuantity : 0,
-            totalUsageCount: (discount.totalUsageCount || 0) + ticketQuantity,
-          };
-
-          await fetch(`${import.meta.env.VITE_PARSE_SERVER_URL}/classes/Discounts/${discount.objectId}`, {
-            method: "PUT",
-            headers: {
-              "X-Parse-Application-Id": import.meta.env.VITE_PARSE_APP_ID,
-              "X-Parse-JavaScript-Key": import.meta.env.VITE_PARSE_JS_KEY || "",
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(updatedDiscount),
-          });
+          const discountPerTicket = discount.amount || 0;
 
           return {
             data: {
               discount,
-              discountedAmount: amountToSubtract,
+              discountPerTicket,
+              ticketsApplicable,
             },
           };
         } catch (error) {
@@ -151,9 +141,63 @@ export const apiSlice = createApi({
         }
       },
     }),
+    applyDiscountUsage: builder.mutation({
+      queryFn: async ({ discountId, usedTickets }) => {
+        try {
+          const SERVER = import.meta.env.VITE_PARSE_SERVER_URL;
+          const APP_ID = import.meta.env.VITE_PARSE_APP_ID;
+          const JS_KEY = import.meta.env.VITE_PARSE_JS_KEY || "";
+
+          if (!SERVER || !APP_ID) {
+            return { error: { status: 500, data: "Parse config missing" } };
+          }
+
+          if (!discountId || !usedTickets) {
+            return { error: { status: 400, data: "Missing required parameters" } };
+          }
+
+          const responseGet = await fetch(`${SERVER}/classes/Discounts/${discountId}`, {
+            headers: {
+              "X-Parse-Application-Id": APP_ID,
+              "X-Parse-JavaScript-Key": JS_KEY,
+            },
+          });
+
+          if (!responseGet.ok) throw new Error("Failed to fetch discount");
+
+          const { maxNumberOfTickets, totalUsageCount, } = await responseGet.json();
+
+          const updated = {
+            maxNumberOfTickets: (maxNumberOfTickets || 0) - usedTickets,
+            totalUsageCount: (totalUsageCount || 0) + usedTickets,
+          };
+
+          const responsePut = await fetch(`${SERVER}/classes/Discounts/${discountId}`, {
+            method: "PUT",
+            headers: {
+              "X-Parse-Application-Id": APP_ID,
+              "X-Parse-JavaScript-Key": JS_KEY,
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(updated),
+          });
+
+          if (!responsePut.ok) {
+            const json = await responsePut.json();
+            return { error: { status: responsePut.status, data: json.error || "Failed" } };
+          }
+
+          return { data: { success: true, updated } };
+        } catch (error) {
+          console.error("applyDiscountUsage error:", error);
+          return { error: { status: 500, data: "applyDiscountUsage failed" } };
+        }
+      },
+    }),
 
   }),
 });
 export const {
   useGetDiscountByCodeMutation,
+  useApplyDiscountUsageMutation,
 } = apiSlice;

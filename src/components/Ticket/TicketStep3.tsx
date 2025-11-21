@@ -4,7 +4,7 @@ import SpinnerIcon from "../../assets/icons/tickets/Spinner.svg";
 import PaymentResultModal from "./PaymentResultModal";
 import { useStripe, useElements } from "@stripe/react-stripe-js";
 import PaymentModal from "./PaymentModal";
-import { apiSlice } from "../../app/apiSlice";
+import { useGetDiscountByCodeMutation } from "../../app/apiSlice";
 
 interface TicketStep3Props {
   subtotal?: number;
@@ -44,28 +44,44 @@ const TicketStep3: React.FC<TicketStep3Props> = ({
   const elements = useElements();
   const handleMinus = () => count > 1 && setCount((prev) => prev - 1);
   const handlePlus = () => count < totalTickets && setCount((prev) => prev + 1);
-  const [applyDiscount, { isLoading }] = apiSlice.endpoints.getDiscountByCode.useMutation();
 
   const [appliedDiscountAmount, setAppliedDiscountAmount] = useState(0);
+  const [getDiscountByCode, { isLoading: isDiscountLoading }] =
+    useGetDiscountByCodeMutation();
+
+  const [ticketsDiscounted, setTicketsDiscounted] = useState(0);
+  const [discountId, setDiscountId] = useState<string | null>(null);
+  const [discountPerTicket, setDiscountPerTicket] = useState(0);
 
   const handleApplyDiscount = async () => {
     setIsChecking(true);
     setErrorMsg("");
     try {
-      const result = await applyDiscount({ discountCode, eventId, ticketQuantity: count }).unwrap();
+      const result = await getDiscountByCode({
+        discountCode,
+        eventId,
+        ticketQuantity: count,
+      }).unwrap();
       if (!result?.discount) {
         setIsValid(false);
         setIsDiscountApplied(false);
-        setErrorMsg("This discount code has expired.");
+        setErrorMsg("Invalid or expired discount code");
         return;
       }
 
       setIsDiscountApplied(true);
       setIsValid(true);
-      setAppliedDiscountAmount(result.discountedAmount || 0);
+      setDiscountId(result.discount.objectId);
+      const totalDiscount =
+        (result.discountPerTicket || 0) * (result.ticketsApplicable || 0);
+
+      setAppliedDiscountAmount(totalDiscount);
+      setTicketsDiscounted(result.ticketsApplicable || 0);
+      setDiscountPerTicket(result.discountPerTicket || 0);
+
     } catch (err) {
       setIsValid(false);
-      setErrorMsg("This discount code has expired.");
+      setErrorMsg("Invalid or expired discount code");
     } finally {
       setIsChecking(false);
     }
@@ -128,9 +144,16 @@ const TicketStep3: React.FC<TicketStep3Props> = ({
     const number = parseFloat(numeric);
     return `$${number.toFixed(2)}`;
   };
+
+  useEffect(() => {
+    if (!isDiscountApplied) return;
+
+    setAppliedDiscountAmount(discountPerTicket * count);
+  }, [count, discountPerTicket, isDiscountApplied]);
+
   return (
     <div className="flex flex-col gap-[64px] text-white">
-      {(isProcessing || isLoading) && (
+      {(isProcessing || isDiscountLoading) && (
         <div className="fixed inset-0 z-40 flex items-center justify-center bg-black/40 backdrop-blur-sm">
           <img
             src={SpinnerIcon}
@@ -152,6 +175,8 @@ const TicketStep3: React.FC<TicketStep3Props> = ({
           eventId={eventId}
           ticketTypeId={ticketTypeId}
           quantity={count}
+          discountId={discountId}
+          ticketsDiscounted={ticketsDiscounted}
         />
       )}
       {showResultModal && paymentStatus && (

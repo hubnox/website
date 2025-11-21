@@ -8,6 +8,7 @@ import {
 } from "@stripe/react-stripe-js";
 import SpinnerIcon from "../../assets/icons/tickets/Spinner.svg";
 import { useCreatePaymentIntentMutation, useSaveUserTicketAfterPaymentMutation } from "../../app/paymentApi";
+import { useApplyDiscountUsageMutation } from "../../app/apiSlice";
 
 interface PaymentModalProps {
   onClose: () => void;
@@ -17,14 +18,17 @@ interface PaymentModalProps {
   eventId?: string;
   ticketTypeId?: string;
   quantity: number;
+  discountId?: string | null;
+  ticketsDiscounted: number;
 }
 
-const PaymentModal: React.FC<PaymentModalProps> = ({ amount, onResult, onClose, email, eventId, ticketTypeId, quantity}) => {
+const PaymentModal: React.FC<PaymentModalProps> = ({ amount, onResult, onClose, email, eventId, ticketTypeId, quantity, discountId, ticketsDiscounted, }) => {
   const stripe = useStripe();
   const elements = useElements();
   const [isProcessing, setIsProcessing] = useState(false);
   const [createPaymentIntent] = useCreatePaymentIntentMutation();
   const [saveUserTicketAfterPayment] = useSaveUserTicketAfterPaymentMutation();
+  const [applyDiscountUsage] = useApplyDiscountUsageMutation();
 
   const handlePay = async () => {
     if (!stripe || !elements) return;
@@ -43,7 +47,7 @@ const PaymentModal: React.FC<PaymentModalProps> = ({ amount, onResult, onClose, 
       const { error, paymentIntent } = await stripe.confirmCardPayment(clientSecret, {
         payment_method: { card: cardNumberElement },
       });
-      const ticketPrice = amount/quantity;
+      const ticketPrice = amount / quantity;
       if (error) {
         onResult("failed");
       } else if (paymentIntent?.status === "succeeded") {
@@ -56,7 +60,12 @@ const PaymentModal: React.FC<PaymentModalProps> = ({ amount, onResult, onClose, 
             transactionId: paymentIntent.id,
             quantity,
           }).unwrap();
-
+          if (discountId && ticketsDiscounted > 0) {
+            await applyDiscountUsage({
+              discountId,
+              usedTickets: ticketsDiscounted,
+            }).unwrap();
+          }
           onResult("success");
         } catch (err) {
           console.error("Error saving ticket:", err);
