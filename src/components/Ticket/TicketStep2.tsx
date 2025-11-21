@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import AlertIcon from "../../assets/icons/tickets/alert-circle";
 export interface TicketOption {
-  id: number;
+  id?: string;
   title: string;
   description: string;
   price: string;
@@ -15,10 +15,10 @@ interface TicketStep2Props {
 }
 
 const TicketStep2: React.FC<TicketStep2Props> = ({ tickets, onNext }) => {
-  const [selectedId, setSelectedId] = useState<number | null>(null);
+  const [selectedId, setSelectedId] = useState<string | null>(null);
 
-  const handleSelect = (id: number, soldOut?: boolean) => {
-    if (soldOut) return;
+  const handleSelect = (id?: string, soldOut?: boolean) => {
+    if (!id || soldOut) return;
     setSelectedId((prev) => (prev === id ? null : id));
   };
 
@@ -48,13 +48,14 @@ const TicketStep2: React.FC<TicketStep2Props> = ({ tickets, onNext }) => {
           style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
           className="flex flex-col gap-2 w-[556px] h-[424px] overflow-y-auto scrollbar-thin scrollbar-thumb-[#3C5BFF40] scrollbar-track-transparent"
         >
-          {tickets.map((ticket) => {
-            const isSelected = ticket.id === selectedId;
+          {tickets.map((ticket, index) => {
+            const ticketId = ticket.id || `temp-${index}`;
+            const isSelected = ticketId === selectedId;
             const isSoldOut = ticket.soldOut;
 
             return (
               <div
-                key={ticket.id}
+                key={ticketId}
                 onClick={() => handleSelect(ticket.id, isSoldOut)}
                 className={`relative flex items-center gap-[10px] w-[556px] h-[100px] p-2 rounded-lg cursor-pointer transition-all duration-150
                   ${isSoldOut

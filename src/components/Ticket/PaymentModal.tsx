@@ -16,9 +16,10 @@ interface PaymentModalProps {
   email?: string;
   eventId?: string;
   ticketTypeId?: string;
+  quantity: number;
 }
 
-const PaymentModal: React.FC<PaymentModalProps> = ({ amount, onResult, onClose, email, eventId, ticketTypeId }) => {
+const PaymentModal: React.FC<PaymentModalProps> = ({ amount, onResult, onClose, email, eventId, ticketTypeId, quantity}) => {
   const stripe = useStripe();
   const elements = useElements();
   const [isProcessing, setIsProcessing] = useState(false);
@@ -42,7 +43,7 @@ const PaymentModal: React.FC<PaymentModalProps> = ({ amount, onResult, onClose, 
       const { error, paymentIntent } = await stripe.confirmCardPayment(clientSecret, {
         payment_method: { card: cardNumberElement },
       });
-
+      const ticketPrice = amount/quantity;
       if (error) {
         onResult("failed");
       } else if (paymentIntent?.status === "succeeded") {
@@ -51,8 +52,9 @@ const PaymentModal: React.FC<PaymentModalProps> = ({ amount, onResult, onClose, 
             email: email,
             eventId: eventId,
             ticketTypeId: ticketTypeId,
-            ticketPrice: amount,
+            ticketPrice: ticketPrice,
             transactionId: paymentIntent.id,
+            quantity,
           }).unwrap();
 
           onResult("success");
