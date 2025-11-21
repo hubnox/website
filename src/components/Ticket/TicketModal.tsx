@@ -28,7 +28,7 @@ const TicketModal: React.FC<TicketModalProps> = ({
   const [step, setStep] = useState(1);
   const [email, setEmail] = useState("");
   const [selectedTicket, setSelectedTicket] = useState<TicketOption | null>(null);
-  const [isDownloadOpen, setIsDownloadOpen] = useState(false)
+  const [isDownloadOpen, setIsDownloadOpen] = useState(false);
 
   const { data: tickets, isLoading, error } = useGetTicketsByEventIdQuery(eventId!, {
     refetchOnMountOrArgChange: true,
@@ -47,6 +47,11 @@ const TicketModal: React.FC<TicketModalProps> = ({
   const handleNext = (ticket: TicketOption) => {
     setSelectedTicket(ticket);
     nextStep();
+  };
+  const parsePrice = (priceStr: string) => {
+    const numeric = priceStr.replace(/[^\d.]/g, "");
+    const value = parseFloat(numeric);
+    return isNaN(value) ? 0 : value;
   };
 
   return createPortal(
@@ -156,13 +161,13 @@ const TicketModal: React.FC<TicketModalProps> = ({
                 <TicketStep3
                   ticketName={selectedTicket.title}
                   ticketPriceLabel={selectedTicket.price}
-                  subtotal={parseFloat(selectedTicket.price.replace(/[^\d.]/g, ""))}
                   onClose={onClose}
                   setStep={setStep}
-                  totalTickets={selectedTicket.amount}
+                  totalTickets={selectedTicket.amount || 1}
+                  subtotal={parsePrice(selectedTicket.price)}
                   email={email}
                   eventId={eventId}
-                  ticketTypeId={selectedTicket.id.toString()}
+                  ticketTypeId={selectedTicket.id?.toString()}
                 />
               </Elements>
             )}

@@ -24,7 +24,7 @@ const TicketStep3: React.FC<TicketStep3Props> = ({
   ticketPriceLabel = "$25.00 + Fees",
   onClose,
   setStep,
-  totalTickets = 0,
+  totalTickets = 1,
   email,
   eventId,
   ticketTypeId,
@@ -55,6 +55,7 @@ const TicketStep3: React.FC<TicketStep3Props> = ({
       const result = await applyDiscount({ discountCode, eventId, ticketQuantity: count }).unwrap();
       if (!result?.discount) {
         setIsValid(false);
+        setIsDiscountApplied(false);
         setErrorMsg("This discount code has expired.");
         return;
       }
@@ -150,6 +151,7 @@ const TicketStep3: React.FC<TicketStep3Props> = ({
           email={email}
           eventId={eventId}
           ticketTypeId={ticketTypeId}
+          quantity={count}
         />
       )}
       {showResultModal && paymentStatus && (
