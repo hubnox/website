@@ -9,7 +9,6 @@ import { useGetDiscountByCodeMutation } from "../../app/apiSlice";
 interface TicketStep3Props {
   subtotal?: number;
   ticketName?: string;
-  ticketPriceLabel?: string;
   onClose?: () => void;
   setStep?: (step: number) => void;
   totalTickets?: number;
@@ -21,7 +20,6 @@ interface TicketStep3Props {
 const TicketStep3: React.FC<TicketStep3Props> = ({
   subtotal = 25,
   ticketName = "Early Bird",
-  ticketPriceLabel = "$25.00 + Fees",
   onClose,
   setStep,
   totalTickets = 1,
@@ -39,6 +37,7 @@ const TicketStep3: React.FC<TicketStep3Props> = ({
   const [showPaymentModal, setShowPaymentModal] = useState(false);
   const [showResultModal, setShowResultModal] = useState(false);
   const [paymentStatus, setPaymentStatus] = useState<"success" | "error" | "failed" | "unavailable" | null>(null);
+  const [amountType, setAmountType] = useState<"percent" | "fixed">("fixed");
 
   const stripe = useStripe();
   const elements = useElements();
@@ -65,15 +64,22 @@ const TicketStep3: React.FC<TicketStep3Props> = ({
       if (!result?.discount) {
         setIsValid(false);
         setIsDiscountApplied(false);
-        setErrorMsg("Invalid or expired discount code");
+        setErrorMsg("This discount code is not valid.");
         return;
       }
 
       setIsDiscountApplied(true);
       setIsValid(true);
       setDiscountId(result.discount.objectId);
-      const totalDiscount =
-        (result.discountPerTicket || 0) * (result.ticketsApplicable || 0);
+      setAmountType(result.amountType);
+
+      let totalDiscount = 0;
+
+      if (result.amountType === "percent") {
+        totalDiscount = (subtotal * count * result.discountPerTicket) / 100;
+      } else {
+        totalDiscount = result.discountPerTicket * result.ticketsApplicable;
+      }
 
       setAppliedDiscountAmount(totalDiscount);
       setTicketsDiscounted(result.ticketsApplicable || 0);
@@ -81,7 +87,7 @@ const TicketStep3: React.FC<TicketStep3Props> = ({
 
     } catch (err) {
       setIsValid(false);
-      setErrorMsg("Invalid or expired discount code");
+      setErrorMsg("This discount code has expired.");
     } finally {
       setIsChecking(false);
     }
@@ -123,7 +129,7 @@ const TicketStep3: React.FC<TicketStep3Props> = ({
   }, [subtotalBeforeDiscount]);
 
   const paymentFeeAmount = useMemo(() => {
-    return subtotalBeforeDiscount * 0.029 + 0.3 + platformFeeAmount;
+    return (subtotalBeforeDiscount + platformFeeAmount) * 0.029 + 0.3;
   }, [subtotalBeforeDiscount, platformFeeAmount]);
 
   const discountAmount = useMemo(() => {
@@ -134,8 +140,11 @@ const TicketStep3: React.FC<TicketStep3Props> = ({
   const total = useMemo(() => {
     const discountedSubtotal = subtotalBeforeDiscount - discountAmount;
     const safeSubtotal = Math.max(discountedSubtotal, 0);
-    return safeSubtotal + platformFeeAmount + paymentFeeAmount;
-  }, [subtotalBeforeDiscount, discountAmount, platformFeeAmount, paymentFeeAmount]);
+    if(subtotal === 0){
+      return 0;
+    }
+    return safeSubtotal + paymentFeeAmount;
+  }, [subtotalBeforeDiscount, discountAmount, paymentFeeAmount]);
 
   const formatPrice = (priceStr: string) => {
     const numeric = priceStr.replace(/[^\d.]/g, "");
@@ -148,8 +157,16 @@ const TicketStep3: React.FC<TicketStep3Props> = ({
   useEffect(() => {
     if (!isDiscountApplied) return;
 
-    setAppliedDiscountAmount(discountPerTicket * count);
-  }, [count, discountPerTicket, isDiscountApplied]);
+    let totalDiscount = 0;
+
+    if (amountType === "percent") {
+      totalDiscount = (subtotal * count * discountPerTicket) / 100;
+    } else {
+      totalDiscount = discountPerTicket * count;
+    }
+
+    setAppliedDiscountAmount(totalDiscount);
+  }, [count, discountPerTicket, isDiscountApplied, subtotal, amountType]);
 
   return (
     <div className="flex flex-col gap-[64px] text-white">
@@ -177,6 +194,7 @@ const TicketStep3: React.FC<TicketStep3Props> = ({
           quantity={count}
           discountId={discountId}
           ticketsDiscounted={ticketsDiscounted}
+          ticketPrice={subtotal}
         />
       )}
       {showResultModal && paymentStatus && (
@@ -211,7 +229,7 @@ const TicketStep3: React.FC<TicketStep3Props> = ({
                 {ticketName}
               </span>
               <span className="font-dmSans font-semibold text-[16px] leading-[20px] text-white">
-                ({formatPrice(ticketPriceLabel)} + Fees)
+                ({formatPrice(subtotal.toString())} + Fees)
               </span>
             </div>
 
@@ -266,15 +284,13 @@ const TicketStep3: React.FC<TicketStep3Props> = ({
               )}
 
               <div className="flex justify-between items-center w-full h-[28px] pb-[4px] border-b border-[#475069]">
-                <span className="font-dmSans text-[16px] text-[#D0D5DD]">Platform fee:</span>
-                <span className="font-dmSans text-[16px] font-bold text-white">${platformFeeAmount.toFixed(2)}</span>
-              </div>
-
-
-
-              <div className="flex justify-between items-center w-full h-[28px] pb-[4px] border-b border-[#475069]">
                 <span className="font-dmSans text-[16px] text-[#D0D5DD]">Payment fee:</span>
                 <span className="font-dmSans text-[16px] font-bold text-white">${paymentFeeAmount.toFixed(2)}</span>
+              </div>
+
+              <div className="flex justify-between items-center w-full h-[28px] pb-[4px] border-b border-[#475069]">
+                <span className="font-dmSans text-[16px] text-[#D0D5DD]">Platform fee:</span>
+                <span className="font-dmSans text-[16px] font-bold text-white">${platformFeeAmount.toFixed(2)}</span>
               </div>
 
             </div>

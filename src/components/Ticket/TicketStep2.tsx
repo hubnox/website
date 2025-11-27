@@ -61,7 +61,8 @@ const TicketStep2: React.FC<TicketStep2Props> = ({ tickets, onNext }) => {
                   ${isSoldOut
                     ? "bg-[#212C42] cursor-not-allowed"
                     : "bg-[#39405A]"
-                  }`}
+                  }
+                  ${isSelected ? "border border-[#3C5BFF]" : "border border-transparent"}`}
               >
                 {isSoldOut && (
                   <div className="absolute top-0 right-0 flex items-center gap-1 bg-[#EE46BC] rounded-sm px-1.5 py-1 h-[28px] w-[82px]">
@@ -77,17 +78,13 @@ const TicketStep2: React.FC<TicketStep2Props> = ({ tickets, onNext }) => {
 
                 {!isSoldOut ? (
                   <div
-                    className={`w-5 h-5 m-[2px] flex items-center justify-center rounded-full border-2
-                    ${isSoldOut
-                        ? "border-[#6B7280]"
-                        : isSelected
-                          ? "border-[#3C5BFF]"
-                          : "border-[#D0D5DD]"
-                      }
-                  `}
+                    className={`
+                      w-[20px] h-[20px] rounded-full flex items-center justify-center
+                       ${isSelected ? "border-[1.5px] border-[#3C5BFF]" : "border-[1.5px] border-[#8CB3ED]"}
+                    `}
                   >
                     {isSelected && (
-                      <div className="w-3 h-3 bg-[#3C5BFF] rounded-full"></div>
+                      <div className="w-[10px] h-[10px] bg-[#3C5BFF] rounded-full"></div>
                     )}
                   </div>
                 ) : (

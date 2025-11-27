@@ -13,7 +13,6 @@ interface TicketStep1Props {
 }
 
 const TicketStep1: React.FC<TicketStep1Props> = ({ email, onEmailChange, onNext, onDownload }) => {
-  const [isTouched, setIsTouched] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
   const [isValid, setIsValid] = useState<boolean | null>(null);
   const [isChecking, setIsChecking] = useState(false);
@@ -45,7 +44,6 @@ const TicketStep1: React.FC<TicketStep1Props> = ({ email, onEmailChange, onNext,
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsTouched(true);
 
     if (!isValid) return;
 
@@ -56,7 +54,7 @@ const TicketStep1: React.FC<TicketStep1Props> = ({ email, onEmailChange, onNext,
       onNext();
     } catch (error) {
       console.error("Failed to check/create user:", error);
-     
+
     } finally {
       setIsChecking(false);
     }
@@ -106,11 +104,13 @@ const TicketStep1: React.FC<TicketStep1Props> = ({ email, onEmailChange, onNext,
               <img src={CheckIcon} alt="valid" />
             )}
             {!isChecking && !isLoading && isValid === false && email.trim() !== "" && (
-              <AlertIcon color="#F97066" size={16} />
+              <div className=" mt-[-25px]">
+                <AlertIcon color="#F97066" size={16} />
+              </div>
             )}
           </div>
 
-          {!isValid && isTouched && email.trim() !== "" && !isChecking && !isLoading && (
+          {!isValid && email.trim() !== "" && !isChecking && !isLoading && (
             <p className="text-[#F97066] mt-1.5 text-sm">Please enter a valid email address</p>
           )}
         </div>
