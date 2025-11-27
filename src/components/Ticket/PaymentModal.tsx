@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   useStripe,
   useElements,
@@ -20,15 +20,61 @@ interface PaymentModalProps {
   quantity: number;
   discountId?: string | null;
   ticketsDiscounted: number;
+  ticketPrice: number;
 }
 
-const PaymentModal: React.FC<PaymentModalProps> = ({ amount, onResult, onClose, email, eventId, ticketTypeId, quantity, discountId, ticketsDiscounted, }) => {
+const PaymentModal: React.FC<PaymentModalProps> = ({
+  amount,
+  onResult,
+  onClose,
+  email,
+  eventId,
+  ticketTypeId,
+  quantity,
+  discountId,
+  ticketsDiscounted,
+  ticketPrice
+}) => {
   const stripe = useStripe();
   const elements = useElements();
   const [isProcessing, setIsProcessing] = useState(false);
   const [createPaymentIntent] = useCreatePaymentIntentMutation();
   const [saveUserTicketAfterPayment] = useSaveUserTicketAfterPaymentMutation();
   const [applyDiscountUsage] = useApplyDiscountUsageMutation();
+
+  useEffect(() => {
+    if (ticketPrice === 0) {
+      const saveFreeTicket = async () => {
+        setIsProcessing(true);
+        try {
+          await saveUserTicketAfterPayment({
+            email,
+            eventId,
+            ticketTypeId,
+            ticketPrice,
+            transactionId: "FREE_TICKET",
+            quantity,
+          }).unwrap();
+
+          if (discountId && ticketsDiscounted > 0) {
+            await applyDiscountUsage({
+              discountId,
+              usedTickets: ticketsDiscounted,
+            }).unwrap();
+          }
+
+          onResult("success");
+        } catch (err) {
+          console.error("Error saving free ticket:", err);
+          onResult("error");
+        } finally {
+          setIsProcessing(false);
+        }
+      };
+
+      saveFreeTicket();
+    }
+  }, [ticketPrice]);
 
   const handlePay = async () => {
     if (!stripe || !elements) return;
@@ -47,7 +93,7 @@ const PaymentModal: React.FC<PaymentModalProps> = ({ amount, onResult, onClose, 
       const { error, paymentIntent } = await stripe.confirmCardPayment(clientSecret, {
         payment_method: { card: cardNumberElement },
       });
-      const ticketPrice = amount / quantity;
+
       if (error) {
         onResult("failed");
       } else if (paymentIntent?.status === "succeeded") {
@@ -60,12 +106,14 @@ const PaymentModal: React.FC<PaymentModalProps> = ({ amount, onResult, onClose, 
             transactionId: paymentIntent.id,
             quantity,
           }).unwrap();
+
           if (discountId && ticketsDiscounted > 0) {
             await applyDiscountUsage({
               discountId,
               usedTickets: ticketsDiscounted,
             }).unwrap();
           }
+
           onResult("success");
         } catch (err) {
           console.error("Error saving ticket:", err);
@@ -90,6 +138,16 @@ const PaymentModal: React.FC<PaymentModalProps> = ({ amount, onResult, onClose, 
       invalid: { color: "#F97066" },
     },
   };
+
+  if (ticketPrice === 0 && isProcessing) {
+    return (
+      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
+        <img src={SpinnerIcon} alt="Loading" className="w-10 h-10 animate-spin" />
+      </div>
+    );
+  }
+  
+  if (ticketPrice === 0) return null;
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">

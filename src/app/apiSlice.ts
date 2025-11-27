@@ -127,12 +127,14 @@ export const apiSlice = createApi({
             return { error: { status: 400, data: "No discounted tickets left" } };
           }
           const discountPerTicket = discount.amount || 0;
+          const amountType: "percent" | "fixed" = discount.amountType || "fixed"; 
 
           return {
             data: {
               discount,
               discountPerTicket,
               ticketsApplicable,
+              amountType,
             },
           };
         } catch (error) {
@@ -141,6 +143,7 @@ export const apiSlice = createApi({
         }
       },
     }),
+    
     applyDiscountUsage: builder.mutation({
       queryFn: async ({ discountId, usedTickets }) => {
         try {

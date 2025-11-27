@@ -160,7 +160,6 @@ const TicketModal: React.FC<TicketModalProps> = ({
               <Elements stripe={stripePromise}>
                 <TicketStep3
                   ticketName={selectedTicket.title}
-                  ticketPriceLabel={selectedTicket.price}
                   onClose={onClose}
                   setStep={setStep}
                   totalTickets={selectedTicket.amount || 1}
