@@ -129,7 +129,7 @@ const TicketStep3: React.FC<TicketStep3Props> = ({
   }, [subtotalBeforeDiscount]);
 
   const paymentFeeAmount = useMemo(() => {
-    return (subtotalBeforeDiscount + platformFeeAmount) * 0.029 + 0.3;
+    return (subtotalBeforeDiscount + platformFeeAmount) * 0.03;
   }, [subtotalBeforeDiscount, platformFeeAmount]);
 
   const discountAmount = useMemo(() => {
@@ -140,11 +140,11 @@ const TicketStep3: React.FC<TicketStep3Props> = ({
   const total = useMemo(() => {
     const discountedSubtotal = subtotalBeforeDiscount - discountAmount;
     const safeSubtotal = Math.max(discountedSubtotal, 0);
-    if(subtotal === 0){
+    if (subtotal === 0) {
       return 0;
     }
-    return safeSubtotal + paymentFeeAmount;
-  }, [subtotalBeforeDiscount, discountAmount, paymentFeeAmount]);
+    return safeSubtotal + paymentFeeAmount + platformFeeAmount;
+  }, [subtotalBeforeDiscount, discountAmount, paymentFeeAmount, platformFeeAmount]);
 
   const formatPrice = (priceStr: string) => {
     const numeric = priceStr.replace(/[^\d.]/g, "");
@@ -282,17 +282,19 @@ const TicketStep3: React.FC<TicketStep3Props> = ({
                   <span className="font-dmSans text-[16px] font-bold text-[#EE46BC]">-${discountAmount.toFixed(2)}</span>
                 </div>
               )}
+              {subtotal != 0 && (
+                <div>
+                  <div className="flex justify-between items-center w-full h-[28px] pb-[4px] border-b border-[#475069]">
+                    <span className="font-dmSans text-[16px] text-[#D0D5DD]">Payment fee:</span>
+                    <span className="font-dmSans text-[16px] font-bold text-white">${paymentFeeAmount.toFixed(2)}</span>
+                  </div>
 
-              <div className="flex justify-between items-center w-full h-[28px] pb-[4px] border-b border-[#475069]">
-                <span className="font-dmSans text-[16px] text-[#D0D5DD]">Payment fee:</span>
-                <span className="font-dmSans text-[16px] font-bold text-white">${paymentFeeAmount.toFixed(2)}</span>
-              </div>
-
-              <div className="flex justify-between items-center w-full h-[28px] pb-[4px] border-b border-[#475069]">
-                <span className="font-dmSans text-[16px] text-[#D0D5DD]">Platform fee:</span>
-                <span className="font-dmSans text-[16px] font-bold text-white">${platformFeeAmount.toFixed(2)}</span>
-              </div>
-
+                  <div className="flex justify-between items-center w-full h-[28px] pb-[4px] border-b border-[#475069]">
+                    <span className="font-dmSans text-[16px] text-[#D0D5DD]">Platform fee:</span>
+                    <span className="font-dmSans text-[16px] font-bold text-white">${platformFeeAmount.toFixed(2)}</span>
+                  </div>
+                </div>
+              )}
             </div>
 
             <div className="w-full h-[20px] flex justify-between items-center mt-[8px]">

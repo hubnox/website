@@ -10,20 +10,26 @@ interface ButtonConfig {
   fullWidth?: boolean;
 }
 
-interface PaymentResultContent {
-  icon: string;
-  title: string;
-  subtitle?: string;
-  buttons: ButtonConfig[];
-  taller: boolean;
-}
-
 interface PaymentResultModalProps {
   status: "success" | "error" | "failed" | "unavailable";
   onBack?: () => void;
   onTryAgain?: () => void;
   onClose?: () => void;
   onBackToEvents?: () => void;
+}
+interface PaymentTextStyle {
+  weight: "500" | "700";
+  size: "16" | "18";
+}
+
+interface PaymentResultContent {
+  icon: string;
+  title: string;
+  titleStyle: PaymentTextStyle;
+  subtitle?: string;
+  subtitleStyle?: PaymentTextStyle;
+  buttons: ButtonConfig[];
+  taller: boolean;
 }
 
 const PaymentResultModal: React.FC<PaymentResultModalProps> = ({
@@ -38,7 +44,8 @@ const PaymentResultModal: React.FC<PaymentResultModalProps> = ({
       case "failed":
         return {
           icon: PhotosEmptyIcon,
-          title: "Payment was not completed. Please try again.",
+          title: "Payment was not completed.\nPlease try again.",
+          titleStyle: { weight: "700", size: "18" },
           buttons: [
             { label: "Back", action: onBack },
             { label: "Try again", action: onTryAgain, primary: true },
@@ -51,6 +58,7 @@ const PaymentResultModal: React.FC<PaymentResultModalProps> = ({
           icon: PhotosEmptyIcon,
           title:
             "Your payment could not be processed. Please try another method.",
+          titleStyle: { weight: "500", size: "18" },
           buttons: [
             { label: "Back", action: onBack },
             { label: "Try again", action: onTryAgain, primary: true },
@@ -62,6 +70,7 @@ const PaymentResultModal: React.FC<PaymentResultModalProps> = ({
         return {
           icon: WarningIcon,
           title: "Sorry, this ticket type is no longer available.",
+          titleStyle: { weight: "500", size: "18" },
           buttons: [
             { label: "Close", action: onClose },
             { label: "Back to events", action: onBackToEvents, primary: true },
@@ -73,8 +82,10 @@ const PaymentResultModal: React.FC<PaymentResultModalProps> = ({
         return {
           icon: TicketsSuccessIcon,
           title: "Payment Successful!",
+          titleStyle: { weight: "500", size: "18" },
           subtitle:
             "Your ticket is available in the Hubnox app. If you use the same email here as in the app, the ticket will be automatically added to your account.",
+          subtitleStyle: { weight: "500", size: "16" },
           buttons: [
             { label: "Got it!", action: onClose, primary: true, fullWidth: true },
           ],
@@ -99,18 +110,35 @@ const PaymentResultModal: React.FC<PaymentResultModalProps> = ({
           <img srcSet={content.icon} alt="status" />
 
           <div
-            className={`flex flex-col ${content.subtitle ? "gap-[22px]" : "gap-[0]"
+            className={`flex flex-col whitespace-pre-line ${content.subtitle ? "gap-[22px]" : "gap-[0]"
               } w-[363px] text-center`}
           >
-            <p className="font-epilogue font-medium text-[18px] leading-[26px] text-white">
+            <p
+              className={`
+              font-epilogue
+              text-white
+              leading-[26px]
+              font-${content.titleStyle.weight === "700" ? "bold" : "medium"}
+              text-[${content.titleStyle.size}px]
+            `}
+            >
               {content.title}
             </p>
 
             {content.subtitle && (
-              <p className="font-epilogue font-medium text-[16px] leading-[26px] text-white opacity-90">
+              <p
+                className={`
+                  font-epilogue
+                  text-white opacity-90
+                  leading-[26px]
+                  font-${content.subtitleStyle?.weight === "700" ? "bold" : "medium"}
+                  text-[${content.subtitleStyle?.size}px]
+                `}
+              >
                 {content.subtitle}
               </p>
             )}
+
           </div>
 
           <div
