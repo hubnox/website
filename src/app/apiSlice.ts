@@ -88,7 +88,7 @@ export const apiSlice = createApi({
     }),
 
     getDiscountByCode: builder.mutation({
-      queryFn: async ({ discountCode, eventId, ticketQuantity }) => {
+      queryFn: async ({ discountCode, ticketTypeId, ticketQuantity }) => {
         try {
           const SERVER = import.meta.env.VITE_PARSE_SERVER_URL;
           const APP_ID = import.meta.env.VITE_PARSE_APP_ID;
@@ -96,7 +96,7 @@ export const apiSlice = createApi({
 
           if (!SERVER || !APP_ID) return { data: null };
 
-          const where = encodeURIComponent(JSON.stringify({ discountCode, eventId }));
+          const where = encodeURIComponent(JSON.stringify({ discountCode }));
           const response = await fetch(`${SERVER}/classes/Discounts?where=${where}`, {
             headers: {
               "X-Parse-Application-Id": APP_ID,
@@ -111,23 +111,26 @@ export const apiSlice = createApi({
           const discount = results[0];
 
           if (!discount) {
-            return { error: { status: 404, data: "Discount code not found" } };
+            return { error: { status: 404, data: "This discount code is not valid." } };
+          }
+
+          const ticketTypesIds: string[] = discount.ticketTypesIds || [];
+
+          if (!ticketTypeId || !ticketTypesIds.includes(ticketTypeId)) {
+            return { error: { status: 400, data: "This discount code is not valid." } };
           }
 
           const now = new Date();
           const finishDate = new Date(discount.finishDateAndTime);
-          if (finishDate < now) {
-            return { error: { status: 400, data: "Discount code expired" } };
-          }
-
           const max = discount.maxNumberOfTickets ?? 0;
           const ticketsApplicable = Math.min(ticketQuantity, max);
 
-          if (ticketsApplicable === 0) {
-            return { error: { status: 400, data: "No discounted tickets left" } };
+          if (finishDate < now || ticketsApplicable === 0) {
+            return { error: { status: 400, data: "This discount code has expired." } };
           }
+
           const discountPerTicket = discount.amount || 0;
-          const amountType: "percent" | "fixed" = discount.amountType || "fixed"; 
+          const amountType: "percent" | "fixed" = discount.amountType || "fixed";
 
           return {
             data: {
@@ -135,6 +138,7 @@ export const apiSlice = createApi({
               discountPerTicket,
               ticketsApplicable,
               amountType,
+              ticketTypesIds,
             },
           };
         } catch (error) {

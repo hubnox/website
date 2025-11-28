@@ -58,36 +58,29 @@ const TicketStep3: React.FC<TicketStep3Props> = ({
     try {
       const result = await getDiscountByCode({
         discountCode,
-        eventId,
+        ticketTypeId,
         ticketQuantity: count,
       }).unwrap();
-      if (!result?.discount) {
-        setIsValid(false);
-        setIsDiscountApplied(false);
-        setErrorMsg("This discount code is not valid.");
-        return;
-      }
+      if (!result) throw new Error("No discount result returned");
 
       setIsDiscountApplied(true);
       setIsValid(true);
       setDiscountId(result.discount.objectId);
       setAmountType(result.amountType);
 
-      let totalDiscount = 0;
-
-      if (result.amountType === "percent") {
-        totalDiscount = (subtotal * count * result.discountPerTicket) / 100;
-      } else {
-        totalDiscount = result.discountPerTicket * result.ticketsApplicable;
-      }
+      const totalDiscount =
+        result.amountType === "percent"
+          ? (subtotal * count * result.discountPerTicket) / 100
+          : result.discountPerTicket * result.ticketsApplicable;
 
       setAppliedDiscountAmount(totalDiscount);
-      setTicketsDiscounted(result.ticketsApplicable || 0);
-      setDiscountPerTicket(result.discountPerTicket || 0);
+      setTicketsDiscounted(result.ticketsApplicable);
+      setDiscountPerTicket(result.discountPerTicket);
 
-    } catch (err) {
+    } catch (err: any) {
       setIsValid(false);
-      setErrorMsg("This discount code has expired.");
+      setIsDiscountApplied(false);
+      setErrorMsg(err?.data || "Discount processing failed");
     } finally {
       setIsChecking(false);
     }
