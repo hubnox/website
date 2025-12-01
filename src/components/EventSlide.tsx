@@ -87,7 +87,7 @@ const EventSlide: React.FC<EventProps> = ({
         <button
           onClick={() => setIsModalOpen(true)}
           className="
-        w-full max-w-[357px] h-13 rounded-lg border 
+        w-full h-13 rounded-lg border 
         border-[#3C5BFF] bg-[#3C5BFF] text-white font-bold
          text-lg leading-[20px] text-center py-4 px-4 
          hover:bg-blue-600 transition-colors mt-[22px] mb-[42px]">

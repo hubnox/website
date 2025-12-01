@@ -1,6 +1,19 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { sampleEvents, sampleCreators } from '../data/sampleData';
-
+interface Discount {
+  objectId: string;
+  discountName: string;
+  discountCode: string;
+  startDateAndTime?: string;
+  finishDateAndTime?: string;
+  amountType: "percent" | "fixed";
+  amount: number;
+  maxNumberOfTickets?: number;
+  ticketTypesIds?: string[];
+  isDeleted?: boolean;
+  amountOfUse?: number;
+  totalUsageCount?: number;
+}
 export const apiSlice = createApi({
   reducerPath: 'api',
   baseQuery: fetchBaseQuery({
@@ -108,37 +121,51 @@ export const apiSlice = createApi({
           if (!response.ok) throw new Error("Discount API request failed");
 
           const { results } = await response.json();
-          const discount = results[0];
 
-          if (!discount) {
+          if (!results || results.length === 0) {
             return { error: { status: 404, data: "This discount code is not valid." } };
           }
 
-          const ticketTypesIds: string[] = discount.ticketTypesIds || [];
+          const now = new Date();
 
-          if (!ticketTypeId || !ticketTypesIds.includes(ticketTypeId)) {
+          const validDiscount = results.find((disc: Discount) => {
+            const types = disc.ticketTypesIds || [];
+
+            if (!types.includes(ticketTypeId)) return false;
+
+            if (disc.startDateAndTime) {
+              const start = new Date(disc.startDateAndTime);
+              if (now < start) return false;
+            }
+
+            if (disc.finishDateAndTime) {
+              const finish = new Date(disc.finishDateAndTime);
+              if (now > finish) return false;
+            }
+
+            const max = disc.maxNumberOfTickets ?? 0;
+            if (max <= 0) return false;
+
+            return true;
+          });
+
+          if (!validDiscount) {
             return { error: { status: 400, data: "This discount code is not valid." } };
           }
 
-          const now = new Date();
-          const finishDate = new Date(discount.finishDateAndTime);
-          const max = discount.maxNumberOfTickets ?? 0;
+          const max = validDiscount.maxNumberOfTickets ?? 0;
           const ticketsApplicable = Math.min(ticketQuantity, max);
 
-          if (finishDate < now || ticketsApplicable === 0) {
-            return { error: { status: 400, data: "This discount code has expired." } };
-          }
-
-          const discountPerTicket = discount.amount || 0;
-          const amountType: "percent" | "fixed" = discount.amountType || "fixed";
+          const ticketTypesIds = validDiscount.ticketTypesIds || [];
 
           return {
             data: {
-              discount,
-              discountPerTicket,
+              discount: validDiscount,
+              discountPerTicket: validDiscount.amount || 0,
               ticketsApplicable,
-              amountType,
+              amountType: validDiscount.amountType || "fixed",
               ticketTypesIds,
+              maxNumberOfTickets: validDiscount.maxNumberOfTickets,
             },
           };
         } catch (error) {

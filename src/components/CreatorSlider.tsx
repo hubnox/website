@@ -33,8 +33,6 @@ const CreatorSlider: React.FC<Props> = ({handlePopupToggle}) => {
   </section>
   );
 
-  console.log('creators', creators);
-
   return (
     <section>
       <div className="w-full max-w-[1266px] mx-auto px-[25px]">

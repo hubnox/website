@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import {
   useStripe,
   useElements,
@@ -21,6 +21,8 @@ interface PaymentModalProps {
   discountId?: string | null;
   ticketsDiscounted: number;
   ticketPrice: number;
+  discountPrice?: number;
+  maxNumberOfTickets?: number;
 }
 
 const PaymentModal: React.FC<PaymentModalProps> = ({
@@ -33,7 +35,8 @@ const PaymentModal: React.FC<PaymentModalProps> = ({
   quantity,
   discountId,
   ticketsDiscounted,
-  ticketPrice
+  ticketPrice,
+  discountPrice = 0,
 }) => {
   const stripe = useStripe();
   const elements = useElements();
@@ -42,42 +45,9 @@ const PaymentModal: React.FC<PaymentModalProps> = ({
   const [saveUserTicketAfterPayment] = useSaveUserTicketAfterPaymentMutation();
   const [applyDiscountUsage] = useApplyDiscountUsageMutation();
 
-  useEffect(() => {
-    if (ticketPrice === 0) {
-      const saveFreeTicket = async () => {
-        setIsProcessing(true);
-        try {
-          await saveUserTicketAfterPayment({
-            email,
-            eventId,
-            ticketTypeId,
-            ticketPrice,
-            transactionId: "FREE_TICKET",
-            quantity,
-          }).unwrap();
-
-          if (discountId && ticketsDiscounted > 0) {
-            await applyDiscountUsage({
-              discountId,
-              usedTickets: ticketsDiscounted,
-            }).unwrap();
-          }
-
-          onResult("success");
-        } catch (err) {
-          console.error("Error saving free ticket:", err);
-          onResult("error");
-        } finally {
-          setIsProcessing(false);
-        }
-      };
-
-      saveFreeTicket();
-    }
-  }, [ticketPrice]);
 
   const handlePay = async () => {
-    if (!stripe || !elements) return;
+    if (!stripe || !elements || ticketPrice === 0) return;
 
     setIsProcessing(true);
 
@@ -96,16 +66,33 @@ const PaymentModal: React.FC<PaymentModalProps> = ({
 
       if (error) {
         onResult("failed");
-      } else if (paymentIntent?.status === "succeeded") {
+      } else if (paymentIntent?.status === "succeeded" && ticketPrice != 0) {
         try {
-          await saveUserTicketAfterPayment({
-            email: email,
-            eventId: eventId,
-            ticketTypeId: ticketTypeId,
-            ticketPrice: ticketPrice,
-            transactionId: paymentIntent.id,
-            quantity,
-          }).unwrap();
+          if (ticketsDiscounted > 0) {
+            await saveUserTicketAfterPayment({
+              email,
+              eventId,
+              ticketTypeId,
+              discountId,
+              ticketsDiscounted,
+              ticketPrice: ticketPrice - discountPrice,
+              transactionId: paymentIntent.id,
+              quantity: ticketsDiscounted,
+            }).unwrap();
+          }
+
+          const ticketsWithoutDiscount = quantity - ticketsDiscounted;
+          if (ticketsWithoutDiscount > 0) {
+            await saveUserTicketAfterPayment({
+              email,
+              eventId,
+              ticketTypeId,
+              ticketPrice: ticketPrice,
+              transactionId: paymentIntent.id,
+              quantity: ticketsWithoutDiscount,
+            }).unwrap();
+          }
+
 
           if (discountId && ticketsDiscounted > 0) {
             await applyDiscountUsage({
@@ -139,14 +126,6 @@ const PaymentModal: React.FC<PaymentModalProps> = ({
     },
   };
 
-  if (ticketPrice === 0 && isProcessing) {
-    return (
-      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
-        <img src={SpinnerIcon} alt="Loading" className="w-10 h-10 animate-spin" />
-      </div>
-    );
-  }
-  
   if (ticketPrice === 0) return null;
 
   return (
