@@ -5,6 +5,8 @@ import PaymentResultModal from "./PaymentResultModal";
 import PaymentModal from "./PaymentModal";
 import { useGetDiscountByCodeMutation } from "../../app/apiSlice";
 import { useSaveUserTicketAfterPaymentMutation } from "../../app/paymentApi";
+import { useFees } from "../../hooks/useFees";
+
 interface TicketStep3Props {
   subtotal?: number;
   ticketName?: string;
@@ -44,6 +46,8 @@ const TicketStep3: React.FC<TicketStep3Props> = ({
   const [appliedDiscountAmount, setAppliedDiscountAmount] = useState(0);
   const [getDiscountByCode, { isLoading: isDiscountLoading }] =
     useGetDiscountByCodeMutation();
+
+  const { platformFee, paymentFee } = useFees();
 
   const [ticketsDiscounted, setTicketsDiscounted] = useState(0);
   const [discountId, setDiscountId] = useState<string | null>(null);
@@ -135,12 +139,12 @@ const TicketStep3: React.FC<TicketStep3Props> = ({
   const subtotalBeforeDiscount = useMemo(() => subtotal * count, [subtotal, count]);
 
   const platformFeeAmount = useMemo(() => {
-    return subtotalBeforeDiscount * 0.04;
-  }, [subtotalBeforeDiscount]);
+    return subtotalBeforeDiscount * platformFee;
+  }, [subtotalBeforeDiscount, platformFee]);
 
   const paymentFeeAmount = useMemo(() => {
-    return (subtotalBeforeDiscount + platformFeeAmount) * 0.03;
-  }, [subtotalBeforeDiscount, platformFeeAmount]);
+    return (subtotalBeforeDiscount + platformFeeAmount) * paymentFee;
+  }, [subtotalBeforeDiscount, platformFeeAmount, paymentFee]);
 
   const discountAmount = useMemo(() => {
     if (!isDiscountApplied || !appliedDiscountAmount) return 0;
