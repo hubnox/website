@@ -7,6 +7,7 @@ export interface TicketOption {
   price: string;
   soldOut?: boolean;
   amount?: number;
+  currencyType?: string;
 }
 
 interface TicketStep2Props {
@@ -29,12 +30,11 @@ const TicketStep2: React.FC<TicketStep2Props> = ({ tickets, onNext }) => {
     }
   };
 
-  const formatPrice = (priceStr: string) => {
+  const formatPrice = (priceStr: string, currency: string) => {
     const numeric = priceStr.replace(/[^\d.]/g, "");
-    if (!numeric) return "$0.00";
-
+    if (!numeric || parseFloat(numeric) === 0) return `${currency}0.00`;
     const number = parseFloat(numeric);
-    return `$${number.toFixed(2)}`;
+    return `${currency}${number.toFixed(2)}`;
   };
 
   return (
@@ -93,7 +93,6 @@ const TicketStep2: React.FC<TicketStep2Props> = ({ tickets, onNext }) => {
                   <div className={`w-[20px] h-[20px] m-[2px] flex items-center justify-center rounded-full`} />
                 )}
 
-
                 <div className="flex flex-col justify-between gap-1 w-[506px] h-[84px]">
                   <span className="font-dm-sans font-bold text-[16px] leading-[22px] text-white">
                     {ticket.title}
@@ -102,8 +101,10 @@ const TicketStep2: React.FC<TicketStep2Props> = ({ tickets, onNext }) => {
                     {ticket.description}
                   </p>
                   <p className="font-inter text-white text-[14px] leading-[20px]">
-                    <span className="font-bold">from {formatPrice(ticket.price)} </span>{" "}
-                    <span className="font-medium">+ Fees</span>
+                    <span className="font-bold">
+                      from {formatPrice(ticket.price, ticket.currencyType || "$")}{" "}
+                    </span>
+                    {parseFloat(ticket.price) > 0 && <span className="font-medium">+ Fees</span>}
                   </p>
                 </div>
               </div>

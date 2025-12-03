@@ -2,6 +2,7 @@ import { apiSlice } from "./apiSlice";
 
 type CreatePaymentIntentRequest = {
   amount: number;
+  currency?: string;
 };
 
 type CreatePaymentIntentResponse = {

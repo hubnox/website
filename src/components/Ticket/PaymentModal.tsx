@@ -23,6 +23,7 @@ interface PaymentModalProps {
   ticketPrice: number;
   discountPrice?: number;
   maxNumberOfTickets?: number;
+  currencyType?: string;
 }
 
 const PaymentModal: React.FC<PaymentModalProps> = ({
@@ -37,6 +38,7 @@ const PaymentModal: React.FC<PaymentModalProps> = ({
   ticketsDiscounted,
   ticketPrice,
   discountPrice = 0,
+  currencyType = "$"
 }) => {
   const stripe = useStripe();
   const elements = useElements();
@@ -45,14 +47,23 @@ const PaymentModal: React.FC<PaymentModalProps> = ({
   const [saveUserTicketAfterPayment] = useSaveUserTicketAfterPaymentMutation();
   const [applyDiscountUsage] = useApplyDiscountUsageMutation();
 
+  const currencyMap: Record<string, string> = {
+    "$": "usd",
+    "€": "eur",
+    "£": "gbp",
+  };
 
+  const stripeCurrency = currencyMap[currencyType || "$"] || "usd";
   const handlePay = async () => {
     if (!stripe || !elements || ticketPrice === 0) return;
 
     setIsProcessing(true);
 
     try {
-      const res = await createPaymentIntent({ amount: Math.round(amount * 100) }).unwrap();
+      const res = await createPaymentIntent({
+        amount: Math.round(amount * 100),
+        currency: stripeCurrency,
+      }).unwrap();
       const clientSecret = res.result?.clientSecret;
 
       if (!clientSecret) throw new Error("No client secret returned");

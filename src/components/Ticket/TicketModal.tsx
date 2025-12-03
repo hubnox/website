@@ -167,6 +167,7 @@ const TicketModal: React.FC<TicketModalProps> = ({
                   email={email}
                   eventId={eventId}
                   ticketTypeId={selectedTicket.id?.toString()}
+                  currencyType={selectedTicket?.currencyType || "$"}
                 />
               </Elements>
             )}

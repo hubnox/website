@@ -16,6 +16,7 @@ interface TicketStep3Props {
   email?: string;
   eventId?: string;
   ticketTypeId?: string;
+  currencyType?: string;
 }
 
 const TicketStep3: React.FC<TicketStep3Props> = ({
@@ -27,6 +28,7 @@ const TicketStep3: React.FC<TicketStep3Props> = ({
   email,
   eventId,
   ticketTypeId,
+  currencyType = "$"
 }) => {
   const [count, setCount] = useState(1);
   const [discountCode, setDiscountCode] = useState("");
@@ -219,6 +221,7 @@ const TicketStep3: React.FC<TicketStep3Props> = ({
           ticketPrice={subtotal}
           discountPrice={discountPerTicketApplied}
           maxNumberOfTickets={maxNumberOfTickets}
+          currencyType={currencyType}
         />
       )}
       {showResultModal && paymentStatus && (
@@ -299,33 +302,33 @@ const TicketStep3: React.FC<TicketStep3Props> = ({
 
               <div className="flex justify-between items-center w-full h-[28px] pb-[4px]">
                 <span className="font-normal text-[16px] text-[#D0D5DD]">Subtotal:</span>
-                <span className="font-normal text-[16px] font-bold text-white">${totalBeforeDiscount.toFixed(2)}</span>
+                <span className="font-normal text-[16px] font-bold text-white">{currencyType}{totalBeforeDiscount.toFixed(2)}</span>
               </div>
 
               {discountAmount > 0 && (
                 <div className="flex justify-between items-center w-full h-[28px] pb-[4px]">
                   <span className="font-normal text-[16px] text-[#D0D5DD]">Discount:</span>
-                  <span className="font-normal text-[16px] font-bold text-[#EE46BC]">-${discountAmount.toFixed(2)}</span>
+                  <span className="font-normal text-[16px] font-bold text-[#EE46BC]">-{currencyType}{discountAmount.toFixed(2)}</span>
                 </div>
               )}
               {subtotal != 0 && (
 
                 <div className="flex justify-between items-center w-full h-[28px] pb-[4px]">
                   <span className="font-normal text-[16px] text-[#D0D5DD]">Payment fee:</span>
-                  <span className="font-normal text-[16px] font-bold text-white">${paymentFeeAmount.toFixed(2)}</span>
+                  <span className="font-normal text-[16px] font-bold text-white">{currencyType}{paymentFeeAmount.toFixed(2)}</span>
                 </div>
               )}
               {subtotal != 0 && (
                 <div className="flex justify-between items-center w-full h-[28px] pb-[4px]">
                   <span className="font-normal text-[16px] text-[#D0D5DD]">Platform fee:</span>
-                  <span className="font-normal text-[16px] font-bold text-white">${platformFeeAmount.toFixed(2)}</span>
+                  <span className="font-normal text-[16px] font-bold text-white">{currencyType}{platformFeeAmount.toFixed(2)}</span>
                 </div>
               )}
             </div>
             <hr className="border-t border-[#475069]" />
             <div className="w-full h-[20px] flex justify-between items-center mt-[8px]">
               <span className="font-bold text-[16px] text-[#D0D5DD]">Total:</span>
-              <span className="font-bold font-bold text-[16px] text-white">${total.toFixed(2)}</span>
+              <span className="font-bold font-bold text-[16px] text-white">{currencyType}{total.toFixed(2)}</span>
             </div>
           </div>
           {subtotal != 0 &&
@@ -383,7 +386,7 @@ const TicketStep3: React.FC<TicketStep3Props> = ({
         <div className="w-[524px] h-[92px] flex flex-col gap-[8px] justify-between">
           <div className="flex items-center whitespace-nowrap leading-none">
             <span className="font-epilogue font-bold text-[20px] leading-[32px] text-white">
-              ${total.toFixed(2)}
+              {currencyType}{total.toFixed(2)}
             </span>
             <span className="font-normal text-[16px] leading-[20px] text-[#D0D5DD]">
               /Fees included
