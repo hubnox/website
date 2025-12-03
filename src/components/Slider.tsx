@@ -46,17 +46,25 @@ const EventSlider: React.FC = () => {
     );
 
   const eventsPerCreator = new Map();
+  const creatorsWithEvents = new Set(filteredEvents.map((e: Event) => e.creatorId));
   const finalEvents = filteredEvents.filter((event: Event) => {
     const creatorId = event.creatorId;
 
     if (!creatorId) return true;
+    const otherCreatorsExist = Array.from(creatorsWithEvents).some(
+      id => id !== creatorId
+    );
 
     const creatorEvents = eventsPerCreator.get(creatorId) || 0;
-    if (creatorEvents < 2) {
-      eventsPerCreator.set(creatorId, creatorEvents + 1);
+    if (otherCreatorsExist) {
+      if (creatorEvents < 2) {
+        eventsPerCreator.set(creatorId, creatorEvents + 1);
+        return true;
+      }
+      return false;
+    } else {
       return true;
     }
-    return false;
   });
 
   return (
