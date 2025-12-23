@@ -6,7 +6,7 @@ import event3 from '../assets/images/event-3.webp';
 // Sample data for when API is unavailable
 export const sampleEvents = [
   {
-    objectId: "sample1",
+    objectId: "24uIpsZyrS",
     name: "Digital Marketing Masterclass",
     description: "Learn the latest digital marketing strategies from industry experts. This comprehensive workshop covers SEO, social media marketing, content creation, and analytics.",
     thumbnail: { url: event1 },
@@ -16,7 +16,7 @@ export const sampleEvents = [
     creator: { objectId: "creator1" }
   },
   {
-    objectId: "sample2", 
+    objectId: "ln7rPiBAtY", 
     name: "Entrepreneurship Workshop",
     description: "Discover how to turn your ideas into successful businesses. Topics include business planning, funding, market research, and scaling strategies.",
     thumbnail: { url: event2 },
@@ -26,7 +26,7 @@ export const sampleEvents = [
     creator: { objectId: "creator2" }
   },
   {
-    objectId: "sample3",
+    objectId: "ln7rPiBAtY",
     name: "Creative Design Bootcamp",
     description: "Master the fundamentals of graphic design, UI/UX principles, and creative thinking. Perfect for beginners and those looking to enhance their design skills.",
     thumbnail: { url: event3 },

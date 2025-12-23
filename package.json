@@ -11,8 +11,12 @@
     "deploy": "gh-pages -d dist"
   },
   "dependencies": {
+    "@configcat/sdk": "^1.0.2",
     "@reduxjs/toolkit": "^2.3.0",
+    "@stripe/react-stripe-js": "^5.3.0",
+    "@stripe/stripe-js": "^8.2.0",
     "clsx": "^2.1.1",
+    "configcat-js": "^9.6.1",
     "events": "^3.3.0",
     "parse": "^5.3.0",
     "react": "^18.3.1",
