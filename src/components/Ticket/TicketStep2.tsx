@@ -8,6 +8,7 @@ export interface TicketOption {
   soldOut?: boolean;
   amount?: number;
   currencyType?: string;
+  isArchived?: boolean;
 }
 
 interface TicketStep2Props {

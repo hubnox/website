@@ -17,7 +17,7 @@ export const eventsApi = apiSlice.injectEndpoints({
       query: (eventId) => ({
         url: '/functions/getTicketsByEventId',
         method: 'POST',
-        body: { eventId },
+        body: { eventId, isArchived: false },
       }),
       providesTags: ['EventTickets'],
       keepUnusedDataFor: 0,
