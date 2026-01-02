@@ -38,15 +38,15 @@ const TicketStep2: React.FC<TicketStep2Props> = ({ tickets, onNext }) => {
   };
 
   return (
-    <div className="flex flex-col gap-[64px] w-[556px]">
-      <div className="flex flex-col gap-3 w-[556px] h-[456px]">
+    <div className="flex flex-col gap-[64px] max-w-[556px]">
+      <div className="flex flex-col gap-3 max-w-[556px] max-h-[456px]">
         <h2 className="font-dm-sans font-bold text-[16px] leading-[20px] text-white">
           Please, choose a ticket type.
         </h2>
 
         <div
           style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
-          className="flex flex-col gap-2 w-[556px] h-[424px] overflow-y-auto scrollbar-thin scrollbar-thumb-[#3C5BFF40] scrollbar-track-transparent"
+          className="flex flex-col gap-2 max-w-[556px] max-h-[424px] overflow-y-auto scrollbar-thin scrollbar-thumb-[#3C5BFF40] scrollbar-track-transparent"
         >
           {tickets.map((ticket, index) => {
             const ticketId = ticket.id || `temp-${index}`;
@@ -57,7 +57,7 @@ const TicketStep2: React.FC<TicketStep2Props> = ({ tickets, onNext }) => {
               <div
                 key={ticketId}
                 onClick={() => handleSelect(ticket.id, isSoldOut)}
-                className={`relative flex items-center gap-[10px] w-[556px] h-[100px] p-2 rounded-lg cursor-pointer transition-all duration-150
+                className={`relative flex items-center gap-[10px] max-w-[556px] h-[100px] p-2 rounded-lg cursor-pointer transition-all duration-150
                   ${isSoldOut
                     ? "bg-[#212C42] cursor-not-allowed"
                     : "bg-[#39405A]"
@@ -93,7 +93,7 @@ const TicketStep2: React.FC<TicketStep2Props> = ({ tickets, onNext }) => {
                   <div className={`w-[20px] h-[20px] m-[2px] flex items-center justify-center rounded-full`} />
                 )}
 
-                <div className="flex flex-col justify-between gap-1 w-[506px] h-[84px]">
+                <div className="flex flex-col justify-between gap-1 max-w-[506px] h-[84px]">
                   <span className="font-dm-sans font-bold text-[16px] leading-[22px] text-white">
                     {ticket.title}
                   </span>
@@ -117,7 +117,7 @@ const TicketStep2: React.FC<TicketStep2Props> = ({ tickets, onNext }) => {
         type="button"
         disabled={selectedId === null}
         onClick={handleNext}
-        className={`w-[556px] h-[52px] rounded-lg font-bold text-white shadow-[0_1px_2px_0_#1018280D]
+        className={`max-w-[556px] h-[52px] rounded-lg font-bold text-white shadow-[0_1px_2px_0_#1018280D]
           ${selectedId !== null ? "bg-[#3C5BFF]" : "bg-[#3C5BFF] opacity-60"}
         `}
       >

@@ -74,7 +74,7 @@ const TicketStep1: React.FC<TicketStep1Props> = ({ email, onEmailChange, onNext,
   };
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col gap-[64px] w-[556px] min-h-[320px]">
+    <form onSubmit={handleSubmit} className="flex flex-col gap-[64px] max-w-[556px] min-h-[320px]">
       <div className="flex flex-col gap-4">
         <div className="relative">
           <label className="font-inter font-medium text-[14px] text-white p-0 mb-2">
@@ -115,8 +115,8 @@ const TicketStep1: React.FC<TicketStep1Props> = ({ email, onEmailChange, onNext,
           )}
         </div>
         <p className="text-[16px] leading-[24px] text-[#D0D5DD] font-normal">
-          To purchase a ticket, please enter the email registered in the app.
-          The purchased ticket will appear in your app profile.
+          To purchase your ticket, simply enter the same email you used when registering on Hubnox.
+          You can view your ticket in the app after the purchase.
         </p>
       </div>
 
@@ -131,7 +131,7 @@ const TicketStep1: React.FC<TicketStep1Props> = ({ email, onEmailChange, onNext,
         <button
           type="submit"
           disabled={!isValid || isChecking || isLoading}
-          className={`w-[556px] h-[52px] rounded-lg ${isValid ? "bg-[#3C5BFF]" : "bg-[#3C5BFF] opacity-60"} shadow-[0_1px_2px_0_#1018280D] font-bold text-white`}
+          className={`max-w-[556px] h-[52px] rounded-lg ${isValid ? "bg-[#3C5BFF]" : "bg-[#3C5BFF] opacity-60"} shadow-[0_1px_2px_0_#1018280D] font-bold text-white`}
         >
           Next
         </button>
