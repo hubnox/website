@@ -109,7 +109,9 @@ const TicketModal: React.FC<TicketModalProps> = ({
               </svg>
             </button>
           </div>
-          <div className="flex flex-col gap-11">
+          <div className="flex flex-col gap-11
+           relative z-50 w-full max-w-[596px]
+             max-h-[80vh] overflow-y-auto" >
             <div className="flex gap-4">
               <img src={image} alt={title} className="w-20 h-20 rounded-lg" />
               <div className="flex flex-col justify-between w-[468px] h-20 gap-2">

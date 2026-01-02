@@ -241,25 +241,28 @@ const TicketStep3: React.FC<TicketStep3Props> = ({
         />
       )}
 
-      <div className="w-[556px] flex flex-col gap-[24px]">
+      <div className="max-w-[556px] flex flex-col gap-[24px]">
         <div className="flex flex-col gap-[12px]">
           <span className=" font-bold text-[16px] leading-[20px] text-white">
             Please, select number of tickets
           </span>
 
-          <div className="w-[556px] h-[56px] rounded-lg p-2 bg-[#39405A] flex items-center justify-between">
-            <div className="flex items-center gap-[4px] whitespace-nowrap">
-              <span className=" font-normal text-[16px] leading-[20px] text-[#D0D5DD]">
-                Ticket type:
+          <div className="max-w-[556px] h-[56px] rounded-lg p-2 bg-[#39405A] flex items-center justify-between">
+            <div className="flex flex-wrap gap-[4px] text-[16px] leading-[20px]">
+              <span className="font-normal text-[#D0D5DD]">
+                Ticket type<span className="sm:hidden">:</span>
+                <span className="hidden sm:inline">:</span>
               </span>
-              <span className=" font-bold text-[16px] leading-[20px] text-white">
+
+              <span className="font-bold text-white">
                 {ticketName}
               </span>
-              {subtotal != 0 &&
-                <span className=" font-semibold text-[16px] leading-[20px] text-white">
+
+              {subtotal != 0 && (
+                <span className="font-semibold text-white">
                   ({formatPrice(subtotal.toString())} + Fees)
                 </span>
-              }
+              )}
             </div>
 
             <div className="flex items-center gap-[11px] w-[114px] h-[40px] justify-between">
@@ -298,7 +301,7 @@ const TicketStep3: React.FC<TicketStep3Props> = ({
 
         <div className="flex flex-col gap-[12px]">
           <div className="bg-[#39405A] rounded-[8px] p-[8px] flex flex-col gap-[4px]">
-            <div className="w-[540px] flex flex-col gap-[8px]">
+            <div className="max-w-[540px] flex flex-col gap-[8px]">
 
               <div className="flex justify-between items-center w-full h-[28px] pb-[4px]">
                 <span className="font-normal text-[16px] text-[#D0D5DD]">Subtotal:</span>
@@ -382,8 +385,8 @@ const TicketStep3: React.FC<TicketStep3Props> = ({
         </div>
       </div>
 
-      <div className="w-[556px] h-[124px] rounded-lg p-4 bg-[#39405A] flex flex-col gap-[8px]">
-        <div className="w-[524px] h-[92px] flex flex-col gap-[8px] justify-between">
+      <div className="max-w-[556px] h-[124px] rounded-lg p-4 bg-[#39405A] flex flex-col gap-[8px]">
+        <div className="max-w-[524px] h-[92px] flex flex-col gap-[8px] justify-between">
           <div className="flex items-center whitespace-nowrap leading-none">
             <span className="font-epilogue font-bold text-[20px] leading-[32px] text-white">
               {currencyType}{total.toFixed(2)}
@@ -396,7 +399,7 @@ const TicketStep3: React.FC<TicketStep3Props> = ({
           <button
             onClick={handleBuyClick}
             disabled={isBuyDisabled}
-            className={`w-[524px] h-[52px] rounded-lg px-[18px] py-[16px] font-bold text-[16px] text-white shadow-[0px_1px_2px_0px_#1018280D] ${isBuyDisabled ? "bg-[#3C5BFF80] text-[#8d919a]" : "bg-[#3C5BFF] text-white"
+            className={`max-w-[524px] h-[52px] rounded-lg px-[18px] py-[16px] font-bold text-[16px] text-white shadow-[0px_1px_2px_0px_#1018280D] ${isBuyDisabled ? "bg-[#3C5BFF80] text-[#8d919a]" : "bg-[#3C5BFF] text-white"
               }`}
           >
             Buy now
