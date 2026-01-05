@@ -113,11 +113,15 @@ const TicketModal: React.FC<TicketModalProps> = ({
            relative z-50 w-full max-w-[596px]
              max-h-[80vh] overflow-y-auto" >
             <div className="flex gap-4">
-              <img src={image} alt={title} className="w-20 h-20 rounded-lg" />
-              <div className="flex flex-col justify-between w-[468px] h-20 gap-2">
-                <div className="flex flex-col ">
+              <img
+                src={image}
+                alt={title}
+                className="w-20 h-20 rounded-lg flex-shrink-0"
+              />
+              <div className="flex flex-col justify-between flex-1 min-w-0 gap-2">
+                <div className="flex flex-col">
                   <span
-                    className="font-epilogue font-bold text-[20px] align-middle"
+                    className="font-epilogue font-bold text-[20px] align-middle break-words"
                     style={{
                       lineHeight: "32px",
                       letterSpacing: "0%",
@@ -126,16 +130,27 @@ const TicketModal: React.FC<TicketModalProps> = ({
                     {title}
                   </span>
 
-                  <span className="text-[16px] text-gray-300"
+                  <span
+                    className="text-[16px] text-gray-300 break-words"
                     style={{
                       lineHeight: "20px",
                       letterSpacing: "0%",
-                    }}>{date}</span>
+                    }}
+                  >
+                    {date}
+                  </span>
                 </div>
-                <span className="text-[14px] text-[#D0D5DD]" style={{
-                  lineHeight: "20px",
-                  letterSpacing: "0%",
-                }}>{location}</span>
+                {location && (
+                  <span
+                    className="text-[14px] text-[#D0D5DD] break-words"
+                    style={{
+                      lineHeight: "20px",
+                      letterSpacing: "0%",
+                    }}
+                  >
+                    {location}
+                  </span>
+                )}
               </div>
             </div>
 
