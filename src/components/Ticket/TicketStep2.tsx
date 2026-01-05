@@ -93,8 +93,8 @@ const TicketStep2: React.FC<TicketStep2Props> = ({ tickets, onNext }) => {
                   <div className={`w-[20px] h-[20px] m-[2px] flex items-center justify-center rounded-full`} />
                 )}
 
-                <div className="flex flex-col justify-between gap-1 max-w-[506px] h-[84px]">
-                  <span className="font-dm-sans font-bold text-[16px] leading-[22px] text-white">
+                <div className="flex flex-col justify-between gap-1 max-w-[506px] h-[84px]  flex-1 min-w-0">
+                  <span className="font-dm-sans font-bold text-[16px] leading-[22px] text-white break-words truncate max-w-full">
                     {ticket.title}
                   </span>
                   <p className="font-dm-sans font-normal text-[11px] leading-[14px] text-[#D0D5DD]">

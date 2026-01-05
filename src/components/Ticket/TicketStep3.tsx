@@ -246,20 +246,19 @@ const TicketStep3: React.FC<TicketStep3Props> = ({
           <span className=" font-bold text-[16px] leading-[20px] text-white">
             Please, select number of tickets
           </span>
-
-          <div className="max-w-[556px] h-[56px] rounded-lg p-2 bg-[#39405A] flex items-center justify-between">
-            <div className="flex flex-wrap gap-[4px] text-[16px] leading-[20px]">
-              <span className="font-normal text-[#D0D5DD]">
+          <div className="max-w-[556px] min-h-[56px] rounded-lg p-2 bg-[#39405A] flex items-center justify-between">
+            <div className="flex flex-1 min-w-0 flex-wrap gap-[4px] text-[16px] leading-[20px] items-center">
+              <span className="font-normal text-[#D0D5DD] flex-shrink-0">
                 Ticket type<span className="sm:hidden">:</span>
                 <span className="hidden sm:inline">:</span>
               </span>
 
-              <span className="font-bold text-white">
+              <span className="font-bold text-white truncate max-w-full">
                 {ticketName}
               </span>
 
               {subtotal != 0 && (
-                <span className="font-semibold text-white">
+                <span className="font-semibold text-white flex-shrink-0">
                   ({formatPrice(subtotal.toString())} + Fees)
                 </span>
               )}
