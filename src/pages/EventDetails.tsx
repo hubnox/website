@@ -142,11 +142,11 @@ const EventDetailsPage: React.FC<Props> = ({
                 <h1 className="text-3xl font-bold mb-4 w-full text-start ">
                   {event.name.toUpperCase()}
                 </h1>
-                <div className="relative w-full profiles__img ">
+                <div className="relative w-full aspect-[2/1] overflow-hidden rounded-lg">
                   <img
                     src={event.thumbnail.url}
                     alt={event.name}
-                    className="w-full h-full object-cover transition-transform hover:scale-105 min-h-[300px]"
+                    className="w-full h-full object-cover transition-transform hover:scale-105"
                   />
                 </div>
                 <button

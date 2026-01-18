@@ -116,7 +116,7 @@ const TicketModal: React.FC<TicketModalProps> = ({
               <img
                 src={image}
                 alt={title}
-                className="w-20 h-20 rounded-lg flex-shrink-0"
+                className="w-40 aspect-[2/1] object-cover rounded-lg flex-shrink-0"
               />
               <div className="flex flex-col justify-between flex-1 min-w-0 gap-2">
                 <div className="flex flex-col">

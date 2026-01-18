@@ -60,12 +60,12 @@ const EventSlide: React.FC<EventProps> = ({
           location={location || "Unknown location"}
         />
       )}
-      <div className="relative w-full profiles__img max-h-[278px] ">
+      <div className="relative w-full aspect-[2/1] overflow-hidden rounded-lg mb-4">
         <Link to={`/event/${objectId}`}>
           <img
             src={thumbnail.url}
             alt={name}
-            className="w-full h-full object-cover transition-transform hover:scale-105 rounded-lg "
+            className="w-full h-full object-cover transition-transform hover:scale-105"
           />
         </Link>
       </div>
@@ -80,8 +80,8 @@ const EventSlide: React.FC<EventProps> = ({
         <h2 className="text-xl font-bold mb-2 text-[#D0D5DD]">
           {truncateText(name, 25)}
         </h2>
-        <p className="text-gray-300 text-sm flex-grow">
-          {truncateText(description, 35)}
+        <p className="text-gray-300 text-sm flex-grow line-clamp-3">
+          {description}
         </p>
         
         <button
